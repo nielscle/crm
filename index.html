@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Dash v13.0</title>
+<title>CRM Dash v14.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -315,7 +315,7 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v13.0</span>
+    <span class="version-badge">v14.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -727,7 +727,7 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v13.0';
+const VER = 'v14.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1539,14 +1539,24 @@ function renderIrList(){
   }).join('');
 }
 
-function doImport(){
+async function doImport(){
   const toAdd=scanned.filter(d=>d._sel);
   if(toAdd.length===0){setImpStatus('No deals selected.','err');return;}
-  toAdd.forEach(d=>deals.push({id:Date.now()+Math.random(),company:d.company,value:d.value,stage:STAGES.includes(d.stage)?d.stage:'Discovery',contact:d.contact||'',close:d.close||'',notes:d.notes||''}));
+  toAdd.forEach((d,i)=>deals.push({id:Date.now()+i,company:d.company,value:d.value,stage:STAGES.includes(d.stage)?d.stage:'Discovery',contact:d.contact||'',close:d.close||'',notes:d.notes||''}));
   acts.unshift({id:Date.now(),type:'📂 Note',account:'Import',summary:`${toAdd.length} deal${toAdd.length>1?'s':''} imported from file`,notes:toAdd.map(d=>d.company).join(', '),time:'Just now'});
   cl('imp');
   go('pipeline',document.querySelectorAll('.nav')[1]);
   render();
+  saveLocal();
+  // Push all imported deals to Supabase
+  setImpStatus('Saving to database…','ok');
+  try {
+    await sbUpsertDeals(deals);
+    await sbUpsertActivities(acts.slice(0,10));
+    setImpStatus('✅ Saved to database — data will persist on refresh.','ok');
+  } catch(e) {
+    setImpStatus('⚠️ Saved locally but cloud sync failed: '+e.message,'err');
+  }
 }
 
 // ── Overlays ──────────────────────────────────────────────────────────────
@@ -1588,14 +1598,16 @@ function clearSelection() {
   deals = deals.map(d => ({...d, _sel: false}));
   renderDashDeals();
 }
-function massDelete() {
+async function massDelete() {
   const n = deals.filter(d=>d._sel).length;
   if (!n) return;
   if (!confirm(`Delete ${n} deal${n!==1?'s':''}? This cannot be undone.`)) return;
   const names = deals.filter(d=>d._sel).map(d=>d.company).join(', ');
+  const ids = deals.filter(d=>d._sel).map(d=>d.id);
   deals = deals.filter(d=>!d._sel);
   acts.unshift({id:Date.now(),type:'🗑️ Note',account:'Bulk action',summary:`${n} deal${n!==1?'s':''} deleted`,notes:names,time:'Just now'});
   render();saveLocal();
+  if (sb) { try { await sb.from('deals').delete().in('id', ids); } catch(e) { console.warn('Supabase delete failed:', e); } }
 }
 
 // ── Mobile bottom nav ─────────────────────────────────────────────────────
@@ -1775,27 +1787,63 @@ async function sbPushAll() {
 
 async function sbUpsertDeals(data) {
   if (!sb||!data.length) return;
-  const rows = data.map(({_sel,...d})=>({id:d.id,company:d.company,value:d.value,stage:d.stage,contact:d.contact,close_date:d.close||'',notes:d.notes||'',updated_at:new Date().toISOString()}));
-  const {error} = await sb.from('deals').upsert(rows);
-  if (error) throw error;
+  const rows = data.map(({_sel,...d})=>({
+    id: Math.trunc(+d.id),
+    company: d.company,
+    value: d.value||0,
+    stage: d.stage,
+    contact: d.contact||'',
+    close_date: d.close||'',
+    notes: d.notes||'',
+    updated_at: new Date().toISOString()
+  }));
+  const {error} = await sb.from('deals').upsert(rows, {onConflict:'id'});
+  if (error) { console.error('sbUpsertDeals error:', error); throw error; }
 }
 async function sbUpsertContacts(data) {
   if (!sb||!data.length) return;
-  const rows = data.map(c=>({id:c.id,first:c.first,last:c.last,company:c.company,title:c.title,role:c.role,email:c.email,phone:c.phone,notes:c.notes||'',updated_at:new Date().toISOString()}));
-  const {error} = await sb.from('contacts').upsert(rows);
-  if (error) throw error;
+  const rows = data.map(c=>({
+    id: Math.trunc(+c.id),
+    first: c.first||'',
+    last: c.last||'',
+    company: c.company||'',
+    title: c.title||'',
+    role: c.role||'Champion',
+    email: c.email||'',
+    phone: c.phone||'',
+    notes: c.notes||'',
+    updated_at: new Date().toISOString()
+  }));
+  const {error} = await sb.from('contacts').upsert(rows, {onConflict:'id'});
+  if (error) { console.error('sbUpsertContacts error:', error); throw error; }
 }
 async function sbUpsertActivities(data) {
   if (!sb||!data.length) return;
-  const rows = data.slice(0,200).map(a=>({id:a.id,type:a.type,account:a.account,summary:a.summary,notes:a.notes||'',time_label:a.time||'',act_date:a.date||''}));
-  const {error} = await sb.from('activities').upsert(rows);
-  if (error) throw error;
+  const rows = data.slice(0,200).map(a=>({
+    id: Math.trunc(+a.id),
+    type: a.type||'',
+    account: a.account||'',
+    summary: a.summary||'',
+    notes: a.notes||'',
+    time_label: a.time||'',
+    act_date: a.date||''
+  }));
+  const {error} = await sb.from('activities').upsert(rows, {onConflict:'id'});
+  if (error) { console.error('sbUpsertActivities error:', error); throw error; }
 }
 async function sbUpsertEvents(data) {
   if (!sb||!data.length) return;
-  const rows = data.map(e=>({id:e.id,title:e.title,event_date:e.date||'',time_val:e.time||'',duration:e.duration||60,account:e.account||'',notes:e.notes||''}));
-  const {error} = await sb.from('events').upsert(rows);
-  if (error) throw error;
+  const rows = data.map(e=>({
+    id: Math.trunc(+e.id),
+    title: e.title||'',
+    event_date: e.date||'',
+    time_val: e.time||'',
+    duration: e.duration||60,
+    account: e.account||'',
+    notes: e.notes||''
+  }));
+  const {error} = await sb.from('events').upsert(rows, {onConflict:'id'});
+  if (error) { console.error('sbUpsertEvents error:', error); throw error; }
 }
 
 async function sbDeleteDeal(id) {
