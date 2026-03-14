@@ -243,7 +243,35 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
 .icon-cell svg{width:20px;height:20px}
 .icon-cell-label{font-size:9px;color:var(--mt);text-align:center;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+/* ── Pricing module ──────────── */
+.pkg-btn{padding:9px 12px;border-radius:11px;border:1.5px solid var(--bd);background:var(--card);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--mt);transition:all .15s;text-align:left;display:flex;flex-direction:column;gap:3px}
+.pkg-btn:hover{border-color:var(--or);color:var(--or)}
+.pkg-btn.active{border-color:var(--or);background:var(--orp);color:var(--or)}
+.pkg-btn .pkg-name{font-size:12px;font-weight:700}
+.pkg-btn .pkg-desc{font-size:10px;color:var(--mt);font-weight:400;line-height:1.4}
+.pkg-btn.active .pkg-desc{color:var(--or);opacity:.8}
+.addon-btn{padding:9px 12px;border-radius:11px;border:1.5px solid var(--bd);background:var(--card);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--mt);transition:all .15s;text-align:left;display:flex;align-items:center;gap:8px}
+.addon-btn:hover{border-color:var(--bl);color:var(--bl)}
+.addon-btn.active{border-color:var(--bl);background:#EFF6FF;color:var(--bl)}
+body.dark-mode .addon-btn.active{background:#1e3a5f}
+.price-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.price-tbl th{padding:8px 10px;text-align:left;font-size:10.5px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--bd);background:var(--bg);white-space:nowrap}
+.price-tbl td{padding:8px 10px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}
+.price-tbl tr:last-child td{border-bottom:none}
+.price-tbl tr:hover td{background:var(--orp)}
+.price-tbl .hi{color:var(--or);font-weight:700}
+.quote-item{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.quote-item:last-child{margin-bottom:0}
+.quote-del{background:none;border:none;color:var(--mt);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:6px;transition:color .15s}
+.quote-del:hover{color:#EF4444}
+@media(max-width:768px){
+  .calc-top-grid{grid-template-columns:1fr!important}
+  #pkg-grid{grid-template-columns:1fr 1fr!important}
+  #addon-grid{grid-template-columns:1fr 1fr!important}
+  .calc-result-grid{grid-template-columns:1fr!important}
+}
+
+
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 
 /* ══════════════════════════════════════════════════════════════
@@ -397,7 +425,15 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
 .theme-input input[type=color]{padding:0;width:44px;height:40px;border-radius:10px;cursor:pointer;background:transparent}
 .theme-input input[type=text]{flex:1;text-transform:uppercase}
 .calendar-mobile-actions{display:none}
-body.dark-mode .theme-chip{background:#2C2C2E;border-color:var(--bd)}
+body.dark-mode .pkg-btn{background:#2C2C2E;border-color:var(--bd);color:var(--mt)}
+body.dark-mode .pkg-btn.active{background:var(--orp);border-color:var(--or);color:var(--or)}
+body.dark-mode .addon-btn{background:#2C2C2E;border-color:var(--bd);color:var(--mt)}
+body.dark-mode .quote-item{background:#1A1A1A;border-color:var(--bd)}
+body.dark-mode .price-tbl th{background:#1A1A1A}
+body.dark-mode .price-tbl tr:hover td{background:var(--orp)}
+body.dark-mode #calc-result{background:var(--orp);border-color:var(--orl)}
+
+
 body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 @media(max-width:768px){
@@ -662,6 +698,115 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
             <div id="upcoming-list"></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Pricing Calculator -->
+    <div class="view" id="view-pricing">
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Calculator card -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+            <div>
+              <div class="ctitle" style="margin:0">💶 Pricing Calculator</div>
+              <div style="font-size:12px;color:var(--mt);margin-top:3px">Virtuagym 2025-Q3 pricing. Select market, members and packages to build a quote.</div>
+            </div>
+            <button class="btn btn-p" onclick="savePricingQuote()" id="save-quote-btn" style="display:none">💾 Save Quote to Deal</button>
+          </div>
+
+          <!-- Row 1: Market + Members + Billing -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px" class="calc-top-grid">
+            <div class="fgrp">
+              <label>Market</label>
+              <select id="pc-market" onchange="calcUpdate()">
+                <option value="standard">Global Standard (€)</option>
+                <option value="northam">North America ($)</option>
+                <option value="southeu">South Europe (€)</option>
+              </select>
+            </div>
+            <div class="fgrp">
+              <label>Number of members</label>
+              <input type="number" id="pc-members" value="150" min="1" oninput="calcUpdate()">
+            </div>
+            <div class="fgrp">
+              <label>Billing cycle</label>
+              <select id="pc-billing" onchange="calcUpdate()">
+                <option value="monthly">Monthly</option>
+                <option value="annual">Annual (pre-paid)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Package selector -->
+          <div style="margin-bottom:16px">
+            <label style="display:block;margin-bottom:8px">Base Packages</label>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="pkg-grid">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Add-ons -->
+          <div style="margin-bottom:16px">
+            <label style="display:block;margin-bottom:8px">Add-ons</label>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="addon-grid">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Result panel -->
+          <div id="calc-result" style="background:var(--orp);border:1.5px solid var(--orl);border-radius:14px;padding:18px;display:none">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="calc-result-grid">
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Monthly price</div>
+                <div style="font-size:28px;font-weight:700;color:var(--or)" id="calc-monthly">—</div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Annual price</div>
+                <div style="font-size:28px;font-weight:700;color:var(--or)" id="calc-annual">—</div>
+              </div>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--orl)">
+              <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--tx)">Quote breakdown</div>
+              <div id="calc-breakdown" style="font-size:12px;color:var(--mt);line-height:1.9"></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-p" onclick="savePricingQuote()">💾 Save Quote to Deal</button>
+              <button class="btn btn-o" onclick="copyQuote()" style="font-size:12px">📋 Copy quote</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved quotes -->
+        <div class="card" id="quotes-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div class="ctitle" style="margin:0">📋 Saved Quotes</div>
+            <span style="font-size:12px;color:var(--mt)" id="quotes-count">0 quotes</span>
+          </div>
+          <div id="quotes-list">
+            <div style="font-size:13px;color:var(--mt);text-align:center;padding:28px">No saved quotes yet. Use the calculator above to build and save a quote.</div>
+          </div>
+        </div>
+
+        <!-- Full pricing tables -->
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+            <div class="ctitle" style="margin:0">📊 Full Pricing Tables</div>
+            <div style="display:flex;gap:6px" id="table-market-tabs">
+              <button class="dtab active" onclick="showPricingTable('standard',this)">Global (€)</button>
+              <button class="dtab" onclick="showPricingTable('northam',this)">North America ($)</button>
+              <button class="dtab" onclick="showPricingTable('southeu',this)">South Europe (€)</button>
+            </div>
+          </div>
+          <div id="pricing-table-wrap"></div>
+        </div>
+
+        <!-- Addon pricing table -->
+        <div class="card">
+          <div class="ctitle">🔌 Add-on Pricing</div>
+          <div id="addon-table-wrap"></div>
+        </div>
+
       </div>
     </div>
 
@@ -1435,8 +1580,9 @@ const NAV_DEFS = {
   contacts:  { label:'Contacts',  svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 14 0v2"/><path d="M19 8v6m3-3h-6"/></svg>` },
   activity:  { label:'Activity',  svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>` },
   calendar:  { label:'Calendar',  svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>` },
+  pricing:   { label:'Pricing',   svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>` },
 };
-let navOrder = ['dashboard','pipeline','contacts','activity','calendar'];
+let navOrder = ['dashboard','pipeline','contacts','activity','calendar','pricing'];
 
 // ── Render sidebar nav ─────────────────────────────────────────────────────
 function renderSidebarNav() {
@@ -1474,7 +1620,7 @@ function moveNav(id, dir) {
 }
 
 function resetNavOrder() {
-  navOrder = ['dashboard','pipeline','contacts','activity','calendar'];
+  navOrder = ['dashboard','pipeline','contacts','activity','calendar','pricing'];
   renderSidebarNav(); renderNavManager();
 }
 
@@ -1618,13 +1764,14 @@ function go(id,el){
   const settingsBtn = document.getElementById('settings-nav-btn');
   if (settingsBtn) settingsBtn.classList.toggle('active', id==='settings');
   renderSidebarNav();
-  const T={dashboard:'Dashboard',pipeline:'Pipeline',contacts:'Contacts',activity:'Activity',calendar:'Calendar',settings:'Settings'};
+  const T={dashboard:'Dashboard',pipeline:'Pipeline',contacts:'Contacts',activity:'Activity',calendar:'Calendar',settings:'Settings',pricing:'Pricing Calculator'};
   document.getElementById('vtitle').textContent=T[id]||id;
-  const L={dashboard:'+ Add Deal',pipeline:'+ New Deal',contacts:'+ Add Contact',activity:'+ Log Activity',calendar:'+ Schedule Meeting'};
+  const L={dashboard:'+ Add Deal',pipeline:'+ New Deal',contacts:'+ Add Contact',activity:'+ Log Activity',calendar:'+ Schedule Meeting',pricing:'+ Save Quote'};
   const b=document.getElementById('addbtn');
-  b.style.display=id==='settings'?'none':'';
+  b.style.display=(id==='settings'||id==='pricing')?'none':'';
   b.textContent=L[id]||'+ Add';
   if(id==='settings'){ renderLinkManager(); renderNavManager(); initSync(); updateDarkModeButtons(); setDarkMode(darkModePreference); }
+  if(id==='pricing'){ renderPricingView(); }
   render();
 }
 function primaryAdd(){
@@ -2276,11 +2423,562 @@ applyDarkMode = function(isDark){ _applyDarkMode_v16(isDark); applyThemeState();
 const _saveSettings_v16 = saveSettings;
 saveSettings = function(){ initThemeDesigner(); _saveSettings_v16(); };
 
-// ── Init ──────────────────────────────────────────────────────────────────
-loadLocal();
+// ══════════════════════════════════════════════════════════════════════════
+// ── PRICING MODULE ────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════
+
+// Member tier boundaries
+const MEMBER_TIERS = [
+  {label:'0–20',   min:0,    max:20},
+  {label:'21–50',  min:21,   max:50},
+  {label:'51–150', min:51,   max:150},
+  {label:'151–300',min:151,  max:300},
+  {label:'301–500',min:301,  max:500},
+  {label:'501–1000',min:501, max:1000},
+  {label:'1001–2500',min:1001,max:2500},
+  {label:'2501–5000',min:2501,max:5000},
+  {label:'5001+',  min:5001, max:999999},
+];
+
+// Base package prices per market [standard, northam, southeu] — monthly
+// Packages: M=Manage, C=Coach, E=Engage, G=Grow
+const BASE_PKG_MONTHLY = {
+  standard: {
+    M: [19,35,49,59,112,145,201,223,279],
+    C: [39,45,59,79,112,167,223,279,335],
+    E: [5,9,15,15,29,33,45,55,67],
+    G: [15,25,25,25,55,67,89,112,134],
+  },
+  northam: {
+    M: [51,63,90,127,127,166,231,256,321],
+    C: [51,63,90,127,127,192,256,321,385],
+    E: [7,12,25,33,33,38,51,63,76],
+    G: [19,38,51,63,63,76,102,127,154],
+  },
+  southeu: {
+    M: [19,35,49,50,95,123,171,190,237],
+    C: [39,45,59,67,95,142,190,237,285],
+    E: [5,9,15,13,25,28,38,47,57],
+    G: [15,25,25,21,47,57,76,95,114],
+  },
+};
+
+// Combo prices [standard, northam, southeu] — monthly
+const COMBO_MONTHLY = {
+  standard: {
+    'M+C':  [58,80,108,138,202,281,382,452,553],
+    'M+E':  [24,44,64,74,127,160,221,250,311],
+    'M+G':  [34,60,74,84,150,191,261,302,372],
+    'C+E':  [44,54,74,94,127,180,241,301,362],
+    'C+G':  [54,70,84,104,150,211,281,352,422],
+    'M+C+E':[63,89,123,153,202,276,375,446,545],
+    'M+C+G':[73,105,133,163,223,303,410,491,598],
+    'M+E+G':[39,69,89,99,157,196,268,312,384],
+    'C+E+G':[59,79,99,119,157,214,286,357,429],
+    'M+C+E+G':[70,103,133,160,231,309,419,502,611],
+  },
+  northam: {
+    'M+C':  [91,114,160,230,230,322,438,519,635],
+    'M+E':  [52,68,102,144,144,183,253,288,357],
+    'M+G':  [63,91,125,171,171,218,299,345,426],
+    'C+E':  [52,68,102,144,144,207,276,345,414],
+    'C+G':  [63,91,125,171,171,242,322,403,485],
+    'M+C+E':[85,111,162,230,230,316,429,512,625],
+    'M+C+G':[96,131,183,254,254,347,471,563,687],
+    'M+E+G':[61,90,131,179,179,224,307,358,440],
+    'C+E+G':[61,90,131,179,179,245,326,409,491],
+    'M+C+E+G':[95,131,189,262,262,354,478,575,701],
+  },
+  southeu: {
+    'M+C':  [58,80,108,117,172,239,325,384,470],
+    'M+E':  [24,44,64,63,108,136,188,213,264],
+    'M+G':  [34,60,74,71,128,162,222,257,316],
+    'C+E':  [44,54,74,80,108,153,205,256,308],
+    'C+G':  [54,70,84,88,128,179,239,299,359],
+    'M+C+E':[63,89,123,130,172,235,319,379,463],
+    'M+C+G':[73,105,133,139,190,258,349,417,508],
+    'M+E+G':[39,69,89,84,133,167,228,265,326],
+    'C+E+G':[59,79,99,101,133,182,243,303,365],
+    'M+C+E+G':[70,103,133,136,196,263,356,427,519],
+  },
+};
+
+// Annual prices — yearly total (pay upfront). Base packages only.
+const BASE_PKG_ANNUAL = {
+  standard: {
+    M: [228,420,588,708,1344,1740,2412,2676,3348],
+    C: [468,540,708,948,1344,2004,2676,3348,4020],
+    E: [60,108,180,180,348,396,540,660,804],
+    G: [180,300,300,300,660,804,1068,1344,1608],
+  },
+  southeu: {
+    M: [228,420,588,600,1140,1476,2052,2280,2844],
+    C: [468,540,708,804,1140,1704,2280,2844,3420],
+    E: [60,108,180,156,300,336,456,564,684],
+    G: [180,300,300,252,564,684,912,1140,1368],
+  },
+  northam: { // northam annual = monthly * 12 * 0.85 (approx — use monthly * 11 for ~8% discount shown)
+    M: [612,756,1080,1524,1524,1992,2772,3072,3852],
+    C: [612,756,1080,1524,1524,2304,3072,3852,4620],
+    E: [84,144,300,396,396,456,612,756,912],
+    G: [228,456,612,756,756,912,1224,1524,1848],
+  },
+};
+
+// CMA (Central Management Add-on) monthly prices per market
+const CMA_PRICES = { standard:49, northam:89, southeu:51 };
+
+// Add-on pricing (per location/month unless noted)
+const ADDONS = [
+  { id:'branded_app_under300', label:'Branded App (≤300 members)', perLocation:true,
+    prices:{standard:{monthly:49,annual:588}, northam:{monthly:89,annual:1061}, southeu:{monthly:51,annual:610}} },
+  { id:'branded_app_over300', label:'Branded App (>300 members)', perLocation:true,
+    prices:{standard:{monthly:89,annual:1061}, northam:{monthly:89,annual:1061}, southeu:{monthly:51,annual:610}} },
+  { id:'touch', label:'Touch (1 screen)', perLocation:true,
+    prices:{standard:{monthly:49,annual:588}, northam:{monthly:49,annual:588}, southeu:{monthly:49,annual:588}} },
+  { id:'egym', label:'EGYM Integration', perLocation:true,
+    prices:{standard:{monthly:12.5,annual:150}, northam:{monthly:12.5,annual:150}, southeu:{monthly:12.5,annual:150}} },
+  { id:'fitzone', label:'FitZone Hub (1 screen)', perLocation:true,
+    prices:{standard:{monthly:19,annual:228}, northam:{monthly:19,annual:228}, southeu:{monthly:19,annual:228}} },
+  { id:'vod', label:'Video on Demand', tierBased:true,
+    tiers:{
+      standard:{monthly:[45,78,112,145,167,279,390,558,894], annual:[523,926,1329,1732,2000,3342,4684,6696,10722]},
+      northam: {monthly:[45,78,112,145,167,279,390,558,894], annual:[523,926,1329,1732,2000,3342,4684,6696,10722]},
+      southeu: {monthly:[45,78,112,145,167,279,390,558,894], annual:[523,926,1329,1732,2000,3342,4684,6696,10722]},
+    }
+  },
+  { id:'vconnect', label:'Virtuagym Connect', tierBased:true,
+    tiers:{
+      standard:{monthly:[69,69,69,69,79,99,119,149,199], annual:[828,828,828,828,948,1188,1428,1788,2388]},
+      northam: {monthly:[69,69,69,69,79,99,119,149,199], annual:[828,828,828,828,948,1188,1428,1788,2388]},
+      southeu: {monthly:[69,69,69,69,79,99,119,149,199], annual:[828,828,828,828,948,1188,1428,1788,2388]},
+    }
+  },
+];
+
+// State
+let pcSelectedPkgs = ['M']; // default: Manage
+let pcSelectedAddons = [];
+let savedQuotes = [];
+
+function loadSavedQuotes() {
+  try { savedQuotes = JSON.parse(localStorage.getItem('crm_quotes')||'[]'); } catch(e){ savedQuotes=[]; }
+}
+function saveSavedQuotes() {
+  try { localStorage.setItem('crm_quotes', JSON.stringify(savedQuotes)); } catch(e){}
+}
+
+function getTierIdx(members) {
+  for (let i = MEMBER_TIERS.length - 1; i >= 0; i--) {
+    if (members >= MEMBER_TIERS[i].min) return i;
+  }
+  return 0;
+}
+
+function getPkgKey(pkgs) {
+  const sorted = [...pkgs].sort();
+  return sorted.join('+');
+}
+
+function getBasePrice(market, pkgs, tierIdx, billing) {
+  if (pkgs.length === 0) return 0;
+  const key = getPkgKey(pkgs);
+  const isSingle = pkgs.length === 1;
+
+  if (billing === 'monthly') {
+    if (isSingle) {
+      return (BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard)[pkgs[0]][tierIdx] || 0;
+    }
+    const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
+    return (comboMkt[key] || 0);
+  } else {
+    // Annual
+    if (isSingle) {
+      const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+      return (annMkt[pkgs[0]] || [])[tierIdx] || 0;
+    }
+    // Annual combos: use monthly * 12 * 0.9 approx (10% annual discount for multi)
+    const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
+    const monthly = comboMkt[key] || 0;
+    return Math.round(monthly * 12 * 0.9);
+  }
+}
+
+function getAddonPrice(addon, market, tierIdx, billing) {
+  if (addon.perLocation) {
+    const p = addon.prices[market] || addon.prices.standard;
+    return billing === 'annual' ? p.annual : p.monthly;
+  }
+  if (addon.tierBased) {
+    const t = (addon.tiers[market] || addon.tiers.standard);
+    const arr = billing === 'annual' ? t.annual : t.monthly;
+    return arr[tierIdx] || arr[arr.length-1] || 0;
+  }
+  return 0;
+}
+
+function getCurrencySymbol(market) {
+  return market === 'northam' ? '$' : '€';
+}
+
+function calcUpdate() {
+  const market = document.getElementById('pc-market').value;
+  const members = parseInt(document.getElementById('pc-members').value) || 1;
+  const billing = document.getElementById('pc-billing').value;
+  const tierIdx = getTierIdx(members);
+  const curr = getCurrencySymbol(market);
+  const fmt2 = n => curr + Math.round(n).toLocaleString('nl-NL');
+
+  // Update package buttons to show prices
+  document.querySelectorAll('.pkg-btn').forEach(btn => {
+    const pkgId = btn.dataset.pkg;
+    const priceEl = btn.querySelector('.pkg-price');
+    if (!priceEl) return;
+    if (pkgId === 'AIO') {
+      // Show AIO (M+C+E+G) price
+      const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
+      const aioMonthly = (comboMkt['M+C+E+G'] || [])[tierIdx] || 0;
+      const aioAnnual = Math.round(aioMonthly * 12 * 0.9);
+      priceEl.textContent = billing === 'annual' ? `${fmt2(aioAnnual)}/yr` : `${fmt2(aioMonthly)}/mo`;
+    } else {
+      const pkgMkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+      const price = pkgMkt[pkgId] ? pkgMkt[pkgId][tierIdx] : 0;
+      const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+      const annPrice = annMkt[pkgId] ? annMkt[pkgId][tierIdx] : 0;
+      priceEl.textContent = billing === 'annual' ? `${fmt2(annPrice)}/yr` : `${fmt2(price)}/mo`;
+    }
+  });
+
+  // Update addon buttons to show prices
+  document.querySelectorAll('.addon-btn').forEach(btn => {
+    const addonId = btn.dataset.addon;
+    const addon = ADDONS.find(a => a.id === addonId);
+    if (!addon) return;
+    const price = getAddonPrice(addon, market, tierIdx, billing);
+    const priceEl = btn.querySelector('.addon-price');
+    if (priceEl) priceEl.textContent = billing === 'annual' ? `${fmt2(price)}/yr` : `${fmt2(price)}/mo`;
+  });
+
+  // Calculate total
+  if (pcSelectedPkgs.length === 0 && pcSelectedAddons.length === 0) {
+    document.getElementById('calc-result').style.display = 'none';
+    return;
+  }
+
+  const basePrice = getBasePrice(market, pcSelectedPkgs, tierIdx, billing);
+  let addonTotal = 0;
+  const breakdownLines = [];
+
+  if (pcSelectedPkgs.length > 0) {
+    const key = getPkgKey(pcSelectedPkgs);
+    const pkgNames = { M:'Manage',C:'Coach',E:'Engage',G:'Grow' };
+    const isAio = pcSelectedPkgs.length === 4 && ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
+    const pkgLabel = isAio ? 'All in One' : (pcSelectedPkgs.length === 1 ? pkgNames[pcSelectedPkgs[0]] : key.split('+').map(p=>pkgNames[p]).join(' + '));
+    breakdownLines.push(`${pkgLabel} (${MEMBER_TIERS[tierIdx].label} members): <strong>${fmt2(basePrice)}${billing==='annual'?'/yr':'/mo'}</strong>`);
+  }
+
+  pcSelectedAddons.forEach(addonId => {
+    const addon = ADDONS.find(a => a.id === addonId);
+    if (!addon) return;
+    const price = getAddonPrice(addon, market, tierIdx, billing);
+    addonTotal += price;
+    breakdownLines.push(`${addon.label}: <strong>${fmt2(price)}${billing==='annual'?'/yr':'/mo'}</strong>`);
+  });
+
+  const total = basePrice + addonTotal;
+  const monthlyEquiv = billing === 'annual' ? total / 12 : total;
+  const annualEquiv = billing === 'monthly' ? total * 12 : total;
+
+  document.getElementById('calc-monthly').textContent = fmt2(monthlyEquiv) + '/mo';
+  document.getElementById('calc-annual').textContent = fmt2(annualEquiv) + '/yr';
+  document.getElementById('calc-breakdown').innerHTML = breakdownLines.join('<br>');
+  document.getElementById('calc-result').style.display = 'block';
+  document.getElementById('save-quote-btn').style.display = '';
+}
+
+function togglePkg(id, el) {
+  if (id === 'AIO') {
+    // Toggle all 4 packages on/off
+    const allSelected = ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
+    if (allSelected) {
+      pcSelectedPkgs = [];
+    } else {
+      pcSelectedPkgs = ['M','C','E','G'];
+    }
+  } else {
+    if (pcSelectedPkgs.includes(id)) {
+      pcSelectedPkgs = pcSelectedPkgs.filter(p => p !== id);
+    } else {
+      pcSelectedPkgs.push(id);
+    }
+  }
+  const allFour = ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
+  document.querySelectorAll('.pkg-btn').forEach(b => {
+    if (b.dataset.pkg === 'AIO') {
+      b.classList.toggle('active', allFour);
+    } else {
+      b.classList.toggle('active', pcSelectedPkgs.includes(b.dataset.pkg));
+    }
+  });
+  calcUpdate();
+}
+
+function toggleAddon(id, el) {
+  if (pcSelectedAddons.includes(id)) {
+    pcSelectedAddons = pcSelectedAddons.filter(a => a !== id);
+  } else {
+    pcSelectedAddons.push(id);
+  }
+  document.querySelectorAll('.addon-btn').forEach(b => b.classList.toggle('active', pcSelectedAddons.includes(b.dataset.addon)));
+  calcUpdate();
+}
+
+function renderPricingView() {
+  loadSavedQuotes();
+  // Package grid
+  const PKG_DEFS = [
+    {id:'M', name:'Manage', desc:'Member management, check-in, booking, payments'},
+    {id:'C', name:'Coach',  desc:'PT, nutrition, training plans, messaging'},
+    {id:'E', name:'Engage', desc:'Community, challenges, gamification'},
+    {id:'G', name:'Grow',   desc:'Business intelligence, reporting & automations'},
+    {id:'AIO', name:'All in One', desc:'M + C + E + G — full platform bundle', isAio:true},
+  ];
+  document.getElementById('pkg-grid').innerHTML = PKG_DEFS.map(p =>
+    `<button class="pkg-btn${p.isAio ? ' pkg-aio' : ''}${p.isAio ? (pcSelectedPkgs.length===4&&['M','C','E','G'].every(x=>pcSelectedPkgs.includes(x))?' active':'') : (pcSelectedPkgs.includes(p.id)?' active':'')}" data-pkg="${p.id}" onclick="togglePkg('${p.id}',this)" style="${p.isAio?'grid-column:1/-1;flex-direction:row;align-items:center;gap:10px':''}">
+      <span class="pkg-name">${p.name}</span>
+      <span class="pkg-desc" style="${p.isAio?'flex:1':''}">  ${p.desc}</span>
+      <span class="pkg-price" style="font-size:13px;font-weight:700;${p.isAio?'':'margin-top:2px;'}color:var(--or)">—</span>
+    </button>`
+  ).join('');
+
+  // Addon grid
+  document.getElementById('addon-grid').innerHTML = ADDONS.map(a =>
+    `<button class="addon-btn${pcSelectedAddons.includes(a.id)?' active':''}" data-addon="${a.id}" onclick="toggleAddon('${a.id}',this)">
+      <span style="flex:1">
+        <span style="display:block;font-size:12px;font-weight:700">${a.label}</span>
+        <span class="addon-price" style="font-size:11px;font-weight:600;color:var(--bl)">—</span>
+      </span>
+    </button>`
+  ).join('');
+
+  calcUpdate();
+  renderPricingTable('standard');
+  renderAddonTable();
+  renderSavedQuotes();
+}
+
+function showPricingTable(market, el) {
+  document.querySelectorAll('#table-market-tabs .dtab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderPricingTable(market);
+}
+
+function renderPricingTable(market) {
+  const curr = getCurrencySymbol(market);
+  const mkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+  const ann = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+  const pkgNames = ['M','C','E','G'];
+  const pkgLabels = ['Manage','Coach','Engage','Grow'];
+
+  let html = `<div style="overflow-x:auto"><table class="price-tbl">
+    <thead><tr>
+      <th>Members</th>
+      ${pkgNames.map((p,i) => `<th>${pkgLabels[i]}<br><span style="font-weight:400;font-size:10px">mo / yr</span></th>`).join('')}
+      <th>M+C Combo<br><span style="font-weight:400;font-size:10px">mo</span></th>
+      <th>All in One<br><span style="font-weight:400;font-size:10px">mo</span></th>
+      <th>CMA<br><span style="font-weight:400;font-size:10px">mo</span></th>
+    </tr></thead><tbody>`;
+
+  const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
+  MEMBER_TIERS.forEach((tier, i) => {
+    const mc = comboMkt['M+C'] ? comboMkt['M+C'][i] : '—';
+    const aio = comboMkt['M+C+E+G'] ? comboMkt['M+C+E+G'][i] : '—';
+    const cma = CMA_PRICES[market] || 49;
+    html += `<tr>
+      <td style="font-weight:600;white-space:nowrap">${tier.label}</td>
+      ${pkgNames.map(p => `<td>${curr}${mkt[p][i]} <span style="color:var(--mt)">/ ${curr}${(ann[p]||[])[i]||'—'}</span></td>`).join('')}
+      <td class="hi">${curr}${mc}</td>
+      <td class="hi">${curr}${aio}</td>
+      <td>${curr}${cma}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table></div>';
+  document.getElementById('pricing-table-wrap').innerHTML = html;
+}
+
+function renderAddonTable() {
+  const mkts = ['standard','northam','southeu'];
+  const mktLabels = ['Global (€)','North America ($)','South Europe (€)'];
+
+  let html = `<div style="overflow-x:auto"><table class="price-tbl">
+    <thead><tr>
+      <th>Add-on</th>
+      <th>Global (€) mo / yr</th>
+      <th>North America ($) mo / yr</th>
+      <th>South Europe (€) mo / yr</th>
+      <th>Per</th>
+    </tr></thead><tbody>`;
+
+  ADDONS.forEach(addon => {
+    if (addon.perLocation) {
+      const row = mkts.map(m => {
+        const p = addon.prices[m] || addon.prices.standard;
+        return `<td>€${p.monthly} / €${p.annual}</td>`;
+      });
+      html += `<tr><td style="font-weight:600">${addon.label}</td>${row.join('')}<td style="color:var(--mt)">Location/mo</td></tr>`;
+    } else if (addon.tierBased) {
+      html += `<tr><td colspan="5" style="font-weight:600;padding-top:14px;color:var(--or)">${addon.label} — tiered pricing</td></tr>`;
+      MEMBER_TIERS.forEach((tier, i) => {
+        const cells = mkts.map(m => {
+          const t = addon.tiers[m] || addon.tiers.standard;
+          const curr = m === 'northam' ? '$' : '€';
+          return `<td>${curr}${t.monthly[i]} / ${curr}${t.annual[i]}</td>`;
+        });
+        html += `<tr><td style="color:var(--mt);padding-left:20px">${tier.label}</td>${cells.join('')}<td style="color:var(--mt)">Members/mo</td></tr>`;
+      });
+    }
+  });
+
+  html += '</tbody></table></div>';
+  document.getElementById('addon-table-wrap').innerHTML = html;
+}
+
+function savePricingQuote() {
+  const market = document.getElementById('pc-market').value;
+  const members = parseInt(document.getElementById('pc-members').value) || 1;
+  const billing = document.getElementById('pc-billing').value;
+  const tierIdx = getTierIdx(members);
+  const curr = getCurrencySymbol(market);
+  const fmt2 = n => curr + Math.round(n).toLocaleString('nl-NL');
+
+  const basePrice = getBasePrice(market, pcSelectedPkgs, tierIdx, billing);
+  let addonTotal = 0;
+  pcSelectedAddons.forEach(id => {
+    const addon = ADDONS.find(a => a.id === id);
+    if (addon) addonTotal += getAddonPrice(addon, market, tierIdx, billing);
+  });
+  const total = basePrice + addonTotal;
+
+  const pkgNames = {M:'Manage',C:'Coach',E:'Engage',G:'Grow'};
+  const isAio = pcSelectedPkgs.length === 4 && ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
+  const quote = {
+    id: Date.now(),
+    market,
+    members,
+    billing,
+    packages: isAio ? ['All in One'] : pcSelectedPkgs.map(p => pkgNames[p]),
+    addons: pcSelectedAddons.map(id => ADDONS.find(a=>a.id===id)?.label).filter(Boolean),
+    total,
+    currency: curr,
+    date: new Date().toLocaleDateString('nl-NL'),
+  };
+
+  savedQuotes.unshift(quote);
+  saveSavedQuotes();
+  renderSavedQuotes();
+
+  // Also sync to Supabase
+  if (sb) {
+    try {
+      sb.from('deal_pricing').insert({
+        members: quote.members,
+        packages: quote.packages,
+        addons: quote.addons,
+        price_source: `${market} ${billing}`,
+        monthly_price: billing === 'monthly' ? total : Math.round(total/12),
+        annual_price: billing === 'annual' ? total : total * 12,
+        notes: `Saved via calculator on ${quote.date}`,
+      }).then(({error}) => { if(error) console.warn('Supabase quote save failed:', error); });
+    } catch(e){ console.warn('Quote sync failed:', e); }
+  }
+
+  alert(`✅ Quote saved! ${fmt2(total)}/${billing === 'annual' ? 'yr' : 'mo'} for ${members} members`);
+}
+
+function copyQuote() {
+  const market = document.getElementById('pc-market').value;
+  const members = parseInt(document.getElementById('pc-members').value) || 1;
+  const billing = document.getElementById('pc-billing').value;
+  const tierIdx = getTierIdx(members);
+  const curr = getCurrencySymbol(market);
+  const fmt2 = n => curr + Math.round(n).toLocaleString('nl-NL');
+
+  const basePrice = getBasePrice(market, pcSelectedPkgs, tierIdx, billing);
+  let addonTotal = 0;
+  const addonLines = [];
+  pcSelectedAddons.forEach(id => {
+    const addon = ADDONS.find(a => a.id === id);
+    if (!addon) return;
+    const p = getAddonPrice(addon, market, tierIdx, billing);
+    addonTotal += p;
+    addonLines.push(`  - ${addon.label}: ${fmt2(p)}/${billing==='annual'?'yr':'mo'}`);
+  });
+
+  const pkgNames = {M:'Manage',C:'Coach',E:'Engage',G:'Grow'};
+  const isAioCopy = pcSelectedPkgs.length === 4 && ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
+  const pkgLabel = isAioCopy ? 'All in One' : (pcSelectedPkgs.map(p=>pkgNames[p]).join(' + ') || 'None');
+  const mktLabels = {standard:'Global Standard',northam:'North America',southeu:'South Europe'};
+  const total = basePrice + addonTotal;
+
+  const text = [
+    '── Virtuagym Pricing Quote ──',
+    `Market: ${mktLabels[market]}`,
+    `Members: ${members} (tier: ${MEMBER_TIERS[tierIdx].label})`,
+    `Billing: ${billing}`,
+    `Packages: ${pkgLabel} — ${fmt2(basePrice)}/${billing==='annual'?'yr':'mo'}`,
+    addonLines.length ? `Add-ons:\n${addonLines.join('\n')}` : '',
+    `─────────────────────────────`,
+    `TOTAL: ${fmt2(total)}/${billing==='annual'?'yr':'mo'}`,
+    billing === 'monthly' ? `Annual equivalent: ${fmt2(total*12)}/yr` : `Monthly equivalent: ${fmt2(Math.round(total/12))}/mo`,
+    `Date: ${new Date().toLocaleDateString('nl-NL')}`,
+  ].filter(Boolean).join('\n');
+
+  navigator.clipboard.writeText(text).then(() => alert('✅ Quote copied to clipboard!'), () => alert('Copy failed — please copy manually.'));
+}
+
+function renderSavedQuotes() {
+  const el = document.getElementById('quotes-list');
+  const countEl = document.getElementById('quotes-count');
+  if (!el) return;
+  if (countEl) countEl.textContent = `${savedQuotes.length} quote${savedQuotes.length!==1?'s':''}`;
+  if (savedQuotes.length === 0) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--mt);text-align:center;padding:28px">No saved quotes yet. Use the calculator above to build and save a quote.</div>`;
+    return;
+  }
+  const pkgColors = {standard:'var(--or)',northam:'#2563EB',southeu:'#16A34A'};
+  el.innerHTML = savedQuotes.map(q => {
+    const curr = q.currency || '€';
+    const fmt3 = n => curr + Math.round(n).toLocaleString('nl-NL');
+    return `<div class="quote-item">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">${q.packages.join(' + ')||'No packages'}${q.addons.length?' + '+q.addons.join(', '):''}
+          <span style="font-size:10px;font-weight:600;margin-left:6px;padding:2px 7px;border-radius:20px;background:var(--orp);color:${pkgColors[q.market]||'var(--or)'}">${q.market}</span>
+        </div>
+        <div style="font-size:12px;color:var(--mt)">${q.members} members · ${q.billing} · ${q.date}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:16px;font-weight:700;color:var(--or)">${fmt3(q.total)}/${q.billing==='annual'?'yr':'mo'}</div>
+        ${q.billing==='annual' ? `<div style="font-size:11px;color:var(--mt)">${fmt3(Math.round(q.total/12))}/mo equiv</div>` : `<div style="font-size:11px;color:var(--mt)">${fmt3(q.total*12)}/yr equiv</div>`}
+      </div>
+      <button class="quote-del" onclick="deleteQuote(${q.id})" title="Delete">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteQuote(id) {
+  savedQuotes = savedQuotes.filter(q => q.id !== id);
+  saveSavedQuotes();
+  renderSavedQuotes();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+
+
 renderSidebarNav();
 renderMobileDrawer();
 render();
+loadSavedQuotes();
 initSync();
 updateMobSyncBtn();
 initDarkMode();
