@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Dash v11.0</title>
+<title>CRM Dash v12.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -232,108 +232,78 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
 @keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 
-/* ── Mobile responsive ───────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   MOBILE  —  iPhone-quality UI  (≤ 768px)
+   Desktop stays completely unchanged above this block
+   ══════════════════════════════════════════════════════════════ */
 @media(max-width:768px){
   body{flex-direction:column;height:100dvh;overflow:hidden}
-
-  /* Hide desktop sidebar, show mobile bottom nav */
   .sidebar{display:none}
-
-  /* Mobile topbar */
-  .main{height:100dvh}
-  .topbar{padding:0 14px;height:52px;gap:8px}
-  .topbar-title{font-size:15px}
-  .dtabs{display:none}
-  .search-wrap{width:140px;padding:6px 10px}
-  .search-wrap input{font-size:12px}
-  .btn{padding:7px 12px;font-size:12px}
-
-  /* Hide export/import buttons on mobile — access via settings */
-  .topbar .btn-o:not(#addbtn){display:none!important}
-
-  /* Quick links dock — smaller on mobile */
-  .ql-dock{padding:6px 14px;gap:5px}
-  .ql-link{width:30px;height:30px;border-radius:8px}
-  .ql-link svg{width:15px;height:15px}
-  .ql-sep{margin:0 1px}
-
-  /* Content area with bottom nav space */
-  .content{padding:14px;padding-bottom:74px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-
-  /* Stats — 2 cols on mobile */
+  .main{height:100dvh;display:flex;flex-direction:column}
+  .topbar{height:56px;padding:0 16px;gap:10px;box-shadow:0 1px 0 var(--bd)}
+  .topbar-title{font-size:16px;font-weight:700}
+  .dtabs,.search-wrap,.topbar .btn-o{display:none!important}
+  #addbtn{padding:8px 14px;font-size:13px;flex-shrink:0}
+  .mob-search-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);cursor:pointer;flex-shrink:0}
+  .ql-dock{padding:8px 14px;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .ql-dock::-webkit-scrollbar{display:none}
+  .ql-link{width:36px;height:36px;border-radius:10px}
+  .ql-link svg{width:18px;height:18px}
+  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 86px;overscroll-behavior:contain}
+  .mob-search-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.45);align-items:flex-start;padding:60px 16px 0}
+  .mob-search-overlay.open{display:flex}
+  .mob-search-box{width:100%;background:var(--card);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+  .mob-search-box input{flex:1;border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:16px;color:var(--tx);outline:none}
+  .mob-search-box svg{width:18px;height:18px;color:var(--mt);flex-shrink:0}
   .stats{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-  .snum{font-size:22px}
-  .slabel{font-size:11px}
-
-  /* Dashboard grid — stack on mobile */
+  .scard{padding:14px}.snum{font-size:24px}.slabel{font-size:11px}
   .dgrid{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-
-  /* Pipeline — horizontal scroll on mobile */
-  .pb{display:flex;overflow-x:auto;gap:10px;padding-bottom:8px;scroll-snap-type:x mandatory}
-  .pb::-webkit-scrollbar{height:3px}
-  .scol{min-width:220px;scroll-snap-align:start;flex-shrink:0}
-
-  /* Calendar grid — stack on mobile */
-  .cal-grid{grid-template-columns:1fr;gap:12px}
-
-  /* Tables — horizontal scroll */
-  .twrap{overflow-x:auto}
-  table{min-width:500px}
-
-  /* Cards */
-  .card{padding:14px;border-radius:12px}
-
-  /* Modal — full screen on mobile */
-  .modal{width:100%!important;max-width:100%!important;border-radius:20px 20px 0 0;padding:22px 18px;margin:0;position:fixed;bottom:0;left:0;right:0;max-height:92dvh;transform:translateY(100%)!important}
-  .ov.open .modal{transform:translateY(0)!important}
-  .ov{align-items:flex-end}
-  .fg{grid-template-columns:1fr}
-  .ff{grid-column:1/-1}
-
-  /* Upcoming card in calendar */
-  .cal-side{gap:10px}
-
-  /* Settings stacked */
+  .card{padding:16px;border-radius:14px}
+  .pb{display:flex;flex-direction:column;gap:12px}
+  .scol{min-height:auto}.sbody{min-height:60px}
+  .dcard{padding:14px;border-radius:12px;cursor:pointer}
+  .dc{font-size:13px;margin-bottom:4px}.dv{font-size:16px;margin-bottom:6px}.dm{font-size:12px}
+  .twrap{background:transparent;border:none;box-shadow:none;overflow:visible}
+  table,thead,tbody,tr,th,td{display:block}
+  thead{display:none}
+  tr{background:var(--card);border:1px solid var(--bd);border-radius:12px;margin-bottom:8px;padding:12px 14px;box-shadow:var(--sh)}
+  tr:hover{background:var(--card)}
+  td{border:none;padding:2px 0;font-size:13px;display:flex;align-items:center;gap:8px;line-height:1.5;min-height:0}
+  td:empty{display:none}
+  td.cb-col{position:absolute;top:12px;right:12px}
+  .aitem{border-radius:12px;padding:12px}
+  .cal-grid{display:flex;flex-direction:column;gap:12px;height:auto!important}
+  .cal-iframe{display:none!important}
+  .cal-mobile-open{display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;gap:14px;text-align:center}
+  .cal-mobile-open svg{width:44px;height:44px}
+  .cal-mobile-open-title{font-size:16px;font-weight:700}
+  .cal-mobile-open-sub{font-size:13px;color:var(--mt);line-height:1.5;max-width:260px}
+  .cal-open-btn{display:flex;align-items:center;gap:8px;padding:13px 22px;background:#4285F4;color:white;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;font-family:"Plus Jakarta Sans",sans-serif}
+  .ov{align-items:flex-end;padding:0}
+  .modal{width:100%!important;max-width:100%!important;border-radius:22px 22px 0 0;padding:8px 18px calc(20px + env(safe-area-inset-bottom));margin:0;transform:translateY(110%)!important;transition:transform .3s cubic-bezier(.32,0,.67,0)!important;max-height:94dvh;box-shadow:0 -4px 40px rgba(0,0,0,.18)}
+  .ov.open .modal{transform:translateY(0)!important;transition:transform .35s cubic-bezier(.22,1,.36,1)!important}
+  .modal::before{content:"";display:block;width:36px;height:4px;background:var(--bd);border-radius:2px;margin:12px auto 18px}
+  .fg{grid-template-columns:1fr}.ff{grid-column:1/-1}
+  input,select,textarea{font-size:16px!important;padding:12px!important}
   .ql-manager-row{flex-wrap:wrap;gap:8px}
-  .ql-url-input{min-width:0;flex:1 1 100%}
-
-  /* Bottom navigation bar */
-  .mob-nav{
-    display:flex;
-    position:fixed;
-    bottom:0;left:0;right:0;
-    height:60px;
-    background:var(--sb);
-    border-top:1px solid var(--bd);
-    z-index:100;
-    padding:0 4px;
-    padding-bottom:env(safe-area-inset-bottom);
-  }
-  .mob-nav-item{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:3px;
-    cursor:pointer;
-    color:var(--mt);
-    border:none;
-    background:transparent;
-    font-family:'Plus Jakarta Sans',sans-serif;
-    font-size:10px;
-    font-weight:500;
-    transition:color .15s;
-    padding:6px 2px;
-    border-radius:10px;
-  }
+  .ql-url-input{flex:1 1 100%;order:3}
+  .ql-label-input{flex:1 1 100%;order:4;width:auto}
+  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--sb);border-top:1px solid var(--bd);padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:100;box-shadow:0 -1px 0 var(--bd),0 -8px 24px rgba(0,0,0,.06)}
+  .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--mt);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:color .15s;padding:5px 2px;border-radius:10px;-webkit-tap-highlight-color:transparent}
   .mob-nav-item.active{color:var(--or)}
-  .mob-nav-item svg{width:20px;height:20px}
+  .mob-nav-item svg{width:22px;height:22px}
+  .mob-nav-item.active svg{stroke-width:2.5}
+  .mob-sync-btn{display:flex;position:fixed;bottom:76px;right:16px;background:var(--or);color:white;border:none;border-radius:50px;padding:10px 16px;gap:6px;align-items:center;font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(249,115,22,.4);z-index:99;transition:transform .15s;-webkit-tap-highlight-color:transparent}
+  .mob-sync-btn:active{transform:scale(.95)}
+  .mob-sync-btn svg{width:16px;height:16px}
 }
-
-/* Desktop — hide mobile nav */
 @media(min-width:769px){
   .mob-nav{display:none!important}
+  .mob-sync-btn{display:none!important}
+  .mob-search-btn{display:none!important}
+  .mob-search-overlay{display:none!important}
+  .cal-mobile-open{display:none!important}
+  .cal-iframe{display:block!important}
 }
 </style>
 </head>
@@ -344,7 +314,7 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v11.0</span>
+    <span class="version-badge">v12.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -381,6 +351,19 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
       Import
     </button>
     <button class="btn btn-p" id="addbtn" onclick="primaryAdd()">+ Add Deal</button>
+    <!-- Mobile search button -->
+    <button class="mob-search-btn" onclick="openMobSearch()" aria-label="Search">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile search overlay -->
+  <div class="mob-search-overlay" id="mob-search-overlay" onclick="closeMobSearch(event)">
+    <div class="mob-search-box">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search deals, contacts…" oninput="search(this.value)" id="mob-search-input" autocomplete="off">
+      <button onclick="closeMobSearch()" style="background:none;border:none;color:var(--mt);font-size:14px;padding:4px;cursor:pointer">✕</button>
+    </div>
   </div>
 
   <!-- ── Quick-links dock ──────────────────────── -->
@@ -468,9 +451,21 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)">
-        <!-- Live embed -->
+        <!-- Live embed (desktop) -->
         <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;height:100%">
-          <iframe
+          <!-- Mobile: open in Google Calendar app -->
+          <div class="cal-mobile-open" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" stroke="#DADCE0" stroke-width="1.2"/><rect x="3" y="8" width="18" height="2.5" fill="#4285F4"/><path d="M8 2v4M16 2v4" stroke="#5F6368" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="13" width="4" height="4" rx="1" fill="#EA4335"/></svg>
+            <div class="cal-mobile-open-title">Google Calendar</div>
+            <div class="cal-mobile-open-sub">Embedded calendars can't display inside apps on iPhone. Open Google Calendar directly instead.</div>
+            <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="cal-open-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" stroke="white" stroke-width="1"/><rect x="3" y="8" width="18" height="2.5" fill="white" opacity=".5"/><path d="M8 2v4M16 2v4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Open Google Calendar
+            </a>
+            <a href="https://calendar.google.com/calendar/r/eventedit" target="_blank" style="font-size:13px;color:#4285F4;font-weight:600;text-decoration:none">+ New event ↗</a>
+          </div>
+          <!-- Desktop: embedded iframe -->
+          <iframe class="cal-iframe"
             src="https://calendar.google.com/calendar/embed?src=nielsc%40digifit.eu&ctz=Europe%2FAmsterdam&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=WEEK"
             style="border:0;width:100%;height:100%;display:block"
             frameborder="0"
@@ -592,6 +587,12 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
     </div>
 
   </div><!-- end content -->
+
+  <!-- ── Mobile floating sync button ──────────── -->
+  <button class="mob-sync-btn" id="mob-sync-btn" onclick="mobilePull()">
+    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+    Pull from Sheets
+  </button>
 
   <!-- ── Mobile bottom nav ────────────────────── -->
   <div class="mob-nav" id="mob-nav"></div>
@@ -732,7 +733,7 @@ th.cb-col,td.cb-col{width:36px;padding-right:4px}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v11.0';
+const VER = 'v12.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1032,7 +1033,7 @@ function ds2(e){dragId=+e.currentTarget.dataset.id;e.currentTarget.classList.add
 function de2(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('.scol').forEach(c=>c.classList.remove('drag-over'));}
 function ov2(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
 function ol2(e){e.currentTarget.classList.remove('drag-over');}
-function od2(e,stage){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(dragId===null)return;deals=deals.map(d=>d.id===dragId?{...d,stage}:d);dragId=null;render();}
+function od2(e,stage){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(dragId===null)return;deals=deals.map(d=>d.id===dragId?{...d,stage}:d);dragId=null;render();saveLocal();maybeAutoSync();}
 
 // ── Deal CRUD ─────────────────────────────────────────────────────────────
 function openDeal(stage){
@@ -1063,9 +1064,9 @@ function saveDeal(){
   const deal={id:editDid||Date.now(),company,value:parseFloat(document.getElementById('dv').value)||0,stage:document.getElementById('ds').value,contact:document.getElementById('dco').value.trim(),close:document.getElementById('dd').value,notes:document.getElementById('dn').value.trim()};
   if(editDid)deals=deals.map(d=>d.id===editDid?deal:d);else deals.push(deal);
   acts.unshift({id:Date.now(),type:editDid?'📝 Note':'✉️ Email',account:company,summary:editDid?'Deal updated':'Deal created',notes:`Stage: ${deal.stage} · ${fmt(deal.value)}`,time:'Just now'});
-  cl('dm');render();maybeAutoSync();
+  cl('dm');render();saveLocal();maybeAutoSync();
 }
-function delDeal(){if(!editDid)return;if(!confirm('Delete this deal?'))return;deals=deals.filter(d=>d.id!==editDid);cl('dm');render();}
+function delDeal(){if(!editDid)return;if(!confirm('Delete this deal?'))return;deals=deals.filter(d=>d.id!==editDid);cl('dm');render();saveLocal();maybeAutoSync();}
 
 // ── Contact CRUD ──────────────────────────────────────────────────────────
 function openContact(){
@@ -1094,7 +1095,7 @@ function saveContact(){
   if(!first){document.getElementById('cf').focus();return;}
   const c={id:editCid||Date.now(),first,last:document.getElementById('cl2').value.trim(),company:document.getElementById('cc').value.trim(),title:document.getElementById('ct').value.trim(),role:document.getElementById('cr').value,email:document.getElementById('ce').value.trim(),phone:document.getElementById('cp').value.trim(),notes:document.getElementById('cn').value.trim()};
   if(editCid)contacts=contacts.map(x=>x.id===editCid?c:x);else contacts.push(c);
-  cl('cm');render();maybeAutoSync();
+  cl('cm');render();saveLocal();maybeAutoSync();
 }
 
 // ── Activity CRUD ─────────────────────────────────────────────────────────
@@ -1108,7 +1109,7 @@ function saveActivity(){
   if(!account){document.getElementById('aa').focus();return;}
   const now2=new Date();
   acts.unshift({id:Date.now(),type:document.getElementById('at').value,account,summary:document.getElementById('as2').value.trim(),notes:document.getElementById('an').value.trim(),time:now2.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+', today'});
-  cl('am');render();maybeAutoSync();
+  cl('am');render();saveLocal();maybeAutoSync();
 }
 
 // ── Event CRUD ────────────────────────────────────────────────────────────
@@ -1136,7 +1137,7 @@ function saveEventLocal(){
   if(!title){document.getElementById('ev-title').focus();return;}
   const ev={id:editEvId||Date.now(),title,date:document.getElementById('ev-date').value,time:document.getElementById('ev-time').value,duration:parseInt(document.getElementById('ev-dur').value)||60,account:document.getElementById('ev-account').value.trim(),notes:document.getElementById('ev-notes').value.trim()};
   if(editEvId)events=events.map(e=>e.id===editEvId?ev:e);else events.push(ev);
-  cl('em');render();
+  cl('em');render();saveLocal();
 }
 function openInGcal(){
   const title=document.getElementById('ev-title').value.trim()||'Meeting';
@@ -1413,7 +1414,7 @@ function saveSettings(){
   cfg.name=document.getElementById('sname').value.trim()||'AE';
   cfg.target=parseFloat(document.getElementById('starget').value)||2500;
   cfg.curr=document.getElementById('scurr').value.trim()||'€';
-  render();alert('Settings saved!');
+  saveLocal();render();alert('Settings saved!');
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────
@@ -1600,7 +1601,7 @@ function massDelete() {
   const names = deals.filter(d=>d._sel).map(d=>d.company).join(', ');
   deals = deals.filter(d=>!d._sel);
   acts.unshift({id:Date.now(),type:'🗑️ Note',account:'Bulk action',summary:`${n} deal${n!==1?'s':''} deleted`,notes:names,time:'Just now'});
-  render();
+  render();saveLocal();
 }
 
 // ── Mobile bottom nav ─────────────────────────────────────────────────────
@@ -1618,6 +1619,69 @@ function renderMobileNav() {
       ${item.svg}
       <span>${item.label}</span>
     </button>`).join('');
+}
+
+// ── Mobile helpers ────────────────────────────────────────────────────────
+function openMobSearch() {
+  document.getElementById('mob-search-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('mob-search-input').focus(), 100);
+}
+function closeMobSearch(e) {
+  if (e && e.target !== document.getElementById('mob-search-overlay')) return;
+  document.getElementById('mob-search-overlay').classList.remove('open');
+}
+
+async function mobilePull() {
+  const btn = document.getElementById('mob-sync-btn');
+  if (!sheetsUrl) {
+    alert('Set your Google Sheets URL in Settings first.');
+    go('settings', null); return;
+  }
+  if (btn) { btn.textContent = '⟳ Pulling…'; btn.style.opacity = '.7'; }
+  await syncFromSheets();
+  if (btn) { btn.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg> Pull from Sheets'; btn.style.opacity = '1'; }
+}
+
+function updateMobSyncBtn() {
+  const btn = document.getElementById('mob-sync-btn');
+  if (!btn) return;
+  // Show floating sync button only when Sheets URL is configured
+  btn.style.display = sheetsUrl ? 'flex' : 'none';
+}
+
+// ── localStorage persistence (survives page refresh) ─────────────────────
+function saveLocal() {
+  try {
+    localStorage.setItem('crm_deals',    JSON.stringify(deals.map(({_sel,...d})=>d)));
+    localStorage.setItem('crm_contacts', JSON.stringify(contacts));
+    localStorage.setItem('crm_acts',     JSON.stringify(acts.slice(0,200)));
+    localStorage.setItem('crm_events',   JSON.stringify(events));
+    localStorage.setItem('crm_cfg',      JSON.stringify(cfg));
+  } catch(e) { console.warn('localStorage save failed', e); }
+}
+
+function loadLocal() {
+  try {
+    const d = localStorage.getItem('crm_deals');
+    const c = localStorage.getItem('crm_contacts');
+    const a = localStorage.getItem('crm_acts');
+    const e = localStorage.getItem('crm_events');
+    const cfg2 = localStorage.getItem('crm_cfg');
+    if (d) deals    = JSON.parse(d).map(x=>({...x,_sel:false}));
+    if (c) contacts = JSON.parse(c);
+    if (a) acts     = JSON.parse(a);
+    if (e) events   = JSON.parse(e);
+    if (cfg2) {
+      const parsed = JSON.parse(cfg2);
+      cfg = {...cfg, ...parsed};
+      const sn = document.getElementById('sname');
+      const st = document.getElementById('starget');
+      const sc = document.getElementById('scurr');
+      if (sn) sn.value = cfg.name;
+      if (st) st.value = cfg.target;
+      if (sc) sc.value = cfg.curr;
+    }
+  } catch(e) { console.warn('localStorage load failed', e); }
 }
 
 // ── Google Sheets Sync ────────────────────────────────────────────────────
@@ -1640,6 +1704,7 @@ function onSheetsUrlChange(val) {
   localStorage.setItem('crm_sheets_url', sheetsUrl);
   setSyncPill(sheetsUrl ? 'connected' : 'notset');
   updateSyncBadge();
+  updateMobSyncBtn();
 }
 
 function toggleAutoSync(on) {
@@ -1721,6 +1786,7 @@ async function syncFromSheets() {
       if (data.deals)      deals    = data.deals.map(d=>({...d, _sel:false}));
       if (data.contacts)   contacts = data.contacts;
       if (data.activities) acts     = data.activities;
+      saveLocal();
       setSyncMsg('✓ Pulled successfully — ' + new Date().toLocaleTimeString(), '#16A34A');
       setSyncPill('ok');
       render();
@@ -1758,9 +1824,11 @@ function maybeAutoSync() {
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────
+loadLocal();
 renderSidebarNav();
 render();
 initSync();
+updateMobSyncBtn();
 </script>
 </body>
 </html>
