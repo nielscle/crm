@@ -448,20 +448,9 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
 }
 
 /* ── v16 additions ───────────── */
-.mob-menu-btn,.mob-settings-btn{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;flex-shrink:0}
-.mob-menu-btn:hover,.mob-settings-btn:hover{border-color:var(--or);color:var(--or)}
+.mob-menu-btn,.mob-settings-btn{display:none}
 .mob-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(4px);z-index:140;opacity:0;pointer-events:none;transition:opacity .2s}
 .mob-menu-overlay.open{opacity:1;pointer-events:auto}
-.mob-drawer{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);background:var(--sb);border-right:1px solid var(--bd);box-shadow:0 22px 44px rgba(0,0,0,.16);z-index:150;transform:translateX(-105%);transition:transform .24s ease;display:flex;flex-direction:column}
-.mob-drawer.open{transform:translateX(0)}
-.mob-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 18px;border-bottom:1px solid var(--bd)}
-.mob-drawer-title{font-size:16px;font-weight:700}
-.mob-drawer-sub{font-size:12px;color:var(--mt);margin-top:2px}
-.mob-drawer-close{background:var(--bg);border:1px solid var(--bd);width:34px;height:34px;border-radius:10px;cursor:pointer;color:var(--mt)}
-.mob-drawer-nav{padding:12px}
-.mob-drawer-item{display:flex;align-items:center;gap:10px;padding:12px 12px;border-radius:12px;color:var(--mt);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s}
-.mob-drawer-item svg{width:18px;height:18px;flex-shrink:0}
-.mob-drawer-item.active,.mob-drawer-item:hover{background:var(--orp);color:var(--or)}
 .theme-panel{margin-top:14px;padding:14px;background:var(--bg);border-radius:12px;border:1px solid var(--bd)}
 .theme-panel-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .theme-title{font-size:12px;font-weight:600;margin-bottom:2px}
@@ -484,27 +473,11 @@ body.dark-mode .quote-item{background:#1A1A1A;border-color:var(--bd)}
 body.dark-mode .price-tbl th{background:#1A1A1A}
 body.dark-mode .price-tbl tr:hover td{background:var(--orp)}
 body.dark-mode #calc-result{background:var(--orp);border-color:var(--orl)}
-
-
 body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 @media(max-width:768px){
-  .mob-menu-btn,.mob-settings-btn{display:flex}
-  .topbar{padding:0 14px}
-  .topbar-title{text-align:center}
-  .ql-dock{padding-top:6px}
-  .mob-nav{display:none!important}
-  .content{padding-bottom:20px}
-  .calendar-mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-  .calendar-mobile-actions .btn{width:100%;justify-content:center}
-  #view-calendar .calendar-layout{display:block!important;height:auto!important}
-  #view-calendar .calendar-layout > div:first-child{display:none!important}
-  #view-calendar .calendar-layout > div:last-child{display:none!important}
-  #view-calendar .card, #view-calendar .upcoming-card{padding:16px}
   .theme-custom-grid{grid-template-columns:1fr}
-}
-@media(min-width:769px){
-  .mob-menu-overlay,.mob-drawer{display:none}
+  .calendar-mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 }
 
 
@@ -527,7 +500,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.0</span>
+    <span class="version-badge">v20.1</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -591,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.0</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.1</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1148,7 +1121,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.0';
+const VER = 'v20.1';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
