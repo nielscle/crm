@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Dash v15.0</title>
+<title>CRM Dash v16.0 Plus</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -366,6 +366,70 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
   .cal-mobile-open{display:none!important}
   .cal-iframe{display:block!important}
 }
+
+/* ── v16 additions ───────────── */
+.mob-menu-btn,.mob-settings-btn{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;flex-shrink:0}
+.mob-menu-btn:hover,.mob-settings-btn:hover{border-color:var(--or);color:var(--or)}
+.mob-menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(4px);z-index:140;opacity:0;pointer-events:none;transition:opacity .2s}
+.mob-menu-overlay.open{opacity:1;pointer-events:auto}
+.mob-drawer{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);background:var(--sb);border-right:1px solid var(--bd);box-shadow:0 22px 44px rgba(0,0,0,.16);z-index:150;transform:translateX(-105%);transition:transform .24s ease;display:flex;flex-direction:column}
+.mob-drawer.open{transform:translateX(0)}
+.mob-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 18px;border-bottom:1px solid var(--bd)}
+.mob-drawer-title{font-size:16px;font-weight:700}
+.mob-drawer-sub{font-size:12px;color:var(--mt);margin-top:2px}
+.mob-drawer-close{background:var(--bg);border:1px solid var(--bd);width:34px;height:34px;border-radius:10px;cursor:pointer;color:var(--mt)}
+.mob-drawer-nav{padding:12px}
+.mob-drawer-item{display:flex;align-items:center;gap:10px;padding:12px 12px;border-radius:12px;color:var(--mt);cursor:pointer;font-size:13px;font-weight:600;transition:all .15s}
+.mob-drawer-item svg{width:18px;height:18px;flex-shrink:0}
+.mob-drawer-item.active,.mob-drawer-item:hover{background:var(--orp);color:var(--or)}
+.theme-panel{margin-top:14px;padding:14px;background:var(--bg);border-radius:12px;border:1px solid var(--bd)}
+.theme-panel-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.theme-title{font-size:12px;font-weight:600;margin-bottom:2px}
+.theme-sub{font-size:11px;color:var(--mt);line-height:1.5}
+.theme-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.theme-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:11px;border:1.5px solid var(--bd);background:var(--card);cursor:pointer;font-size:11px;font-weight:700;transition:all .15s;color:var(--tx)}
+.theme-chip.active{border-color:var(--or);background:var(--orp);color:var(--or)}
+.theme-swatch{display:flex;gap:4px}
+.theme-swatch span{width:11px;height:11px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.05)}
+.theme-custom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.theme-input{display:flex;flex-direction:column;gap:5px}
+.theme-input-row{display:flex;gap:8px;align-items:center}
+.theme-input input[type=color]{padding:0;width:44px;height:40px;border-radius:10px;cursor:pointer;background:transparent}
+.theme-input input[type=text]{flex:1;text-transform:uppercase}
+.calendar-mobile-actions{display:none}
+body.dark-mode .theme-chip{background:#2C2C2E;border-color:var(--bd)}
+body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
+
+@media(max-width:768px){
+  .mob-menu-btn,.mob-settings-btn{display:flex}
+  .topbar{padding:0 14px}
+  .topbar-title{text-align:center}
+  .ql-dock{padding-top:6px}
+  .mob-nav{display:none!important}
+  .content{padding-bottom:20px}
+  .calendar-mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .calendar-mobile-actions .btn{width:100%;justify-content:center}
+  #view-calendar .calendar-layout{display:block!important;height:auto!important}
+  #view-calendar .calendar-layout > div:first-child{display:none!important}
+  #view-calendar .calendar-layout > div:last-child{display:none!important}
+  #view-calendar .card, #view-calendar .upcoming-card{padding:16px}
+  .theme-custom-grid{grid-template-columns:1fr}
+}
+@media(min-width:769px){
+  .mob-menu-overlay,.mob-drawer{display:none}
+}
+
+
+.quick-action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.quick-action-card{padding:16px;border-radius:16px;border:1px solid var(--bd);background:linear-gradient(135deg,var(--card),var(--orp));box-shadow:var(--sh);display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;color:var(--tx);transition:transform .15s,border-color .15s}
+.quick-action-card:hover{transform:translateY(-1px);border-color:var(--or)}
+.quick-action-card span{font-size:20px}
+.quick-action-card strong{font-size:14px}
+.quick-action-card small{font-size:12px;color:var(--mt);text-align:left}
+#view-pipeline .dcard{border-left:4px solid var(--or)}
+#view-dashboard .card:first-of-type{background:linear-gradient(180deg,var(--card),var(--orp))}
+@media(max-width:768px){.quick-action-grid{grid-template-columns:1fr 1fr;gap:10px}.quick-action-card{padding:14px}}
+
 </style>
 </head>
 <body>
@@ -375,7 +439,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v15.0</span>
+    <span class="version-badge">v16.0+</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -392,6 +456,9 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
 <!-- ── Main ────────────────────────────────────── -->
 <div class="main">
   <div class="topbar">
+    <button class="mob-menu-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
     <div class="topbar-title" id="vtitle">Dashboard</div>
     <div class="dtabs">
       <button class="dtab" onclick="setFilter('monthly',this)">Monthly</button>
@@ -416,6 +483,9 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
     <button class="mob-search-btn" onclick="openMobSearch()" aria-label="Search">
       <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
+    <button class="mob-settings-btn" onclick="go('settings',null)" aria-label="Open settings">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
   </div>
 
   <!-- Mobile search overlay -->
@@ -427,6 +497,18 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
     </div>
   </div>
 
+  <div class="mob-menu-overlay" id="mob-menu-overlay" onclick="closeMobileMenu(event)"></div>
+  <aside class="mob-drawer" id="mob-drawer">
+    <div class="mob-drawer-head">
+      <div>
+        <div class="mob-drawer-title">CRM Dash</div>
+        <div class="mob-drawer-sub">v16.0</div>
+      </div>
+      <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+    </div>
+    <div class="mob-drawer-nav" id="mob-drawer-nav"></div>
+  </aside>
+
   <!-- ── Quick-links dock ──────────────────────── -->
   <div class="ql-dock" id="ql-dock"></div>
 
@@ -434,6 +516,12 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
 
     <!-- Dashboard -->
     <div class="view active" id="view-dashboard">
+      <div class="quick-action-grid">
+        <button class="quick-action-card" onclick="openDeal()"><span>＋</span><strong>New Deal</strong><small>Add a pipeline opportunity</small></button>
+        <button class="quick-action-card" onclick="openContact()"><span>👤</span><strong>Add Contact</strong><small>Save a new stakeholder</small></button>
+        <button class="quick-action-card" onclick="openActivity()"><span>📝</span><strong>Log Activity</strong><small>Capture calls and notes</small></button>
+        <button class="quick-action-card" onclick="openEvent()"><span>📅</span><strong>Create Meeting</strong><small>Schedule next step</small></button>
+      </div>
       <div class="stats" id="stats"></div>
       <div class="dgrid">
         <div class="card">
@@ -511,7 +599,11 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
           <button class="btn btn-p" onclick="openEvent()">+ Schedule Meeting</button>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)">
+      <div class="calendar-mobile-actions">
+        <button class="btn btn-p" onclick="openEvent()">+ Create Meeting</button>
+        <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="btn btn-o" style="text-decoration:none">Open Google Calendar ↗</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)" class="calendar-layout">
         <!-- Live embed (desktop) -->
         <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;height:100%">
           <!-- Mobile: open in Google Calendar app -->
@@ -621,7 +713,39 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
               </div>
             </div>
           </div>
-          <div style="margin-top:14px"><button class="btn btn-p" onclick="saveSettings()">Save settings</button></div>
+          <div class="theme-panel">
+            <div class="theme-panel-head">
+              <div>
+                <div class="theme-title">Color theme</div>
+                <div class="theme-sub">Choose a preset or customise your own palette. Changes auto-save on this device.</div>
+              </div>
+            </div>
+            <div class="theme-presets" id="theme-presets"></div>
+            <div class="theme-custom-grid">
+              <div class="theme-input">
+                <label>Primary</label>
+                <div class="theme-input-row">
+                  <input type="color" id="theme-primary">
+                  <input type="text" id="theme-primary-text" placeholder="#F97316" maxlength="7">
+                </div>
+              </div>
+              <div class="theme-input">
+                <label>Accent</label>
+                <div class="theme-input-row">
+                  <input type="color" id="theme-accent">
+                  <input type="text" id="theme-accent-text" placeholder="#F59E0B" maxlength="7">
+                </div>
+              </div>
+              <div class="theme-input">
+                <label>Background</label>
+                <div class="theme-input-row">
+                  <input type="color" id="theme-background">
+                  <input type="text" id="theme-background-text" placeholder="#FAF6F2" maxlength="7">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" onclick="saveSettings()">Save settings</button><button class="btn btn-o" onclick="resetThemeToPreset()">Reset theme</button></div>
         </div>
 
         <!-- Nav order manager -->
@@ -801,7 +925,7 @@ body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v15.0';
+const VER = 'v16.0-plus';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1685,19 +1809,7 @@ async function massDelete() {
 }
 
 // ── Mobile bottom nav ─────────────────────────────────────────────────────
-function renderMobileNav() {
-  const el = document.getElementById('mob-nav');
-  if (!el) return;
-  const settingsDef = { id:'settings', label:'Settings', svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>` };
-  // Always show first 4 nav items + Settings
-  const mainItems = navOrder.slice(0,4).map(id => ({ id, ...NAV_DEFS[id] }));
-  const items = [...mainItems, settingsDef];
-  el.innerHTML = items.map(item => `
-    <button class="mob-nav-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">
-      ${item.svg}
-      <span>${item.label}</span>
-    </button>`).join('');
-}
+function renderMobileNav() { return; }
 
 // ── Mobile helpers ────────────────────────────────────────────────────────
 function openMobSearch() {
@@ -2019,13 +2131,160 @@ function initDarkMode() {
   updateDarkModeButtons();
 }
 
+
+
+// ── v16 mobile drawer + theme system ─────────────────────────────────────
+const THEME_PRESETS = {
+  default:{name:'Default',primary:'#F97316',accent:'#F59E0B',background:'#FAF6F2'},
+  ocean:{name:'Ocean',primary:'#2563EB',accent:'#06B6D4',background:'#F0F9FF'},
+  midnight:{name:'Midnight',primary:'#334155',accent:'#6366F1',background:'#E2E8F0'},
+  warm:{name:'Warm',primary:'#C2410C',accent:'#FB923C',background:'#FFF7ED'},
+  darkpro:{name:'Dark Pro',primary:'#7C3AED',accent:'#22D3EE',background:'#EEF2FF'},
+  custom:{name:'Custom',primary:'#F97316',accent:'#F59E0B',background:'#FAF6F2'}
+};
+let themeState = (() => {
+  try {
+    const raw = JSON.parse(localStorage.getItem('crm_theme_v16') || 'null');
+    return raw && raw.primary ? raw : {preset:'default', ...THEME_PRESETS.default};
+  } catch(e) {
+    return {preset:'default', ...THEME_PRESETS.default};
+  }
+})();
+function clamp(v,min,max){ return Math.min(max, Math.max(min, v)); }
+function normalizeHex(v){
+  if(!v) return null;
+  let s = String(v).trim().replace(/[^#0-9a-fA-F]/g,'');
+  if(!s.startsWith('#')) s = '#'+s;
+  if(s.length===4) s = '#'+[s[1],s[1],s[2],s[2],s[3],s[3]].join('');
+  return /^#[0-9A-Fa-f]{6}$/.test(s) ? s.toUpperCase() : null;
+}
+function hexToRgb(hex){
+  const n = normalizeHex(hex); if(!n) return {r:0,g:0,b:0};
+  return {r:parseInt(n.slice(1,3),16), g:parseInt(n.slice(3,5),16), b:parseInt(n.slice(5,7),16)};
+}
+function rgbToHex(r,g,b){ return '#'+[r,g,b].map(v=>clamp(Math.round(v),0,255).toString(16).padStart(2,'0')).join('').toUpperCase(); }
+function mix(hexA, hexB, amount){
+  const a = hexToRgb(hexA), b = hexToRgb(hexB), t = clamp(amount,0,1);
+  return rgbToHex(a.r + (b.r-a.r)*t, a.g + (b.g-a.g)*t, a.b + (b.b-a.b)*t);
+}
+function luminance(hex){
+  const {r,g,b} = hexToRgb(hex);
+  const vals = [r,g,b].map(v => { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
+  return 0.2126*vals[0] + 0.7152*vals[1] + 0.0722*vals[2];
+}
+function applyThemeState(){
+  const p = normalizeHex(themeState.primary) || THEME_PRESETS.default.primary;
+  const a = normalizeHex(themeState.accent) || THEME_PRESETS.default.accent;
+  const bg = normalizeHex(themeState.background) || THEME_PRESETS.default.background;
+  const sb = mix(bg, '#FFFFFF', 0.76);
+  const card = mix(bg, '#FFFFFF', 0.88);
+  const bd = mix(bg, '#1C1C1E', 0.08);
+  const tx = luminance(bg) < 0.45 ? '#F5F5F7' : '#1C1C1E';
+  const mt = luminance(bg) < 0.45 ? '#C7C7CC' : '#8E8E93';
+  const root = document.documentElement;
+  root.style.setProperty('--or', p);
+  root.style.setProperty('--orl', mix(p, '#FFFFFF', 0.72));
+  root.style.setProperty('--orp', mix(p, '#FFFFFF', 0.90));
+  root.style.setProperty('--bg', bg);
+  root.style.setProperty('--sb', sb);
+  root.style.setProperty('--card', card);
+  root.style.setProperty('--bd', bd);
+  root.style.setProperty('--tx', tx);
+  root.style.setProperty('--mt', mt);
+  root.style.setProperty('--bl', a);
+  root.style.setProperty('--glass-bg', document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.8)' : 'rgba(255,255,255,0.75)');
+}
+function saveThemeState(){
+  localStorage.setItem('crm_theme_v16', JSON.stringify(themeState));
+}
+function renderThemePresets(){
+  const el = document.getElementById('theme-presets');
+  if(!el) return;
+  el.innerHTML = Object.entries(THEME_PRESETS).map(([key,val]) => `
+    <button class="theme-chip${themeState.preset===key?' active':''}" onclick="setThemePreset('${key}')">
+      <span class="theme-swatch"><span style="background:${val.primary}"></span><span style="background:${val.accent}"></span><span style="background:${val.background}"></span></span>
+      ${val.name}
+    </button>`).join('');
+}
+function syncThemeInputs(){
+  const map = [['theme-primary','primary'],['theme-accent','accent'],['theme-background','background']];
+  map.forEach(([id,key]) => {
+    const el = document.getElementById(id); const txt = document.getElementById(id+'-text');
+    if(el) el.value = normalizeHex(themeState[key]) || THEME_PRESETS.default[key];
+    if(txt) txt.value = normalizeHex(themeState[key]) || THEME_PRESETS.default[key];
+  });
+  renderThemePresets();
+}
+function setThemePreset(preset){
+  const source = THEME_PRESETS[preset] || THEME_PRESETS.default;
+  themeState = {preset, primary:source.primary, accent:source.accent, background:source.background};
+  applyThemeState();
+  saveThemeState();
+  syncThemeInputs();
+}
+function setThemeColor(key, value){
+  const hex = normalizeHex(value);
+  if(!hex) return;
+  themeState[key] = hex;
+  themeState.preset = 'custom';
+  applyThemeState();
+  saveThemeState();
+  syncThemeInputs();
+}
+function bindThemeControls(){
+  [['theme-primary','primary'],['theme-accent','accent'],['theme-background','background']].forEach(([id,key]) => {
+    const el = document.getElementById(id); const txt = document.getElementById(id+'-text');
+    if(el && !el.dataset.bound){ el.dataset.bound='1'; el.addEventListener('input', e => setThemeColor(key, e.target.value)); }
+    if(txt && !txt.dataset.bound){ txt.dataset.bound='1'; txt.addEventListener('change', e => setThemeColor(key, e.target.value)); }
+  });
+}
+function initThemeDesigner(){ bindThemeControls(); syncThemeInputs(); applyThemeState(); }
+function resetThemeToPreset(){ setThemePreset('default'); }
+function renderMobileDrawer(){
+  const el = document.getElementById('mob-drawer-nav');
+  if(!el) return;
+  const settingsDef = { label:'Settings', svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>` };
+  const items = navOrder.map(id => ({id, ...NAV_DEFS[id]})).concat([{id:'settings', ...settingsDef}]);
+  el.innerHTML = items.map(item => `<div class="mob-drawer-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">${item.svg}<span>${item.label}</span></div>`).join('');
+}
+function openMobileMenu(){
+  const overlay = document.getElementById('mob-menu-overlay');
+  const drawer = document.getElementById('mob-drawer');
+  if(overlay) overlay.classList.add('open');
+  if(drawer) drawer.classList.add('open');
+}
+function closeMobileMenu(e){
+  if(e && e.target && e.target.id !== 'mob-menu-overlay') return;
+  const overlay = document.getElementById('mob-menu-overlay');
+  const drawer = document.getElementById('mob-drawer');
+  if(overlay) overlay.classList.remove('open');
+  if(drawer) drawer.classList.remove('open');
+}
+function toggleMobileMenu(){
+  const drawer = document.getElementById('mob-drawer');
+  if(drawer && drawer.classList.contains('open')) closeMobileMenu(); else openMobileMenu();
+}
+const _go_v16 = go;
+go = function(id, el){
+  _go_v16(id, el);
+  closeMobileMenu();
+  renderMobileDrawer();
+  if(id === 'settings') initThemeDesigner();
+};
+const _applyDarkMode_v16 = applyDarkMode;
+applyDarkMode = function(isDark){ _applyDarkMode_v16(isDark); applyThemeState(); };
+const _saveSettings_v16 = saveSettings;
+saveSettings = function(){ initThemeDesigner(); _saveSettings_v16(); };
+
 // ── Init ──────────────────────────────────────────────────────────────────
 loadLocal();
 renderSidebarNav();
+renderMobileDrawer();
 render();
 initSync();
 updateMobSyncBtn();
 initDarkMode();
+initThemeDesigner();
 initSupabase();
 </script>
 </body>
