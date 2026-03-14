@@ -324,46 +324,43 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .sidebar{display:none}
   .main{height:100dvh;display:flex;flex-direction:column}
 
-  /* Topbar */
-  .topbar{height:calc(56px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 16px 0;gap:10px;box-shadow:0 1px 0 var(--bd)}
-  .topbar-title{font-size:16px;font-weight:700}
+  /* ── Topbar: clean, title + search + add ── */
+  .topbar{height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 14px 0;gap:10px;background:var(--sb);box-shadow:0 1px 0 var(--bd)}
+  .topbar-title{font-size:16px;font-weight:700;flex:1}
   .dtabs,.search-wrap,.topbar .btn-o{display:none!important}
-  #addbtn{padding:8px 14px;font-size:13px;flex-shrink:0}
+  #addbtn{padding:7px 14px;font-size:13px;flex-shrink:0;border-radius:10px}
   .mob-search-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--bg);border:1px solid var(--bd);cursor:pointer;flex-shrink:0}
+  .mob-menu-btn,.mob-settings-btn{display:none!important}
 
-  /* Quick links */
-  .ql-dock{padding:8px 14px;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .ql-dock::-webkit-scrollbar{display:none}
-  .ql-link{width:36px;height:36px;border-radius:10px}
-  .ql-link svg{width:18px;height:18px}
+  /* ── Hide ql-dock — links moved to drawer ── */
+  .ql-dock{display:none!important}
 
-  /* Content */
-  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 86px;overscroll-behavior:contain}
-
-  /* Search overlay */
-  .mob-search-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:flex-start;padding:60px 16px 0}
+  /* ── Search overlay ── */
+  .mob-search-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:flex-start;padding:calc(60px + env(safe-area-inset-top,0px)) 16px 0}
   .mob-search-overlay.open{display:flex}
   .mob-search-box{width:100%;background:var(--glass-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--glass-shadow)}
   .mob-search-box input{flex:1;border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:16px;color:var(--tx);outline:none}
   .mob-search-box svg{width:18px;height:18px;color:var(--mt);flex-shrink:0}
 
-  /* Stats */
+  /* ── Content ── */
+  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 84px;overscroll-behavior:contain}
+
+  /* ── Stats ── */
   .stats{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .scard{padding:14px;background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border)}
   .snum{font-size:24px}.slabel{font-size:11px}
 
-  /* Cards — frosted glass */
+  /* ── Cards ── */
   .dgrid{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
   .card{padding:16px;border-radius:16px;background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow)}
 
-  /* Pipeline */
+  /* ── Pipeline ── */
   .pb{display:flex;flex-direction:column;gap:12px}
-  .scol{min-height:auto;border-radius:14px}
-  .sbody{min-height:60px}
+  .scol{min-height:auto;border-radius:14px}.sbody{min-height:60px}
   .dcard{padding:14px;border-radius:12px;cursor:pointer;background:var(--glass-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--glass-border)}
   .dc{font-size:13px;margin-bottom:4px}.dv{font-size:16px;margin-bottom:6px}.dm{font-size:12px}
 
-  /* Tables → card list */
+  /* ── Tables → cards ── */
   .twrap{background:transparent;border:none;box-shadow:none;overflow:visible}
   table,thead,tbody,tr,th,td{display:block}
   thead{display:none}
@@ -373,10 +370,10 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   td:empty{display:none}
   td.cb-col{position:absolute;top:12px;right:12px}
 
-  /* Activity */
+  /* ── Activity ── */
   .aitem{border-radius:12px;padding:12px}
 
-  /* Calendar — clean mobile card */
+  /* ── Calendar ── */
   .cal-grid{display:flex;flex-direction:column;gap:12px;height:auto!important}
   .cal-iframe{display:none!important}
   .cal-mobile-open{display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;gap:12px;text-align:center}
@@ -385,7 +382,7 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .cal-mobile-open-sub{font-size:12px;color:var(--mt);line-height:1.5;max-width:240px}
   .cal-open-btn{display:flex;align-items:center;gap:8px;padding:12px 20px;background:#4285F4;color:white;border-radius:12px;font-size:13px;font-weight:600;text-decoration:none;font-family:"Plus Jakarta Sans",sans-serif}
 
-  /* Modals — frosted glass bottom sheet */
+  /* ── Modals — bottom sheet ── */
   .ov{align-items:flex-end;padding:0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
   .modal{width:100%!important;max-width:100%!important;border-radius:24px 24px 0 0;padding:8px 18px calc(24px + env(safe-area-inset-bottom));margin:0;transform:translateY(110%)!important;transition:transform .3s cubic-bezier(.32,0,.67,0)!important;max-height:94dvh;background:var(--glass-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--glass-border);border-bottom:none;box-shadow:0 -8px 40px rgba(0,0,0,.15)}
   .ov.open .modal{transform:translateY(0)!important;transition:transform .4s cubic-bezier(.22,1,.36,1)!important}
@@ -393,21 +390,49 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .fg{grid-template-columns:1fr}.ff{grid-column:1/-1}
   input,select,textarea{font-size:16px!important;padding:12px!important}
 
-  /* Settings */
+  /* ── Settings ── */
   .ql-manager-row{flex-wrap:wrap;gap:8px}
   .ql-url-input{flex:1 1 100%;order:3}
   .ql-label-input{flex:1 1 100%;order:4;width:auto}
 
-  /* Bottom nav — frosted glass */
-  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:rgba(250,246,242,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--glass-border);padding:6px 4px calc(8px + env(safe-area-inset-bottom));z-index:100}
-  body.dark-mode .mob-nav{background:rgba(20,20,20,0.88)}
-  .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:var(--mt);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:color .2s;padding:5px 2px;border-radius:10px;-webkit-tap-highlight-color:transparent}
+  /* ── Bottom nav — 5 clean tabs ── */
+  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--glass-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:0.5px solid var(--bd);padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:200}
+  body.dark-mode .mob-nav{background:rgba(18,18,18,0.92)}
+  .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--mt);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:color .15s;padding:4px 2px;-webkit-tap-highlight-color:transparent}
+  .mob-nav-item svg{width:22px;height:22px}
   .mob-nav-item.active{color:var(--or)}
-  .mob-nav-item svg{width:22px;height:22px;transition:transform .2s}
-  .mob-nav-item.active svg{stroke-width:2.5;transform:scale(1.1)}
-  .mob-nav-item.active::after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--or);margin-top:1px}
+  .mob-nav-item.active svg{stroke-width:2.5}
+  .mob-nav-item span{font-size:10px;line-height:1}
 
-  /* Hide sync fab — not needed with Supabase */
+  /* ── Drawer — slides up, has quick links + all nav ── */
+  .mob-drawer{position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--sb);border-radius:24px 24px 0 0;padding:0 0 calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);max-height:88dvh;overflow-y:auto;box-shadow:0 -4px 40px rgba(0,0,0,.25)}
+  .mob-drawer.open{transform:translateY(0)}
+  .mob-drawer-handle{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:12px auto 0;display:block}
+  .mob-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--sb);z-index:1}
+  .mob-drawer-title{font-size:16px;font-weight:700;color:var(--tx)}
+  .mob-drawer-sub{font-size:11px;color:var(--mt);margin-top:1px}
+  .mob-drawer-close{background:var(--bg);border:none;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;color:var(--mt);display:flex;align-items:center;justify-content:center}
+
+  /* Quick links section in drawer */
+  .mob-drawer-links{padding:16px 20px 12px;border-bottom:1px solid var(--bd)}
+  .mob-drawer-links-title{font-size:11px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+  .mob-drawer-links-grid{display:flex;flex-wrap:wrap;gap:12px}
+  .mob-drawer-link{display:flex;flex-direction:column;align-items:center;gap:5px;width:52px;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent}
+  .mob-drawer-link-icon{width:48px;height:48px;border-radius:14px;background:var(--bg);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:border-color .15s,transform .15s}
+  .mob-drawer-link-icon:active{transform:scale(.92)}
+  .mob-drawer-link-icon svg{width:24px;height:24px}
+  .mob-drawer-link-label{font-size:9px;color:var(--mt);text-align:center;font-weight:500;line-height:1.3;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* Nav items in drawer */
+  .mob-drawer-nav{padding:8px 12px 4px}
+  .mob-drawer-item{display:flex;align-items:center;gap:14px;padding:13px 10px;border-radius:12px;cursor:pointer;color:var(--tx);font-size:15px;font-weight:500;transition:background .12s;-webkit-tap-highlight-color:transparent}
+  .mob-drawer-item:active,.mob-drawer-item.active{background:var(--orp);color:var(--or)}
+  .mob-drawer-item svg{width:20px;height:20px;flex-shrink:0}
+
+  /* Overlay behind drawer */
+  .mob-menu-overlay{position:fixed;inset:0;z-index:290;background:rgba(0,0,0,.4);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:none}
+  .mob-menu-overlay.open{display:block}
+
   .mob-sync-btn{display:none!important}
 }
 
@@ -418,6 +443,8 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .mob-search-overlay{display:none!important}
   .cal-mobile-open{display:none!important}
   .cal-iframe{display:block!important}
+  .mob-drawer{display:none!important}
+  .mob-menu-overlay{display:none!important}
 }
 
 /* ── v16 additions ───────────── */
@@ -500,7 +527,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v19.3</span>
+    <span class="version-badge">v20.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -560,13 +587,20 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
   <div class="mob-menu-overlay" id="mob-menu-overlay" onclick="closeMobileMenu(event)"></div>
   <aside class="mob-drawer" id="mob-drawer">
+    <div class="mob-drawer-handle"></div>
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub">v19.3</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.0</div>
       </div>
-      <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+      <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
+    <!-- Quick links -->
+    <div class="mob-drawer-links">
+      <div class="mob-drawer-links-title">Quick links</div>
+      <div class="mob-drawer-links-grid" id="mob-drawer-links-grid"></div>
+    </div>
+    <!-- Navigation -->
     <div class="mob-drawer-nav" id="mob-drawer-nav"></div>
   </aside>
 
@@ -1114,7 +1148,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v19.3';
+const VER = 'v20.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2000,7 +2034,20 @@ async function massDelete() {
 }
 
 // ── Mobile bottom nav ─────────────────────────────────────────────────────
-function renderMobileNav() { return; }
+function renderMobileNav() {
+  const el = document.getElementById('mob-nav');
+  if (!el) return;
+  const mainItems = navOrder.slice(0,4).map(id => ({ id, ...NAV_DEFS[id] }));
+  const moreActive = curView === 'settings' || navOrder.slice(4).includes(curView);
+  el.innerHTML = mainItems.map(item => `
+    <button class="mob-nav-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">
+      ${item.svg}<span>${item.label}</span>
+    </button>`).join('') + `
+    <button class="mob-nav-item${moreActive?' active':''}" onclick="toggleMobileMenu()">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg>
+      <span>More</span>
+    </button>`;
+}
 
 // ── Mobile helpers ────────────────────────────────────────────────────────
 function openMobSearch() {
@@ -2582,6 +2629,17 @@ function renderMobileDrawer(){
   const settingsDef={label:'Settings',svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`};
   const items=navOrder.map(id=>({id,...NAV_DEFS[id]})).concat([{id:'settings',...settingsDef}]);
   el.innerHTML=items.map(item=>`<div class="mob-drawer-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">${item.svg}<span>${item.label}</span></div>`).join('');
+
+  // Render quick links inside drawer
+  const linksEl = document.getElementById('mob-drawer-links-grid');
+  if(linksEl && typeof quickLinks !== 'undefined'){
+    linksEl.innerHTML = quickLinks.map(l =>
+      `<a class="mob-drawer-link" href="${l.url}" target="_blank" onclick="closeMobileMenu()">
+        <div class="mob-drawer-link-icon">${getIconSvg(l.iconId)}</div>
+        <span class="mob-drawer-link-label">${l.label}</span>
+      </a>`
+    ).join('');
+  }
 }
 function openMobileMenu(){
   document.getElementById('mob-menu-overlay')?.classList.add('open');
