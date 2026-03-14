@@ -320,9 +320,9 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
    Desktop stays completely unchanged above this block
    ══════════════════════════════════════════════════════════════ */
 @media(max-width:768px){
-  body{flex-direction:column;height:100dvh;overflow:hidden}
+  body{flex-direction:column;height:100dvh;overflow:hidden;background:var(--bg)}
   .sidebar{display:none}
-  .main{height:100dvh;display:flex;flex-direction:column}
+  .main{height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
 
   /* ── Topbar: clean, title + search + add ── */
   .topbar{height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 14px 0;gap:10px;background:var(--sb);box-shadow:0 1px 0 var(--bd)}
@@ -396,8 +396,8 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .ql-label-input{flex:1 1 100%;order:4;width:auto}
 
   /* ── Bottom nav — 5 clean tabs ── */
-  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--glass-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:0.5px solid var(--bd);padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:200}
-  body.dark-mode .mob-nav{background:rgba(18,18,18,0.92)}
+  .mob-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--glass-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:0.5px solid var(--bd);padding:8px 0 0;padding-bottom:max(env(safe-area-inset-bottom),8px);z-index:200}
+  body.dark-mode .mob-nav{background:rgba(18,18,18,0.96)}
   .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--mt);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:color .15s;padding:4px 2px;-webkit-tap-highlight-color:transparent}
   .mob-nav-item svg{width:22px;height:22px}
   .mob-nav-item.active{color:var(--or)}
@@ -500,7 +500,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.1</span>
+    <span class="version-badge">v20.2</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.1</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.2</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1121,7 +1121,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.1';
+const VER = 'v20.2';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
