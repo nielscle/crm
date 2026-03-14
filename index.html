@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Dash v16.0 Plus</title>
+<title>CRM Dash v19.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -14,19 +14,7 @@
   --bd:#EDE8E2;--tx:#1C1C1E;--mt:#8E8E93;
   --gr:#22C55E;--bl:#3B82F6;--pu:#A855F7;
   --r:16px;--sh:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
-  --glass-bg:rgba(255,255,255,0.75);
-  --glass-border:rgba(255,255,255,0.5);
-  --glass-shadow:0 8px 32px rgba(0,0,0,.08);
-}
-body.dark-mode{
-  --or:#FB923C;--orl:#431407;--orp:#1C0A00;
-  --bg:#0F0F0F;--sb:#1A1A1A;--card:#1E1E1E;
-  --bd:#2C2C2E;--tx:#F5F5F7;--mt:#8E8E93;
-  --gr:#34D399;--bl:#60A5FA;--pu:#C084FC;
-  --sh:0 1px 4px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.2);
-  --glass-bg:rgba(30,30,30,0.8);
-  --glass-border:rgba(255,255,255,0.08);
-  --glass-shadow:0 8px 32px rgba(0,0,0,.4);
+  --glass-bg:rgba(255,255,255,0.75);--glass-border:rgba(255,255,255,0.5);--glass-shadow:0 8px 32px rgba(0,0,0,.08);
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;height:100vh;overflow:hidden;display:flex}
 
@@ -275,20 +263,45 @@ body.dark-mode .addon-btn.active{background:#1e3a5f}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 
 /* ══════════════════════════════════════════════════════════════
-   DARK MODE — applies to all elements via body.dark-mode
+   DARK MODE — single source of truth via CSS variables
+   body.dark-mode sets all variables; components just use var()
    ══════════════════════════════════════════════════════════════ */
-body.dark-mode .dtab.active{background:#2C2C2E;color:var(--tx)}
+body.dark-mode{
+  --tx:#F5F5F7;--mt:#98989D;
+  --sh:0 1px 4px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+  --glass-bg:rgba(28,28,30,0.88);--glass-border:rgba(255,255,255,0.07);--glass-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+/* Ensure all surfaces pick up dark variables — no hardcoded colours */
 body.dark-mode .scard,body.dark-mode .card,body.dark-mode .dcard,
-body.dark-mode .aitem,body.dark-mode .modal,
-body.dark-mode .twrap,body.dark-mode tr{background:var(--card);border-color:var(--bd)}
-body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:#2C2C2E;border-color:var(--bd);color:var(--tx)}
-body.dark-mode .ql-dock,body.dark-mode .topbar,body.dark-mode .sidebar{background:var(--sb);border-color:var(--bd)}
-body.dark-mode .ql-link{background:#2C2C2E;border-color:var(--bd)}
-body.dark-mode .mob-nav{background:rgba(26,26,26,0.92);border-color:var(--bd)}
-body.dark-mode .btn-o{background:#2C2C2E;border-color:var(--bd);color:var(--tx)}
-body.dark-mode .scol{background:#1A1A1A;border-color:var(--bd)}
-body.dark-mode .shead{background:var(--card)}
+body.dark-mode .aitem,body.dark-mode .modal,body.dark-mode .twrap,
+body.dark-mode tr,body.dark-mode .scol,body.dark-mode .shead,
+body.dark-mode .ql-dock,body.dark-mode .topbar,body.dark-mode .sidebar,
+body.dark-mode .upcoming-card,body.dark-mode .cal-gcal-card,
+body.dark-mode .ql-manager-row,body.dark-mode .ql-icon-btn,
+body.dark-mode .ir-row,body.dark-mode .drop-zone{
+  background:var(--card);border-color:var(--bd);
+}
+body.dark-mode .sidebar{background:var(--sb)}
+body.dark-mode .topbar{background:var(--sb)}
+body.dark-mode .ql-dock{background:var(--sb)}
+body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:var(--card);border-color:var(--bd);color:var(--tx)}
+body.dark-mode .btn-o{background:var(--card);border-color:var(--bd);color:var(--tx)}
+body.dark-mode .btn-o:hover{border-color:var(--or);color:var(--or)}
+body.dark-mode .ql-link{background:var(--card);border-color:var(--bd)}
+body.dark-mode .dtab.active{background:var(--card);color:var(--tx)}
+body.dark-mode .mob-nav{background:var(--sb);border-color:var(--bd)}
 body.dark-mode ::-webkit-scrollbar-thumb{background:#3A3A3C}
+body.dark-mode .csv-help{background:var(--card)}
+body.dark-mode .pkg-btn,body.dark-mode .addon-btn{background:var(--card);border-color:var(--bd);color:var(--tx)}
+body.dark-mode .price-tbl th{background:var(--card);color:var(--mt)}
+body.dark-mode .price-tbl td{border-color:var(--bd)}
+body.dark-mode .quote-item{background:var(--card);border-color:var(--bd)}
+body.dark-mode .sel-bar{background:#2D1515;border-color:#5C2020}
+body.dark-mode .mob-drawer{background:var(--sb)}
+body.dark-mode .mob-drawer-item:hover,body.dark-mode .mob-drawer-item.active{background:var(--card)}
+body.dark-mode .theme-panel{background:var(--card);border-color:var(--bd)}
+body.dark-mode .theme-chip{background:var(--card);border-color:var(--bd);color:var(--tx)}
+body.dark-mode .theme-chip.active{border-color:var(--or)}
 
 /* ══════════════════════════════════════════════════════════════
    MOBILE  —  iPhone-quality UI  (≤ 768px)
@@ -475,7 +488,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v16.0+</span>
+    <span class="version-badge">v19.3</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -538,7 +551,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub">v16.0</div>
+        <div class="mob-drawer-sub">v19.3</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
     </div>
@@ -859,35 +872,54 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
             </div>
           </div>
           <div class="theme-panel">
-            <div class="theme-panel-head">
-              <div>
-                <div class="theme-title">Color theme</div>
-                <div class="theme-sub">Choose a preset or customise your own palette. Changes auto-save on this device.</div>
+
+            <!-- Full theme presets -->
+            <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Theme presets</div>
+            <div id="full-theme-presets" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:18px"></div>
+
+            <!-- Accent color -->
+            <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Accent color</div>
+            <div id="theme-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px">
+              <input type="color" id="theme-primary" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom accent</div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <span style="font-size:12px;color:var(--mt)">#</span>
+                  <input type="text" id="theme-primary-text" placeholder="F97316" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
+                </div>
               </div>
+              <button class="btn btn-p" onclick="applyCustomHex()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
             </div>
-            <div class="theme-presets" id="theme-presets"></div>
-            <div class="theme-custom-grid">
-              <div class="theme-input">
-                <label>Primary</label>
-                <div class="theme-input-row">
-                  <input type="color" id="theme-primary">
-                  <input type="text" id="theme-primary-text" placeholder="#F97316" maxlength="7">
+
+            <!-- Light background -->
+            <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Light background</div>
+            <div id="light-bg-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px">
+              <input type="color" id="light-bg-picker" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom light bg</div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <span style="font-size:12px;color:var(--mt)">#</span>
+                  <input type="text" id="light-bg-text" placeholder="FAF6F2" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
                 </div>
               </div>
-              <div class="theme-input">
-                <label>Accent</label>
-                <div class="theme-input-row">
-                  <input type="color" id="theme-accent">
-                  <input type="text" id="theme-accent-text" placeholder="#F59E0B" maxlength="7">
+              <button class="btn btn-o" onclick="applyCustomLightBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
+            </div>
+
+            <!-- Dark background -->
+            <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Dark background</div>
+            <div id="dark-bg-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd)">
+              <input type="color" id="dark-bg-picker" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom dark bg</div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <span style="font-size:12px;color:var(--mt)">#</span>
+                  <input type="text" id="dark-bg-text" placeholder="111111" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
                 </div>
               </div>
-              <div class="theme-input">
-                <label>Background</label>
-                <div class="theme-input-row">
-                  <input type="color" id="theme-background">
-                  <input type="text" id="theme-background-text" placeholder="#FAF6F2" maxlength="7">
-                </div>
-              </div>
+              <button class="btn btn-o" onclick="applyCustomDarkBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
             </div>
           </div>
           <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" onclick="saveSettings()">Save settings</button><button class="btn btn-o" onclick="resetThemeToPreset()">Reset theme</button></div>
@@ -1070,7 +1102,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v16.0-plus';
+const VER = 'v19.3';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2194,234 +2226,371 @@ async function maybeAutoSync() {
 
 function initSync() { /* kept for compatibility */ updateSyncBadge(); }
 
-// ── Dark mode engine ──────────────────────────────────────────────────────
-// Amsterdam coords for sunset calculation
+// ══════════════════════════════════════════════════════════════════════════
+// DARK MODE + THEME ENGINE  —  clean, no conflicts
+// Rule: dark/light = CSS class on body. Accent = CSS variables only.
+// These two systems NEVER touch each other's variables.
+// ══════════════════════════════════════════════════════════════════════════
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function normalizeHex(v){
+  if(!v) return null;
+  let s = String(v).trim().replace(/[^#0-9a-fA-F]/g,'');
+  if(!s.startsWith('#')) s='#'+s;
+  if(s.length===4) s='#'+[s[1],s[1],s[2],s[2],s[3],s[3]].join('');
+  return /^#[0-9A-Fa-f]{6}$/.test(s) ? s.toUpperCase() : null;
+}
+function hexToRgb(hex){
+  const n=normalizeHex(hex)||'#000000';
+  return {r:parseInt(n.slice(1,3),16),g:parseInt(n.slice(3,5),16),b:parseInt(n.slice(5,7),16)};
+}
+function rgbToHex(r,g,b){return '#'+[r,g,b].map(v=>Math.min(255,Math.max(0,Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase();}
+function mixHex(a,b,t){const A=hexToRgb(a),B=hexToRgb(b);return rgbToHex(A.r+(B.r-A.r)*t,A.g+(B.g-A.g)*t,A.b+(B.b-A.b)*t);}
+// legacy alias used elsewhere in codebase
+function mix(hexA,hexB,amount){return mixHex(hexA,hexB,amount);}
+function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
+function luminance(hex){const {r,g,b}=hexToRgb(hex);const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)};return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);}
+
+// ── Theme system ────────────────────────────────────────────────────────────
+// Three independent knobs: accent color, light bg, dark bg.
+// Each stored separately in localStorage + Supabase settings.
+// Dark mode class on body remains the only switch between light/dark.
+
+// ── Full theme presets (accent + both bgs bundled) ─────────────────────────
+const FULL_THEME_PRESETS = [
+  { name:'Default',    accent:'#F97316', lightBg:'#FAF6F2', darkBg:'#111111' },
+  { name:'Ocean',      accent:'#0EA5E9', lightBg:'#F0F9FF', darkBg:'#0A1628' },
+  { name:'Forest',     accent:'#22C55E', lightBg:'#F0FDF4', darkBg:'#0D1A0F' },
+  { name:'Lavender',   accent:'#8B5CF6', lightBg:'#F5F3FF', darkBg:'#120D1E' },
+  { name:'Rose',       accent:'#F43F5E', lightBg:'#FFF1F2', darkBg:'#1A0810' },
+  { name:'Midnight',   accent:'#6366F1', lightBg:'#EEF2FF', darkBg:'#08080F' },
+  { name:'Amber',      accent:'#F59E0B', lightBg:'#FFFBEB', darkBg:'#1A1200' },
+  { name:'Slate',      accent:'#64748B', lightBg:'#F8FAFC', darkBg:'#0D1117' },
+  { name:'Teal',       accent:'#14B8A6', lightBg:'#F0FDFA', darkBg:'#061412' },
+  { name:'Warm gray',  accent:'#78716C', lightBg:'#FAFAF9', darkBg:'#171717' },
+];
+
+// ── Accent presets ─────────────────────────────────────────────────────────
+const ACCENT_PRESETS = [
+  {name:'Orange', hex:'#F97316'},{name:'Blue',   hex:'#3B82F6'},{name:'Purple', hex:'#8B5CF6'},
+  {name:'Green',  hex:'#22C55E'},{name:'Red',    hex:'#EF4444'},{name:'Pink',   hex:'#EC4899'},
+  {name:'Teal',   hex:'#14B8A6'},{name:'Indigo', hex:'#6366F1'},{name:'Amber',  hex:'#F59E0B'},
+  {name:'Slate',  hex:'#64748B'},{name:'Cyan',   hex:'#06B6D4'},{name:'Rose',   hex:'#F43F5E'},
+];
+
+// ── Light background presets ───────────────────────────────────────────────
+const LIGHT_BG_PRESETS = [
+  {name:'Warm white', hex:'#FAF6F2'},{name:'Pure white',  hex:'#FFFFFF'},
+  {name:'Cool white', hex:'#F8F9FA'},{name:'Soft cream',  hex:'#FFFBF0'},
+  {name:'Pale blue',  hex:'#F0F4FF'},{name:'Pale green',  hex:'#F0FDF4'},
+  {name:'Pale rose',  hex:'#FFF1F2'},{name:'Pale purple', hex:'#F5F3FF'},
+  {name:'Lavender',   hex:'#EEF2FF'},{name:'Sand',        hex:'#FAF7F0'},
+];
+
+// ── Dark background presets ────────────────────────────────────────────────
+const DARK_BG_PRESETS = [
+  {name:'Rich black',  hex:'#0A0A0A'},{name:'Soft black',  hex:'#111111'},
+  {name:'Deep gray',   hex:'#1A1A1A'},{name:'Charcoal',    hex:'#18181B'},
+  {name:'Navy dark',   hex:'#0A0F1E'},{name:'Warm dark',   hex:'#1C1410'},
+  {name:'Forest dark', hex:'#0D1610'},{name:'Purple dark',  hex:'#120D1E'},
+  {name:'Cool dark',   hex:'#0D1117'},{name:'Slate dark',   hex:'#0F172A'},
+];
+
+// ── Saved state ────────────────────────────────────────────────────────────
+let savedAccent  = localStorage.getItem('crm_accent')   || '#F97316';
+let savedLightBg = localStorage.getItem('crm_light_bg') || '#FAF6F2';
+let savedDarkBg  = localStorage.getItem('crm_dark_bg')  || '#111111';
+
+// ── Apply accent ───────────────────────────────────────────────────────────
+function applyAccent(hex){
+  const h = normalizeHex(hex); if(!h) return;
+  savedAccent = h;
+  localStorage.setItem('crm_accent', h);
+  const root = document.documentElement;
+  root.style.setProperty('--or',  h);
+  root.style.setProperty('--orl', mixHex(h,'#FFFFFF',0.65));
+  root.style.setProperty('--orp', mixHex(h,'#FFFFFF',0.90));
+  const cp=document.getElementById('theme-primary'); if(cp) cp.value=h;
+  const ct=document.getElementById('theme-primary-text'); if(ct) ct.value=h.replace('#','');
+  renderThemePresets();
+  sbSaveSetting('crm_accent', h);
+}
+
+// ── Apply light bg ─────────────────────────────────────────────────────────
+function applyLightBg(hex){
+  const h = normalizeHex(hex); if(!h) return;
+  savedLightBg = h;
+  localStorage.setItem('crm_light_bg', h);
+  const sbColor   = mixHex(h,'#FFFFFF',0.5);
+  const cardColor = mixHex(h,'#FFFFFF',0.7);
+  const bdColor   = mixHex(h,'#1C1C1E',0.08);
+  if(!document.body.classList.contains('dark-mode')){
+    const root=document.documentElement;
+    root.style.setProperty('--bg',   h);
+    root.style.setProperty('--sb',   sbColor);
+    root.style.setProperty('--card', cardColor);
+    root.style.setProperty('--bd',   bdColor);
+    root.style.setProperty('--glass-bg','rgba(255,255,255,0.75)');
+  }
+  const pp=document.getElementById('light-bg-picker'); if(pp) pp.value=h;
+  const pt=document.getElementById('light-bg-text'); if(pt) pt.value=h.replace('#','');
+  renderBgPresets();
+  sbSaveSetting('crm_light_bg', h);
+}
+
+// ── Apply dark bg ──────────────────────────────────────────────────────────
+function applyDarkBg(hex){
+  const h = normalizeHex(hex); if(!h) return;
+  savedDarkBg = h;
+  localStorage.setItem('crm_dark_bg', h);
+  const sbColor   = mixHex(h,'#FFFFFF',0.06);
+  const cardColor = mixHex(h,'#FFFFFF',0.10);
+  const bdColor   = mixHex(h,'#FFFFFF',0.14);
+  // Always save — only apply to DOM if dark mode is active
+  if(document.body.classList.contains('dark-mode')){
+    const root=document.documentElement;
+    root.style.setProperty('--bg',   h);
+    root.style.setProperty('--sb',   sbColor);
+    root.style.setProperty('--card', cardColor);
+    root.style.setProperty('--bd',   bdColor);
+    root.style.setProperty('--glass-bg','rgba('+hexToRgb(h).r+','+hexToRgb(h).g+','+hexToRgb(h).b+',0.88)');
+  }
+  const pp=document.getElementById('dark-bg-picker'); if(pp) pp.value=h;
+  const pt=document.getElementById('dark-bg-text'); if(pt) pt.value=h.replace('#','');
+  renderBgPresets();
+  sbSaveSetting('crm_dark_bg', h);
+}
+
+// ── Apply both bgs (called on dark mode toggle) ────────────────────────────
+function applyCurrentBg(){
+  if(document.body.classList.contains('dark-mode')) applyDarkBg(savedDarkBg);
+  else applyLightBg(savedLightBg);
+}
+
+// ── Apply full theme preset ────────────────────────────────────────────────
+function applyFullPreset(idx){
+  const p = FULL_THEME_PRESETS[idx]; if(!p) return;
+  applyAccent(p.accent);
+  applyLightBg(p.lightBg);
+  applyDarkBg(p.darkBg);
+  renderFullThemePresets();
+}
+
+// ── Custom apply helpers ───────────────────────────────────────────────────
+function applyCustomHex(){
+  const txt=document.getElementById('theme-primary-text'); if(!txt) return;
+  const hex=normalizeHex(txt.value); if(hex) applyAccent(hex);
+}
+function applyCustomLightBg(){
+  const txt=document.getElementById('light-bg-text'); if(!txt) return;
+  const hex=normalizeHex(txt.value); if(hex) applyLightBg(hex);
+}
+function applyCustomDarkBg(){
+  const txt=document.getElementById('dark-bg-text'); if(!txt) return;
+  const hex=normalizeHex(txt.value); if(hex) applyDarkBg(hex);
+}
+
+// ── Supabase setting sync ──────────────────────────────────────────────────
+function sbSaveSetting(key, value){
+  if(typeof sb!=='undefined'&&sb){
+    (async()=>{try{await sb.from('settings').upsert({key,value});}catch(e){}})();
+  }
+}
+
+// ── Render full theme presets ──────────────────────────────────────────────
+function renderFullThemePresets(){
+  const el=document.getElementById('full-theme-presets'); if(!el) return;
+  el.innerHTML=FULL_THEME_PRESETS.map((p,i)=>{
+    const isCurrent = savedAccent.toUpperCase()===p.accent.toUpperCase()
+                   && savedLightBg.toUpperCase()===p.lightBg.toUpperCase();
+    return `<button onclick="applyFullPreset(${i})" style="
+      display:flex;flex-direction:column;gap:6px;padding:10px;
+      background:${isCurrent?'var(--orp)':'var(--bg)'};
+      border:1.5px solid ${isCurrent?'var(--or)':'var(--bd)'};
+      border-radius:12px;cursor:pointer;transition:all .15s;
+      font-family:'Plus Jakarta Sans',sans-serif;text-align:left">
+      <div style="display:flex;gap:4px">
+        <div style="width:18px;height:18px;border-radius:50%;background:${p.accent};box-shadow:0 1px 4px ${p.accent}55"></div>
+        <div style="width:18px;height:18px;border-radius:4px;background:${p.lightBg};border:1px solid rgba(0,0,0,.1)"></div>
+        <div style="width:18px;height:18px;border-radius:4px;background:${p.darkBg};border:1px solid rgba(255,255,255,.1)"></div>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:${isCurrent?'var(--or)':'var(--tx)'}">${p.name}</span>
+    </button>`;
+  }).join('');
+}
+
+// ── Render accent presets ──────────────────────────────────────────────────
+function renderThemePresets(){
+  const el=document.getElementById('theme-presets'); if(!el) return;
+  el.innerHTML=ACCENT_PRESETS.map(p=>{
+    const active=savedAccent.toUpperCase()===p.hex.toUpperCase();
+    return `<button onclick="applyAccent('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:50%;background:${p.hex};border:3px solid ${active?'var(--tx)':'transparent'};outline:2.5px solid ${active?p.hex:'transparent'};outline-offset:2px;cursor:pointer;transition:all .15s;box-shadow:0 2px 8px ${p.hex}55;flex-shrink:0"></button>`;
+  }).join('');
+}
+
+// ── Render bg presets ──────────────────────────────────────────────────────
+function renderBgPresets(){
+  // Light
+  const lel=document.getElementById('light-bg-presets'); if(lel){
+    lel.innerHTML=LIGHT_BG_PRESETS.map(p=>{
+      const active=savedLightBg.toUpperCase()===p.hex.toUpperCase();
+      return `<button onclick="applyLightBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${active?'var(--or)':'var(--bd)'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.12);flex-shrink:0"></button>`;
+    }).join('');
+  }
+  // Dark
+  const del=document.getElementById('dark-bg-presets'); if(del){
+    del.innerHTML=DARK_BG_PRESETS.map(p=>{
+      const active=savedDarkBg.toUpperCase()===p.hex.toUpperCase();
+      return `<button onclick="applyDarkBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${active?'var(--or)':'#333'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.4);flex-shrink:0"></button>`;
+    }).join('');
+  }
+}
+
+// ── initThemeDesigner ──────────────────────────────────────────────────────
+function initThemeDesigner(){
+  applyAccent(savedAccent);
+  applyCurrentBg();
+  renderFullThemePresets();
+  renderThemePresets();
+  renderBgPresets();
+  // Sync inputs
+  const pp=document.getElementById('light-bg-picker'); if(pp&&!pp.dataset.bound){pp.dataset.bound='1';pp.addEventListener('input',e=>applyLightBg(e.target.value));}
+  const dp=document.getElementById('dark-bg-picker');  if(dp&&!dp.dataset.bound){dp.dataset.bound='1';dp.addEventListener('input',e=>applyDarkBg(e.target.value));}
+  const cp=document.getElementById('theme-primary');   if(cp&&!cp.dataset.bound){cp.dataset.bound='1';cp.addEventListener('input',e=>applyAccent(e.target.value));}
+  const lt=document.getElementById('light-bg-text');   if(lt) lt.value=savedLightBg.replace('#','');
+  const dt=document.getElementById('dark-bg-text');    if(dt) dt.value=savedDarkBg.replace('#','');
+  const pp2=document.getElementById('light-bg-picker');if(pp2)pp2.value=savedLightBg;
+  const dp2=document.getElementById('dark-bg-picker'); if(dp2)dp2.value=savedDarkBg;
+}
+
+function resetThemeToPreset(){ applyFullPreset(0); }
+
+// Legacy stubs
+function syncThemeInputs(){ renderThemePresets(); renderBgPresets(); }
+function saveThemeState(){}
+function setThemePreset(p){ const f=FULL_THEME_PRESETS.find(t=>t.name.toLowerCase()===p.toLowerCase()); if(f) applyAccent(f.accent); }
+function setThemeColor(key,val){ if(key==='primary') applyAccent(val); }
+function bindThemeControls(){}
+function applyThemeState(){}
+const THEME_PRESETS = {};
+let themeState = {preset:'default',primary:'#F97316',accent:'#F59E0B',background:'#FAF6F2'};
+
+// ── Dark mode engine ────────────────────────────────────────────────────────
+// Only adds/removes class "dark-mode" on body.
+// CSS handles all visual changes via the class. JS never touches bg/text vars.
 const AMS_LAT = 52.3676, AMS_LNG = 4.9041;
 let darkModePreference = localStorage.getItem('crm_darkmode') || 'auto';
 let darkModeTimer = null;
 
-function getSunTimes(date) {
-  // Simple sunrise/sunset calculation for Amsterdam
-  const rad = Math.PI / 180;
-  const d = Math.floor(date / 86400000) - Math.floor(new Date(date.getFullYear(),0,1) / 86400000) + 1;
-  const p = Math.asin(0.39795 * Math.cos(0.2163108 + 2 * Math.atan(0.9671396 * Math.tan(0.00860 * (d - 186)))));
-  const cosH = (Math.sin(0.8333 * rad) + Math.sin(AMS_LAT * rad) * Math.sin(p)) / (Math.cos(AMS_LAT * rad) * Math.cos(p));
-  if (Math.abs(cosH) > 1) return null;
-  const h = Math.acos(cosH) / rad;
-  const lon = AMS_LNG / 15;
-  const eqT = (180 / Math.PI) * Math.atan(0.0171 * Math.sin(2 * 0.00860 * (d - 80)));
-  const noon = 12 - lon - eqT / 60;
-  const sunrise = noon - h / 15;
-  const sunset  = noon + h / 15;
-  return { sunrise, sunset };
+function getSunTimes(date){
+  const rad=Math.PI/180;
+  const d=Math.floor(date/86400000)-Math.floor(new Date(date.getFullYear(),0,1)/86400000)+1;
+  const p=Math.asin(0.39795*Math.cos(0.2163108+2*Math.atan(0.9671396*Math.tan(0.00860*(d-186)))));
+  const cosH=(Math.sin(0.8333*rad)+Math.sin(AMS_LAT*rad)*Math.sin(p))/(Math.cos(AMS_LAT*rad)*Math.cos(p));
+  if(Math.abs(cosH)>1) return null;
+  const h=Math.acos(cosH)/rad;
+  const lon=AMS_LNG/15;
+  const eqT=(180/Math.PI)*Math.atan(0.0171*Math.sin(2*0.00860*(d-80)));
+  const noon=12-lon-eqT/60;
+  return {sunrise:noon-h/15, sunset:noon+h/15};
 }
 
-function isDarkNow() {
-  const now = new Date();
-  const times = getSunTimes(now);
-  if (!times) return false;
-  const h = now.getHours() + now.getMinutes() / 60;
-  // Account for Amsterdam UTC+1 (or +2 in summer) — use local time directly
-  const localSunrise = times.sunrise + 1; // rough CET offset
-  const localSunset  = times.sunset  + 1;
-  return h < localSunrise || h >= localSunset;
+function isDarkNow(){
+  const now=new Date();
+  const times=getSunTimes(now);
+  if(!times) return false;
+  // Use actual local time — browser already returns local hours for Amsterdam users
+  const h=now.getHours()+now.getMinutes()/60;
+  const sr=times.sunrise+1; // +1 for CET offset from UTC calc
+  const ss=times.sunset+1;
+  return h<sr||h>=ss;
 }
 
-function applyDarkMode(isDark) {
-  document.body.classList.toggle('dark-mode', isDark);
-  // Update topbar bg for glass effect
-  const topbar = document.querySelector('.topbar');
-  if (topbar) topbar.style.background = isDark ? 'rgba(26,26,26,0.9)' : '';
+function applyDarkMode(isDark){
+  document.body.classList.toggle('dark-mode',isDark);
+  // Re-apply accent and correct background for the new mode
+  applyAccent(savedAccent);
+  applyCurrentBg();
 }
 
-function setDarkMode(pref) {
-  darkModePreference = pref;
-  localStorage.setItem('crm_darkmode', pref);
+function setDarkMode(pref){
+  darkModePreference=pref;
+  localStorage.setItem('crm_darkmode',pref);
+  if(pref==='dark') { clearInterval(darkModeTimer); applyDarkMode(true); }
+  if(pref==='light'){ clearInterval(darkModeTimer); applyDarkMode(false);}
+  if(pref==='auto') { applyDarkMode(isDarkNow()); startDarkModeTimer(); }
   updateDarkModeButtons();
-  if (pref === 'dark')  { applyDarkMode(true);  clearInterval(darkModeTimer); }
-  if (pref === 'light') { applyDarkMode(false); clearInterval(darkModeTimer); }
-  if (pref === 'auto')  { applyDarkMode(isDarkNow()); startDarkModeTimer(); }
-  const sub = document.getElementById('dark-mode-sub');
-  if (sub) {
-    const times = getSunTimes(new Date());
-    if (times && pref === 'auto') {
-      const fmt = h => `${Math.floor(h)}:${String(Math.round((h%1)*60)).padStart(2,'0')}`;
-      sub.textContent = `Auto: dark after ~${fmt(times.sunset+1)} (Amsterdam sunset)`;
-    } else {
-      sub.textContent = pref === 'dark' ? 'Always dark' : pref === 'light' ? 'Always light' : 'Auto: follows Amsterdam sunset';
-    }
+  updateDarkModeLabel();
+}
+
+function updateDarkModeLabel(){
+  const sub=document.getElementById('dark-mode-sub');
+  if(!sub) return;
+  if(darkModePreference==='auto'){
+    const times=getSunTimes(new Date());
+    if(times){
+      const fmt=h=>`${Math.floor(h+1)}:${String(Math.round(((h+1)%1)*60)).padStart(2,'0')}`;
+      sub.textContent=`Auto — dark after ~${fmt(times.sunset)} (Amsterdam)`;
+    } else { sub.textContent='Auto — follows Amsterdam sunset'; }
+  } else {
+    sub.textContent=darkModePreference==='dark'?'Always dark':'Always light';
   }
 }
 
-function updateDarkModeButtons() {
-  ['auto','light','dark'].forEach(p => {
-    const btn = document.getElementById('dm-'+p);
-    if (!btn) return;
-    const active = darkModePreference === p;
-    btn.style.background = active ? 'var(--or)' : 'transparent';
-    btn.style.color = active ? 'white' : 'var(--mt)';
-    btn.style.borderColor = active ? 'var(--or)' : 'var(--bd)';
+function updateDarkModeButtons(){
+  ['auto','light','dark'].forEach(p=>{
+    const btn=document.getElementById('dm-'+p);
+    if(!btn) return;
+    const active=darkModePreference===p;
+    btn.style.background=active?'var(--or)':'transparent';
+    btn.style.color=active?'white':'var(--mt)';
+    btn.style.borderColor=active?'var(--or)':'var(--bd)';
   });
 }
 
-function startDarkModeTimer() {
+function startDarkModeTimer(){
   clearInterval(darkModeTimer);
-  darkModeTimer = setInterval(() => {
-    if (darkModePreference === 'auto') applyDarkMode(isDarkNow());
-  }, 60000); // check every minute
+  darkModeTimer=setInterval(()=>{ if(darkModePreference==='auto') applyDarkMode(isDarkNow()); },60000);
 }
 
-function initDarkMode() {
-  if (darkModePreference === 'dark')  applyDarkMode(true);
-  else if (darkModePreference === 'light') applyDarkMode(false);
+function initDarkMode(){
+  if(darkModePreference==='dark')       applyDarkMode(true);
+  else if(darkModePreference==='light') applyDarkMode(false);
   else { applyDarkMode(isDarkNow()); startDarkModeTimer(); }
   updateDarkModeButtons();
+  updateDarkModeLabel();
+  // Always apply the saved bg for current mode on startup
+  applyCurrentBg();
 }
 
-
-
-// ── v16 mobile drawer + theme system ─────────────────────────────────────
-const THEME_PRESETS = {
-  default:{name:'Default',primary:'#F97316',accent:'#F59E0B',background:'#FAF6F2'},
-  ocean:{name:'Ocean',primary:'#2563EB',accent:'#06B6D4',background:'#F0F9FF'},
-  midnight:{name:'Midnight',primary:'#334155',accent:'#6366F1',background:'#E2E8F0'},
-  warm:{name:'Warm',primary:'#C2410C',accent:'#FB923C',background:'#FFF7ED'},
-  darkpro:{name:'Dark Pro',primary:'#7C3AED',accent:'#22D3EE',background:'#EEF2FF'},
-  custom:{name:'Custom',primary:'#F97316',accent:'#F59E0B',background:'#FAF6F2'}
-};
-let themeState = (() => {
-  try {
-    const raw = JSON.parse(localStorage.getItem('crm_theme_v16') || 'null');
-    return raw && raw.primary ? raw : {preset:'default', ...THEME_PRESETS.default};
-  } catch(e) {
-    return {preset:'default', ...THEME_PRESETS.default};
-  }
-})();
-function clamp(v,min,max){ return Math.min(max, Math.max(min, v)); }
-function normalizeHex(v){
-  if(!v) return null;
-  let s = String(v).trim().replace(/[^#0-9a-fA-F]/g,'');
-  if(!s.startsWith('#')) s = '#'+s;
-  if(s.length===4) s = '#'+[s[1],s[1],s[2],s[2],s[3],s[3]].join('');
-  return /^#[0-9A-Fa-f]{6}$/.test(s) ? s.toUpperCase() : null;
-}
-function hexToRgb(hex){
-  const n = normalizeHex(hex); if(!n) return {r:0,g:0,b:0};
-  return {r:parseInt(n.slice(1,3),16), g:parseInt(n.slice(3,5),16), b:parseInt(n.slice(5,7),16)};
-}
-function rgbToHex(r,g,b){ return '#'+[r,g,b].map(v=>clamp(Math.round(v),0,255).toString(16).padStart(2,'0')).join('').toUpperCase(); }
-function mix(hexA, hexB, amount){
-  const a = hexToRgb(hexA), b = hexToRgb(hexB), t = clamp(amount,0,1);
-  return rgbToHex(a.r + (b.r-a.r)*t, a.g + (b.g-a.g)*t, a.b + (b.b-a.b)*t);
-}
-function luminance(hex){
-  const {r,g,b} = hexToRgb(hex);
-  const vals = [r,g,b].map(v => { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
-  return 0.2126*vals[0] + 0.7152*vals[1] + 0.0722*vals[2];
-}
-function applyThemeState(){
-  const p = normalizeHex(themeState.primary) || THEME_PRESETS.default.primary;
-  const a = normalizeHex(themeState.accent) || THEME_PRESETS.default.accent;
-  const bg = normalizeHex(themeState.background) || THEME_PRESETS.default.background;
-  const sb = mix(bg, '#FFFFFF', 0.76);
-  const card = mix(bg, '#FFFFFF', 0.88);
-  const bd = mix(bg, '#1C1C1E', 0.08);
-  const tx = luminance(bg) < 0.45 ? '#F5F5F7' : '#1C1C1E';
-  const mt = luminance(bg) < 0.45 ? '#C7C7CC' : '#8E8E93';
-  const root = document.documentElement;
-  root.style.setProperty('--or', p);
-  root.style.setProperty('--orl', mix(p, '#FFFFFF', 0.72));
-  root.style.setProperty('--orp', mix(p, '#FFFFFF', 0.90));
-  root.style.setProperty('--bg', bg);
-  root.style.setProperty('--sb', sb);
-  root.style.setProperty('--card', card);
-  root.style.setProperty('--bd', bd);
-  root.style.setProperty('--tx', tx);
-  root.style.setProperty('--mt', mt);
-  root.style.setProperty('--bl', a);
-  root.style.setProperty('--glass-bg', document.body.classList.contains('dark-mode') ? 'rgba(30,30,30,0.8)' : 'rgba(255,255,255,0.75)');
-}
-function saveThemeState(){
-  localStorage.setItem('crm_theme_v16', JSON.stringify(themeState));
-}
-function renderThemePresets(){
-  const el = document.getElementById('theme-presets');
-  if(!el) return;
-  el.innerHTML = Object.entries(THEME_PRESETS).map(([key,val]) => `
-    <button class="theme-chip${themeState.preset===key?' active':''}" onclick="setThemePreset('${key}')">
-      <span class="theme-swatch"><span style="background:${val.primary}"></span><span style="background:${val.accent}"></span><span style="background:${val.background}"></span></span>
-      ${val.name}
-    </button>`).join('');
-}
-function syncThemeInputs(){
-  const map = [['theme-primary','primary'],['theme-accent','accent'],['theme-background','background']];
-  map.forEach(([id,key]) => {
-    const el = document.getElementById(id); const txt = document.getElementById(id+'-text');
-    if(el) el.value = normalizeHex(themeState[key]) || THEME_PRESETS.default[key];
-    if(txt) txt.value = normalizeHex(themeState[key]) || THEME_PRESETS.default[key];
-  });
-  renderThemePresets();
-}
-function setThemePreset(preset){
-  const source = THEME_PRESETS[preset] || THEME_PRESETS.default;
-  themeState = {preset, primary:source.primary, accent:source.accent, background:source.background};
-  applyThemeState();
-  saveThemeState();
-  syncThemeInputs();
-}
-function setThemeColor(key, value){
-  const hex = normalizeHex(value);
-  if(!hex) return;
-  themeState[key] = hex;
-  themeState.preset = 'custom';
-  applyThemeState();
-  saveThemeState();
-  syncThemeInputs();
-}
-function bindThemeControls(){
-  [['theme-primary','primary'],['theme-accent','accent'],['theme-background','background']].forEach(([id,key]) => {
-    const el = document.getElementById(id); const txt = document.getElementById(id+'-text');
-    if(el && !el.dataset.bound){ el.dataset.bound='1'; el.addEventListener('input', e => setThemeColor(key, e.target.value)); }
-    if(txt && !txt.dataset.bound){ txt.dataset.bound='1'; txt.addEventListener('change', e => setThemeColor(key, e.target.value)); }
-  });
-}
-function initThemeDesigner(){ bindThemeControls(); syncThemeInputs(); applyThemeState(); }
-function resetThemeToPreset(){ setThemePreset('default'); }
+// ── Mobile drawer ──────────────────────────────────────────────────────────
 function renderMobileDrawer(){
-  const el = document.getElementById('mob-drawer-nav');
+  const el=document.getElementById('mob-drawer-nav');
   if(!el) return;
-  const settingsDef = { label:'Settings', svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>` };
-  const items = navOrder.map(id => ({id, ...NAV_DEFS[id]})).concat([{id:'settings', ...settingsDef}]);
-  el.innerHTML = items.map(item => `<div class="mob-drawer-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">${item.svg}<span>${item.label}</span></div>`).join('');
+  const settingsDef={label:'Settings',svg:`<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.68 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 3.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 8 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`};
+  const items=navOrder.map(id=>({id,...NAV_DEFS[id]})).concat([{id:'settings',...settingsDef}]);
+  el.innerHTML=items.map(item=>`<div class="mob-drawer-item${curView===item.id?' active':''}" onclick="go('${item.id}',null)">${item.svg}<span>${item.label}</span></div>`).join('');
 }
 function openMobileMenu(){
-  const overlay = document.getElementById('mob-menu-overlay');
-  const drawer = document.getElementById('mob-drawer');
-  if(overlay) overlay.classList.add('open');
-  if(drawer) drawer.classList.add('open');
+  document.getElementById('mob-menu-overlay')?.classList.add('open');
+  document.getElementById('mob-drawer')?.classList.add('open');
 }
 function closeMobileMenu(e){
-  if(e && e.target && e.target.id !== 'mob-menu-overlay') return;
-  const overlay = document.getElementById('mob-menu-overlay');
-  const drawer = document.getElementById('mob-drawer');
-  if(overlay) overlay.classList.remove('open');
-  if(drawer) drawer.classList.remove('open');
+  if(e&&e.target&&e.target.id!=='mob-menu-overlay') return;
+  document.getElementById('mob-menu-overlay')?.classList.remove('open');
+  document.getElementById('mob-drawer')?.classList.remove('open');
 }
 function toggleMobileMenu(){
-  const drawer = document.getElementById('mob-drawer');
-  if(drawer && drawer.classList.contains('open')) closeMobileMenu(); else openMobileMenu();
+  const d=document.getElementById('mob-drawer');
+  if(d&&d.classList.contains('open')) closeMobileMenu(); else openMobileMenu();
 }
-const _go_v16 = go;
-go = function(id, el){
-  _go_v16(id, el);
+const _go_base=go;
+go=function(id,el){
+  _go_base(id,el);
   closeMobileMenu();
   renderMobileDrawer();
-  if(id === 'settings') initThemeDesigner();
+  if(id==='settings') initThemeDesigner();
 };
-const _applyDarkMode_v16 = applyDarkMode;
-applyDarkMode = function(isDark){ _applyDarkMode_v16(isDark); applyThemeState(); };
-const _saveSettings_v16 = saveSettings;
-saveSettings = function(){ initThemeDesigner(); _saveSettings_v16(); };
 
 // ══════════════════════════════════════════════════════════════════════════
 // ── PRICING MODULE ────────────────────────────────────────────────────────
@@ -2576,7 +2745,9 @@ function getTierIdx(members) {
 }
 
 function getPkgKey(pkgs) {
-  const sorted = [...pkgs].sort();
+  // Must match the key order used in COMBO_MONTHLY: M, C, E, G
+  const ORDER = ['M','C','E','G'];
+  const sorted = [...pkgs].sort((a,b) => ORDER.indexOf(a) - ORDER.indexOf(b));
   return sorted.join('+');
 }
 
@@ -2590,17 +2761,29 @@ function getBasePrice(market, pkgs, tierIdx, billing) {
       return (BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard)[pkgs[0]][tierIdx] || 0;
     }
     const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
-    return (comboMkt[key] || 0);
+    const comboPrice = (comboMkt[key] || [])[tierIdx];
+    if (comboPrice != null) return comboPrice;
+    // No combo key — sum individual prices
+    const pkgMkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+    return pkgs.reduce((sum, p) => sum + ((pkgMkt[p] || [])[tierIdx] || 0), 0);
   } else {
     // Annual
     if (isSingle) {
       const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
       return (annMkt[pkgs[0]] || [])[tierIdx] || 0;
     }
-    // Annual combos: use monthly * 12 * 0.9 approx (10% annual discount for multi)
+    // Try combo monthly * 12 * 0.9
     const comboMkt = COMBO_MONTHLY[market] || COMBO_MONTHLY.standard;
-    const monthly = comboMkt[key] || 0;
-    return Math.round(monthly * 12 * 0.9);
+    const comboMonthly = (comboMkt[key] || [])[tierIdx];
+    if (comboMonthly != null) return Math.round(comboMonthly * 12 * 0.9);
+    // No combo key — sum individual annual prices, fall back to monthly * 12 * 0.9
+    const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+    const pkgMkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+    return pkgs.reduce((sum, p) => {
+      const ann = (annMkt[p] || [])[tierIdx];
+      if (ann != null) return sum + ann;
+      return sum + Math.round(((pkgMkt[p] || [])[tierIdx] || 0) * 12 * 0.9);
+    }, 0);
   }
 }
 
