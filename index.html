@@ -2,8 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Dash v19.3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CRM Dash</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#F97316" id="pwa-theme-color">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CRM Dash">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Apple touch icons -->
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-startup-image" href="icon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -3167,6 +3179,23 @@ updateMobSyncBtn();
 initDarkMode();
 initThemeDesigner();
 initSupabase();
+
+// ── PWA service worker ────────────────────────────────────────────────────
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(r=>console.log('SW ready:',r.scope))
+      .catch(e=>console.warn('SW failed:',e));
+  });
+}
+
+// Keep theme-color meta in sync with accent color
+const _applyAccent_base = applyAccent;
+applyAccent = function(hex){
+  _applyAccent_base(hex);
+  const mc = document.getElementById('pwa-theme-color');
+  if(mc && hex) mc.setAttribute('content', hex);
+};
 </script>
 </body>
 </html>
