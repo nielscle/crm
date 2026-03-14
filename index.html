@@ -323,6 +323,8 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   body{flex-direction:column;height:100dvh;overflow:hidden;background:var(--bg)}
   .sidebar{display:none}
   .main{height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
+  /* Fill the safe area gap below nav with the nav background */
+  .mob-nav::after{content:'';position:fixed;bottom:0;left:0;right:0;height:env(safe-area-inset-bottom,0px);background:inherit;z-index:199}
 
   /* ── Topbar: clean, title + search + add ── */
   .topbar{height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 14px 0;gap:10px;background:var(--sb);box-shadow:0 1px 0 var(--bd)}
@@ -500,7 +502,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.2</span>
+    <span class="version-badge">v20.3</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -564,7 +566,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.2</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.3</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -899,46 +901,46 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
             <!-- Accent color -->
             <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Accent color</div>
             <div id="theme-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px;flex-wrap:wrap">
               <input type="color" id="theme-primary" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
-              <div style="flex:1">
+              <div style="flex:1;min-width:120px">
                 <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom accent</div>
                 <div style="display:flex;align-items:center;gap:6px">
                   <span style="font-size:12px;color:var(--mt)">#</span>
                   <input type="text" id="theme-primary-text" placeholder="F97316" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
                 </div>
               </div>
-              <button class="btn btn-p" onclick="applyCustomHex()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
+              <button class="btn btn-p" onclick="applyCustomHex()" style="font-size:12px;padding:7px 14px;flex-shrink:0;width:100%;margin-top:4px">Apply accent</button>
             </div>
 
             <!-- Light background -->
             <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Light background</div>
             <div id="light-bg-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);margin-bottom:18px;flex-wrap:wrap">
               <input type="color" id="light-bg-picker" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
-              <div style="flex:1">
+              <div style="flex:1;min-width:120px">
                 <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom light bg</div>
                 <div style="display:flex;align-items:center;gap:6px">
                   <span style="font-size:12px;color:var(--mt)">#</span>
                   <input type="text" id="light-bg-text" placeholder="FAF6F2" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
                 </div>
               </div>
-              <button class="btn btn-o" onclick="applyCustomLightBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
+              <button class="btn btn-o" onclick="applyCustomLightBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0;width:100%;margin-top:4px">Apply light background</button>
             </div>
 
             <!-- Dark background -->
             <div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Dark background</div>
             <div id="dark-bg-presets" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
-            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd)">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--bd);flex-wrap:wrap">
               <input type="color" id="dark-bg-picker" style="width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:transparent;flex-shrink:0">
-              <div style="flex:1">
+              <div style="flex:1;min-width:120px">
                 <div style="font-size:11px;font-weight:600;color:var(--mt);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Custom dark bg</div>
                 <div style="display:flex;align-items:center;gap:6px">
                   <span style="font-size:12px;color:var(--mt)">#</span>
                   <input type="text" id="dark-bg-text" placeholder="111111" maxlength="6" style="font-family:monospace;font-size:13px;letter-spacing:.05em;flex:1">
                 </div>
               </div>
-              <button class="btn btn-o" onclick="applyCustomDarkBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0">Apply</button>
+              <button class="btn btn-o" onclick="applyCustomDarkBg()" style="font-size:12px;padding:7px 14px;flex-shrink:0;width:100%;margin-top:4px">Apply dark background</button>
             </div>
           </div>
           <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" onclick="saveSettings()">Save settings</button><button class="btn btn-o" onclick="resetThemeToPreset()">Reset theme</button></div>
@@ -1121,7 +1123,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.2';
+const VER = 'v20.3';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
