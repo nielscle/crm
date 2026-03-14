@@ -418,6 +418,8 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   body.dark-mode .mob-nav{background:var(--sb)}
   body.dark-mode .mob-nav::before{background:var(--sb)}
   .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--mt);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:color .15s;padding:4px 2px;-webkit-tap-highlight-color:transparent}
+  .mob-nav-item:first-child{padding-left:10px}
+  .mob-nav-item:last-child{padding-right:10px}
   .mob-nav-item svg{width:22px;height:22px}
   .mob-nav-item.active{color:var(--or)}
   .mob-nav-item.active svg{stroke-width:2.5}
@@ -519,7 +521,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.4</span>
+    <span class="version-badge">v20.5</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -583,7 +585,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.4</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.5</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1140,7 +1142,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.4';
+const VER = 'v20.5';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
