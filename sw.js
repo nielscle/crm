@@ -1,8 +1,7 @@
-// CRM Dash — Service Worker
-// Caches the app shell for fast loading and offline support.
-// Data always comes from Supabase (live) — only the app itself is cached.
+// Target — Service Worker v3
+// Bumping cache version forces all clients to fetch fresh files.
 
-const CACHE_NAME = 'crm-dash-v1';
+const CACHE_NAME = 'target-v3';
 const CACHE_URLS = [
   './',
   './index.html',
@@ -27,39 +26,41 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+        keys.map(k => { if(k !== CACHE_NAME) return caches.delete(k); })
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch — serve from cache, fall back to network
-// Supabase API calls always go to network (never cached)
+// Fetch
 self.addEventListener('fetch', event => {
   const url = event.request.url;
+  if (url.includes('supabase.co')) return;
 
-  // Never cache Supabase API requests — always live
-  if (url.includes('supabase.co')) {
-    return; // pass through to network
+  // Network-first for HTML — always get latest version
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+        return response;
+      }).catch(() => caches.match('./index.html'))
+    );
+    return;
   }
 
-  // For everything else: cache-first, network fallback
+  // Cache-first for assets
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
-        // Cache successful GET responses
         if (event.request.method === 'GET' && response.status === 200) {
           const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
         }
         return response;
       }).catch(() => {
-        // Offline fallback — return cached index.html for navigation requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
+        if (event.request.mode === 'navigate') return caches.match('./index.html');
       });
     })
   );
