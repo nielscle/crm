@@ -285,8 +285,7 @@ body, .card, .scard, .sidebar, .topbar, .mob-nav, .mob-drawer,
    body.dark-mode sets all variables; components just use var()
    ══════════════════════════════════════════════════════════════ */
 body.dark-mode{
-  --bg:#0A1628;--sb:#0F1E35;--card:#132240;
-  --bd:#2A4A6E;--tx:#E8F4FD;--mt:#6BA3C8;
+  --tx:#E8F4FD;--mt:#6BA3C8;
   --sh:0 2px 8px rgba(0,0,0,.4),0 4px 20px rgba(0,0,0,.3);
   --glass-bg:rgba(10,22,40,0.88);--glass-border:rgba(14,165,233,0.25);--glass-shadow:0 8px 32px rgba(0,0,0,.5);
 }
@@ -656,7 +655,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v27.3</span>
+    <span class="version-badge">v27.8</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -730,7 +729,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v27.3</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v27.8</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -761,14 +760,18 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
         <div class="card">
           <div class="ctitle">Monthly Goal</div>
           <div class="gauge-wrap">
-            <svg class="gauge-svg" viewBox="0 0 190 105">
-              <path d="M15 100 A80 80 0 0 1 175 100" fill="none" stroke="#F3EDE8" stroke-width="15" stroke-linecap="round"/>
-              <path id="gp" d="M15 100 A80 80 0 0 1 175 100" fill="none" stroke="var(--or)" stroke-width="15" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" style="transition:stroke-dashoffset 1s ease"/>
-              <text x="18" y="102" font-size="10" fill="#8E8E93" font-family="Plus Jakarta Sans">0</text>
-              <text x="82" y="34" font-size="10" fill="#8E8E93" font-family="Plus Jakarta Sans">50%</text>
-              <text x="157" y="102" font-size="10" fill="#8E8E93" font-family="Plus Jakarta Sans" text-anchor="end">100</text>
+            <svg class="gauge-svg" viewBox="0 0 200 130" style="width:220px;height:135px;overflow:visible">
+              <path d="M20 108 A80 80 0 0 1 180 108" fill="none" stroke="var(--bd)" stroke-width="16" stroke-linecap="round" opacity="0.5"/>
+              <path id="gp" d="M20 108 A80 80 0 0 1 180 108" fill="none" stroke="var(--or)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+              <text x="20" y="126" font-size="11" font-weight="600" fill="var(--tx)" font-family="Plus Jakarta Sans,sans-serif" text-anchor="middle" opacity="0.7">0</text>
+              <text x="100" y="18" font-size="11" font-weight="600" fill="var(--tx)" font-family="Plus Jakarta Sans,sans-serif" text-anchor="middle" opacity="0.7">50%</text>
+              <text x="180" y="126" font-size="11" font-weight="600" fill="var(--tx)" font-family="Plus Jakarta Sans,sans-serif" text-anchor="middle" opacity="0.7">100</text>
+              <text id="gpct" x="100" y="88" font-size="13" font-weight="600" fill="var(--or)" font-family="Plus Jakarta Sans,sans-serif" text-anchor="middle">0%</text>
             </svg>
-            <div class="gc"><div class="ga" id="ga">€0</div><div class="gs" id="gs">Out of €2,500 target</div></div>
+            <div class="gc" style="margin-top:-8px">
+              <div class="ga" id="ga" style="font-size:28px;font-weight:700">€0</div>
+              <div class="gs" id="gs" style="font-size:12px;color:var(--mt);margin-top:3px">Out of €2.500 target</div>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -1281,7 +1284,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v27.3';
+const VER = 'v27.8';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1440,9 +1443,14 @@ function renderStats() {
 function renderGauge() {
   const closed = deals.filter(dealInRange).filter(d=>d.stage==='Closed Won').reduce((s,d)=>s+d.value,0);
   const p = Math.min(1, cfg.target>0 ? closed/cfg.target : 0);
-  document.getElementById('gp').style.strokeDashoffset = 251.2*(1-p);
-  document.getElementById('ga').textContent = fmt(closed);
-  document.getElementById('gs').textContent = `Out of ${fmt(cfg.target)} target`;
+  const arc = document.getElementById('gp');
+  const pct = document.getElementById('gpct');
+  if(arc) arc.style.strokeDashoffset = 251.2*(1-p);
+  if(pct) pct.textContent = Math.round(p*100)+'%';
+  const ga = document.getElementById('ga');
+  const gs = document.getElementById('gs');
+  if(ga) ga.textContent = fmt(closed);
+  if(gs) gs.textContent = `Out of ${fmt(cfg.target)} target`;
 }
 
 function renderLsrow() {
@@ -2498,21 +2506,18 @@ const DARK_BG_PRESETS = [
 ];
 
 // Force Ocean theme — clears any bad old localStorage values
-const _legacyBad = ['#F97316','#FAF6F2','#111111','#3A6B8C','#0A0F1A','#090E18','#E8F2F9','#0284C7','#EFF6FB'];
-if(_legacyBad.includes(localStorage.getItem('crm_accent')))  localStorage.setItem('crm_accent','#0EA5E9');
-if(_legacyBad.includes(localStorage.getItem('crm_light_bg')))localStorage.setItem('crm_light_bg','#F0F9FF');
-if(_legacyBad.includes(localStorage.getItem('crm_dark_bg'))) localStorage.setItem('crm_dark_bg','#0A1628');
-// Reset any old/broken theme values to Ocean defaults
+// One-time migration: only reset if value is clearly from an old broken state
+// Never reset values the user might have chosen intentionally
 (function(){
-  const badAccents = ['#F97316','#3A6B8C','#0284C7','#3b82f6'];
-  const badLightBg = ['#FAF6F2','#FFFFFF','#E8F2F9','#EFF6FB','#F0F7FC'];
-  const badDarkBg  = ['#111111','#0A0F1A','#090E18','#080F1A','#0A0A0A'];
-  if(!localStorage.getItem('crm_accent')||badAccents.includes(localStorage.getItem('crm_accent')))
-    localStorage.setItem('crm_accent','#0EA5E9');
-  if(!localStorage.getItem('crm_light_bg')||badLightBg.includes(localStorage.getItem('crm_light_bg')))
-    localStorage.setItem('crm_light_bg','#F0F9FF');
-  if(!localStorage.getItem('crm_dark_bg')||badDarkBg.includes(localStorage.getItem('crm_dark_bg')))
-    localStorage.setItem('crm_dark_bg','#0A1628');
+  const accent = localStorage.getItem('crm_accent');
+  const darkBg = localStorage.getItem('crm_dark_bg');
+  const lightBg = localStorage.getItem('crm_light_bg');
+  // Only reset accent if it's one of the specific broken non-ocean values we set by mistake
+  const brokenAccents = ['#3A6B8C','#3a6b8c','#0284C7','#0284c7'];
+  if(!accent || brokenAccents.includes(accent)) localStorage.setItem('crm_accent','#0EA5E9');
+  // Only reset backgrounds if they're completely missing
+  if(!darkBg)  localStorage.setItem('crm_dark_bg','#0A1628');
+  if(!lightBg) localStorage.setItem('crm_light_bg','#F0F9FF');
 })();
 let savedAccent  = localStorage.getItem('crm_accent')   || '#0EA5E9';
 let savedLightBg = localStorage.getItem('crm_light_bg') || '#F0F9FF';
@@ -2541,11 +2546,13 @@ function applyLightBg(hex){
   if(!document.body.classList.contains('dark-mode')){
     const root=document.documentElement;
     root.style.setProperty('--bg',   h);
-    root.style.setProperty('--sb',   mixHex(h,'#FFFFFF',0.5));
-    root.style.setProperty('--card', mixHex(h,'#FFFFFF',0.7));
-    root.style.setProperty('--bd',   mixHex(h,'#1C1C1E',0.08));
-    root.style.setProperty('--tx',   '#1C1C1E');
-    root.style.setProperty('--mt',   '#8E8E93');
+    root.style.setProperty('--sb',   mixHex(h,'#FFFFFF',0.6));
+    root.style.setProperty('--card', '#FFFFFF');
+    root.style.setProperty('--bd',   mixHex(h,'#94A3B8',0.5));
+    root.style.setProperty('--tx',   '#0C1A29');
+    root.style.setProperty('--mt',   '#4A7A9B');
+    const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
+    root.style.setProperty('--glass-bg', `rgba(${r},${g},${b},0.82)`);
   }
   const pp=document.getElementById('light-bg-picker'); if(pp) pp.value=h;
   const pt=document.getElementById('light-bg-text');   if(pt) pt.value=h.replace('#','');
@@ -2557,14 +2564,21 @@ function applyDarkBg(hex){
   const h = normalizeHex(hex); if(!h) return;
   savedDarkBg = h;
   localStorage.setItem('crm_dark_bg', h);
+  // Always update savedDarkBg. Only apply visually if in dark mode.
   if(document.body.classList.contains('dark-mode')){
     const root=document.documentElement;
+    const sb    = mixHex(h,'#FFFFFF',0.06);
+    const card  = mixHex(h,'#FFFFFF',0.10);
+    const bd    = mixHex(h,'#FFFFFF',0.14);
     root.style.setProperty('--bg',   h);
-    root.style.setProperty('--sb',   mixHex(h,'#FFFFFF',0.06));
-    root.style.setProperty('--card', mixHex(h,'#FFFFFF',0.10));
-    root.style.setProperty('--bd',   mixHex(h,'#FFFFFF',0.12));
-    root.style.setProperty('--tx',   '#F5F5F7');
-    root.style.setProperty('--mt',   '#98989D');
+    root.style.setProperty('--sb',   sb);
+    root.style.setProperty('--card', card);
+    root.style.setProperty('--bd',   bd);
+    root.style.setProperty('--tx',   '#E8F4FD');
+    root.style.setProperty('--mt',   '#6BA3C8');
+    // Parse hex to rgba for glass
+    const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);
+    root.style.setProperty('--glass-bg', `rgba(${r},${g},${b},0.88)`);
   }
   const pp=document.getElementById('dark-bg-picker'); if(pp) pp.value=h;
   const pt=document.getElementById('dark-bg-text');   if(pt) pt.value=h.replace('#','');
