@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v23.4</span>
+    <span class="version-badge">v24.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -638,7 +638,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v23.4</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v24.0</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -731,38 +731,37 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <!-- Calendar -->
     <div class="view" id="view-calendar">
 
-      <!-- Desktop layout -->
+      <!-- Desktop: embedded Google Calendar -->
       <div class="cal-desktop-only">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
           <div style="display:flex;align-items:center;gap:10px">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="#4285F4"/><path d="M3 10h18" stroke="white" stroke-width="1.5"/><path d="M8 2v4M16 2v4" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/></svg>
-            <span style="font-size:14px;font-weight:700">Agenda</span>
-            <span id="cal-event-count" style="font-size:11px;font-weight:600;background:var(--orp);color:var(--or);border:1px solid var(--orl);border-radius:20px;padding:2px 8px"></span>
+            <span style="font-size:14px;font-weight:700">Your Google Calendar</span>
+            <span style="font-size:11px;font-weight:600;background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0;border-radius:20px;padding:2px 8px">● Live</span>
           </div>
           <div style="display:flex;gap:8px">
-            <label class="btn btn-o" style="font-size:12px;padding:6px 12px;cursor:pointer">
-              📅 Import .ics
-              <input type="file" accept=".ics" onchange="importICS(this)" style="display:none">
-            </label>
+            <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="btn btn-o" style="font-size:12px;padding:6px 12px;text-decoration:none">Open full screen ↗</a>
             <button class="btn btn-p" onclick="openEvent()">+ Schedule Meeting</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 300px;gap:14px;height:calc(100vh - 200px)">
-          <!-- Calendar events list -->
-          <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow-y:auto;padding:16px" id="cal-events-desktop"></div>
-          <!-- Sidebar -->
+        <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)">
+          <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;height:100%">
+            <iframe src="https://calendar.google.com/calendar/embed?src=nielsc%40digifit.eu&ctz=Europe%2FAmsterdam&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=WEEK"
+              style="border:0;width:100%;height:100%;display:block" frameborder="0" scrolling="yes" allowfullscreen></iframe>
+          </div>
           <div style="display:flex;flex-direction:column;gap:12px;overflow-y:auto">
             <div class="card" style="padding:16px">
               <div style="font-size:13px;font-weight:700;margin-bottom:12px">Quick actions</div>
               <div style="display:flex;flex-direction:column;gap:8px">
                 <a class="gcal-btn" href="https://calendar.google.com/calendar/r" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Open Google Calendar</a>
                 <a class="gcal-btn" href="https://calendar.google.com/calendar/r/week" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Week view</a>
+                <a class="gcal-btn" href="https://calendar.google.com/calendar/r/month" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Month view</a>
                 <a class="gcal-btn" href="https://virtuagym.lightning.force.com/lightning/o/Event/home" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px"><circle cx="12" cy="12" r="10" fill="#00A1E0"/><path d="M7 12h10M12 7v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Salesforce Calendar</a>
               </div>
             </div>
             <div class="card" style="padding:16px">
-              <div style="font-size:13px;font-weight:700;margin-bottom:4px">Log meeting in CRM</div>
-              <div style="font-size:11px;color:var(--mt);margin-bottom:12px;line-height:1.5">Sla meetings op in je activiteiten log.</div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px">Log a meeting in CRM</div>
+              <div style="font-size:11px;color:var(--mt);margin-bottom:12px;line-height:1.5">Schedule and save meetings to both Google Calendar and your CRM activity log.</div>
               <button class="btn btn-p" onclick="openEvent()" style="width:100%;font-size:12px">+ Schedule & log meeting</button>
             </div>
             <div class="upcoming-card" style="flex:1">
@@ -773,33 +772,33 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
         </div>
       </div>
 
-      <!-- Mobile layout -->
+      <!-- Mobile: clean buttons only -->
       <div class="cal-mobile-only">
-        <!-- Week strip -->
-        <div class="card" style="padding:12px;margin-bottom:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <span style="font-size:13px;font-weight:700" id="cal-week-label"></span>
-            <div style="display:flex;gap:6px">
-              <button onclick="calWeekOffset(-1)" style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--tx);font-size:14px">‹</button>
-              <button onclick="calWeekOffset(1)"  style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;width:28px;height:28px;cursor:pointer;color:var(--tx);font-size:14px">›</button>
-            </div>
+        <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--bd);border-radius:16px;text-decoration:none;margin-bottom:10px">
+          <div style="width:44px;height:44px;background:#4285F4;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" opacity=".9"/><path d="M3 9h18" stroke="#4285F4" stroke-width="1.5"/></svg>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px" id="cal-week-strip"></div>
-        </div>
-        <!-- Day events -->
-        <div id="cal-day-events" style="display:flex;flex-direction:column;gap:8px"></div>
-        <!-- Import + schedule -->
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <button onclick="openEvent()" style="flex:1;padding:13px;background:var(--or);color:white;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Schedule meeting</button>
-          <label style="padding:13px 16px;background:var(--card);border:1px solid var(--bd);border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--tx);font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap">
-            📅 Import
-            <input type="file" accept=".ics" onchange="importICS(this)" style="display:none">
-          </label>
-        </div>
-        <a href="https://calendar.google.com/calendar/r" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--card);border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:var(--tx);font-size:13px;font-weight:600;margin-top:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="#4285F4"/><path d="M3 10h18" stroke="white" stroke-width="1.2"/></svg>
-          Open Google Calendar
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:700;color:var(--tx)">Open Google Calendar</div>
+            <div style="font-size:12px;color:var(--mt);margin-top:2px">View your full schedule</div>
+          </div>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--mt)"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
+        <button onclick="openEvent()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--or);color:white;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px">
+          + Schedule & log meeting
+        </button>
+        <div class="card" style="padding:14px">
+          <div style="font-size:11px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Quick access</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <a href="https://calendar.google.com/calendar/r/week" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:16px;height:16px"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Week view</a>
+            <a href="https://calendar.google.com/calendar/r/month" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:16px;height:16px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Month view</a>
+            <a href="https://virtuagym.lightning.force.com/lightning/o/Event/home" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px"><svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><circle cx="12" cy="12" r="10" fill="#00A1E0"/></svg>Salesforce Calendar</a>
+          </div>
+        </div>
+        <div class="upcoming-card" style="margin-top:10px">
+          <div class="upcoming-title">CRM meetings</div>
+          <div id="upcoming-list-mob"></div>
+        </div>
       </div>
     </div>
     <!-- Pricing Calculator -->
@@ -1190,7 +1189,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v23.4';
+const VER = 'v24.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1447,7 +1446,7 @@ function renderActivity() {
 }
 
 // ── Calendar ──────────────────────────────────────────────────────────────
-// renderCalendar() is defined below in the ICS Calendar section
+function renderCalendar() {}
 
 
 function renderUpcoming() {
@@ -1909,7 +1908,6 @@ function go(id,el){
   b.style.display=(id==='settings'||id==='pricing')?'none':'';
   b.textContent=L[id]||'+ Add';
   if(id==='settings'){ renderLinkManager(); renderNavManager(); initSync(); updateDarkModeButtons(); setDarkMode(darkModePreference); populateSettingsInputs(); }
-  if(id==='calendar'){ renderCalendar(); }
   if(id==='pricing'){ renderPricingView(); }
   render();
 }
@@ -2719,7 +2717,6 @@ go=function(id,el){
   renderMobileDrawer();
   renderMobileNav();
   if(id==='settings'){ initThemeDesigner(); populateSettingsInputs(); }
-  if(id==='calendar'){ renderCalendar(); }
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -3292,7 +3289,6 @@ renderSidebarNav();
 renderMobileDrawer();
 renderMobileNav();
 render();
-// Note: renderCalendar() is called when the Calendar tab is opened
 loadSavedQuotes();
 initSync();
 updateMobSyncBtn();
@@ -3322,131 +3318,6 @@ initSupabase();
   }, 1500);
 })();
 
-// ── ICS Calendar engine ───────────────────────────────────────────────────
-var calEvents = [];
-var calSelectedDate = new Date().toISOString().slice(0,10);
-var calWeekDelta = 0;
-try { var _sc = localStorage.getItem('crm_cal_events'); if(_sc) calEvents = JSON.parse(_sc); } catch(e){}
-
-var CAL_COLORS = {zoom:'#2D8CFF',meet:'#4285F4',sf:'#00A1E0',demo:'var(--or)',todo:'#F59E0B',other:'var(--or)'};
-var CAL_LABELS = {zoom:'Zoom',meet:'Meet',sf:'Salesforce',demo:'Demo',todo:'Todo',other:''};
-
-function renderCalendar(){
-  calSelectedDate = calSelectedDate || new Date().toISOString().slice(0,10);
-  renderCalWeek();
-  renderCalEventsDesktop();
-  var cnt=document.getElementById('cal-event-count');
-  if(cnt) cnt.textContent=calEvents.length+' afspraken';
-}
-function calWeekOffset(d){ calWeekDelta+=d; renderCalWeek(); }
-function calSelectDay(ds){ calSelectedDate=ds; renderCalWeek(); }
-function renderCalWeek(){
-  var strip=document.getElementById('cal-week-strip');
-  var label=document.getElementById('cal-week-label');
-  if(!strip) return;
-  var today=new Date();
-  var base=new Date(today);
-  var dow=today.getDay()||7;
-  base.setDate(today.getDate()-dow+1+calWeekDelta*7);
-  var days=['Ma','Di','Wo','Do','Vr','Za','Zo'];
-  var todayStr=today.toISOString().slice(0,10);
-  var html='';
-  for(var i=0;i<7;i++){
-    var d=new Date(base); d.setDate(base.getDate()+i);
-    var ds=d.toISOString().slice(0,10);
-    var isSel=ds===calSelectedDate, isToday=ds===todayStr;
-    var hasEv=calEvents.some(function(e){return e.date===ds;});
-    html+='<div onclick="calSelectDay(\''+ds+'\')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px;cursor:pointer;background:'+(isSel?'var(--or)':isToday?'var(--orp)':'transparent')+'">'
-      +'<span style="font-size:9px;font-weight:600;color:'+(isSel?'white':'var(--mt)')+';text-transform:uppercase">'+days[i]+'</span>'
-      +'<span style="font-size:14px;font-weight:700;color:'+(isSel?'white':isToday?'var(--or)':'var(--tx)')+'">'+d.getDate()+'</span>'
-      +'<span style="width:4px;height:4px;border-radius:50%;background:'+(hasEv?(isSel?'white':'var(--or)'):'transparent')+'"></span>'
-      +'</div>';
-  }
-  strip.innerHTML=html;
-  if(label){
-    var endD=new Date(base); endD.setDate(base.getDate()+6);
-    label.textContent=base.toLocaleDateString('nl-NL',{day:'numeric',month:'long'})+' – '+endD.toLocaleDateString('nl-NL',{day:'numeric',month:'long'});
-  }
-  renderCalDayEvents();
-}
-function calEventCard(e){
-  var color=CAL_COLORS[e.type]||'var(--or)';
-  return '<div style="background:var(--card);border-radius:12px;padding:12px 14px;border-left:3px solid '+color+';display:flex;gap:10px;margin-bottom:8px">'
-    +'<div style="flex-shrink:0;text-align:center;min-width:38px"><div style="font-size:13px;font-weight:700;color:'+color+'">'+e.time+'</div><div style="font-size:10px;color:var(--mt)">'+e.dur+'m</div></div>'
-    +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+e.title+'</div>'
-    +(e.location?'<div style="font-size:11px;color:var(--mt);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📍 '+e.location+'</div>':'<div style="font-size:11px;color:var(--mt);margin-top:2px">'+(CAL_LABELS[e.type]||'')+'</div>')
-    +'</div></div>';
-}
-function renderCalDayEvents(){
-  var el=document.getElementById('cal-day-events'); if(!el) return;
-  var dayEvs=calEvents.filter(function(e){return e.date===calSelectedDate;});
-  var d=new Date(calSelectedDate);
-  var lbl=d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'});
-  el.innerHTML=!dayEvs.length
-    ?'<div style="padding:20px;text-align:center;color:var(--mt);font-size:13px">Geen afspraken op '+lbl+'</div>'
-    :'<div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">'+lbl+' · '+dayEvs.length+' afspraak'+(dayEvs.length!==1?'en':'')+'</div>'+dayEvs.map(calEventCard).join('');
-}
-function renderCalEventsDesktop(){
-  var el=document.getElementById('cal-events-desktop'); if(!el) return;
-  var todayStr=new Date().toISOString().slice(0,10);
-  var html='', lastDate='';
-  calEvents.forEach(function(e){
-    if(e.date!==lastDate){
-      var dd=new Date(e.date), isT=e.date===todayStr;
-      html+='<div style="font-size:11px;font-weight:700;color:'+(isT?'var(--or)':'var(--mt)')+';text-transform:uppercase;letter-spacing:.05em;margin:'+(lastDate?'16px':'0')+' 0 8px">'+(isT?'Vandaag — ':'')+dd.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})+'</div>';
-      lastDate=e.date;
-    }
-    html+=calEventCard(e);
-  });
-  el.innerHTML=html||'<div style="color:var(--mt);font-size:13px;padding:20px;text-align:center">Klik op "Import .ics" om je Google Calendar afspraken te laden</div>';
-}
-function importICS(input){
-  var file=input.files[0]; if(!file) return;
-  var reader=new FileReader();
-  reader.onload=function(ev){
-    var parsed=parseICSText(ev.target.result);
-    calEvents=parsed;
-    localStorage.setItem('crm_cal_events',JSON.stringify(parsed));
-    renderCalendar();
-    alert('✅ '+parsed.length+' afspraken geïmporteerd!');
-  };
-  reader.readAsText(file);
-}
-function parseICSText(text){
-  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/\n[ \t]/g,'');
-  var blocks=[], m, re=/BEGIN:VEVENT([\s\S]*?)END:VEVENT/g;
-  while((m=re.exec(text))!==null) blocks.push(m[1]);
-  var now=new Date(), cutoff=new Date(now.getTime()+90*24*60*60*1000);
-  var results=[], seen=new Set();
-  blocks.forEach(function(ev,i){
-    function gF(f){var mx=ev.match(new RegExp('^'+f+'[;:][^\n]*','m'));return mx?mx[0].split(':').slice(1).join(':').trim():'';}
-    var dtLine=ev.match(/^DTSTART[^\n]*/m); if(!dtLine) return;
-    var dtVal=dtLine[0].split(':').slice(1).join(':').trim(), dt;
-    try{
-      if(dtVal.endsWith('Z')) dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,'$1-$2-$3T$4:$5:$6Z'));
-      else if(dtVal.includes('T')) dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/,'$1-$2-$3T$4:$5:$6+01:00'));
-      else dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})$/,'$1-$2-$3T00:00:00+01:00'));
-    }catch(e){return;}
-    if(isNaN(dt)||dt<now||dt>cutoff) return;
-    var dtEndL=ev.match(/^DTEND[^\n]*/m), end=new Date(dt.getTime()+3600000);
-    if(dtEndL){var ev2=dtEndL[0].split(':').slice(1).join(':').trim(); try{
-      if(ev2.endsWith('Z')) end=new Date(ev2.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,'$1-$2-$3T$4:$5:$6Z'));
-      else if(ev2.includes('T')) end=new Date(ev2.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/,'$1-$2-$3T$4:$5:$6+01:00'));
-    }catch(e){}}
-    var summary=gF('SUMMARY'), location=gF('LOCATION');
-    var dateStr=dt.toISOString().slice(0,10);
-    var timeStr=dt.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
-    var k=dateStr+'|'+timeStr+'|'+summary.slice(0,15); if(seen.has(k)) return; seen.add(k);
-    var sl=(summary+location).toLowerCase(), type='other';
-    if(sl.includes('zoom')) type='zoom';
-    else if(sl.includes('meet')) type='meet';
-    else if(sl.includes('salesforce')) type='sf';
-    else if(sl.includes('demo')||sl.includes('demonstratie')) type='demo';
-    else if(summary.includes('!!!!')) type='todo';
-    results.push({id:i,date:dateStr,time:timeStr,dur:Math.round((end-dt)/60000),title:summary.slice(0,60),location:location.slice(0,60),type:type});
-  });
-  return results.sort(function(a,b){return a.date.localeCompare(b.date)||a.time.localeCompare(b.time);});
-}
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
