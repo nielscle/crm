@@ -486,8 +486,22 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
 .theme-input-row{display:flex;gap:8px;align-items:center}
 .theme-input input[type=color]{padding:0;width:44px;height:40px;border-radius:10px;cursor:pointer;background:transparent}
 .theme-input input[type=text]{flex:1;text-transform:uppercase}
-.calendar-mobile-actions{display:none}
-body.dark-mode .pkg-btn{background:#2C2C2E;border-color:var(--bd);color:var(--mt)}
+/* ── Calendar mobile/desktop split ── */
+.cal-desktop-only{display:block}
+.cal-mobile-only{display:none}
+.cal-mob-gcal-btn{display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--bd);border-radius:16px;text-decoration:none;transition:border-color .15s;margin-bottom:10px}
+.cal-mob-gcal-btn:hover{border-color:#4285F4}
+.cal-mob-schedule-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:15px;background:var(--or);color:white;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px;transition:opacity .15s}
+.cal-mob-schedule-btn:active{opacity:.85}
+
+@media(max-width:768px){
+  .cal-desktop-only{display:none!important}
+  .cal-mobile-only{display:flex!important;flex-direction:column;gap:10px}
+}
+@media(min-width:769px){
+  .cal-desktop-only{display:block!important}
+  .cal-mobile-only{display:none!important}
+}border-color:var(--bd);color:var(--mt)}
 body.dark-mode .pkg-btn.active{background:var(--orp);border-color:var(--or);color:var(--or)}
 body.dark-mode .addon-btn{background:#2C2C2E;border-color:var(--bd);color:var(--mt)}
 body.dark-mode .quote-item{background:#1A1A1A;border-color:var(--bd)}
@@ -536,7 +550,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.8</span>
+    <span class="version-badge">v20.9</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -600,7 +614,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.8</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.9</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -692,80 +706,90 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
     <!-- Calendar -->
     <div class="view" id="view-calendar">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:10px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="#4285F4"/><path d="M3 10h18" stroke="white" stroke-width="1.5"/><path d="M8 2v4M16 2v4" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/></svg>
-          <span style="font-size:14px;font-weight:700">Your Google Calendar</span>
-          <span style="font-size:11px;font-weight:600;background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0;border-radius:20px;padding:2px 8px">● Live</span>
-        </div>
-        <div style="display:flex;gap:8px">
-          <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="btn btn-o" style="font-size:12px;padding:6px 12px;text-decoration:none">Open full screen ↗</a>
-          <button class="btn btn-p" onclick="openEvent()">+ Schedule Meeting</button>
-        </div>
-      </div>
-      <div class="calendar-mobile-actions">
-        <button class="btn btn-p" onclick="openEvent()">+ Create Meeting</button>
-        <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="btn btn-o" style="text-decoration:none">Open Google Calendar ↗</a>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)" class="calendar-layout">
-        <!-- Live embed (desktop) -->
-        <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;height:100%">
-          <!-- Mobile: open in Google Calendar app -->
-          <div class="cal-mobile-open" style="display:none">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" stroke="#DADCE0" stroke-width="1.2"/><rect x="3" y="8" width="18" height="2.5" fill="#4285F4"/><path d="M8 2v4M16 2v4" stroke="#5F6368" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="13" width="4" height="4" rx="1" fill="#EA4335"/></svg>
-            <div class="cal-mobile-open-title">Google Calendar</div>
-            <div class="cal-mobile-open-sub">Embedded calendars can't display inside apps on iPhone. Open Google Calendar directly instead.</div>
-            <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="cal-open-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" stroke="white" stroke-width="1"/><rect x="3" y="8" width="18" height="2.5" fill="white" opacity=".5"/><path d="M8 2v4M16 2v4" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
-              Open Google Calendar
-            </a>
-            <a href="https://calendar.google.com/calendar/r/eventedit" target="_blank" style="font-size:13px;color:#4285F4;font-weight:600;text-decoration:none">+ New event ↗</a>
+
+      <!-- Desktop layout (hidden on mobile via CSS) -->
+      <div class="cal-desktop-only">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="#4285F4"/><path d="M3 10h18" stroke="white" stroke-width="1.5"/><path d="M8 2v4M16 2v4" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/></svg>
+            <span style="font-size:14px;font-weight:700">Your Google Calendar</span>
+            <span style="font-size:11px;font-weight:600;background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0;border-radius:20px;padding:2px 8px">● Live</span>
           </div>
-          <!-- Desktop: embedded iframe -->
-          <iframe class="cal-iframe"
-            src="https://calendar.google.com/calendar/embed?src=nielsc%40digifit.eu&ctz=Europe%2FAmsterdam&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=WEEK"
-            style="border:0;width:100%;height:100%;display:block"
-            frameborder="0"
-            scrolling="yes"
-            allowfullscreen>
-          </iframe>
+          <div style="display:flex;gap:8px">
+            <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="btn btn-o" style="font-size:12px;padding:6px 12px;text-decoration:none">Open full screen ↗</a>
+            <button class="btn btn-p" onclick="openEvent()">+ Schedule Meeting</button>
+          </div>
         </div>
-        <!-- Sidebar -->
-        <div style="display:flex;flex-direction:column;gap:12px;overflow-y:auto">
-          <!-- Quick actions -->
-          <div class="card" style="padding:16px">
-            <div style="font-size:13px;font-weight:700;margin-bottom:12px">Quick actions</div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <a class="gcal-btn" onclick="openGcalNew()" href="#" style="font-size:12px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 8v8M8 12h8"/></svg>
-                New event in Google Calendar
-              </a>
-              <a class="gcal-btn" href="https://calendar.google.com/calendar/r/week" target="_blank" style="font-size:12px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-                Week view
-              </a>
-              <a class="gcal-btn" href="https://calendar.google.com/calendar/r/month" target="_blank" style="font-size:12px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Month view
-              </a>
-              <a class="gcal-btn" href="https://virtuagym.lightning.force.com/lightning/o/Event/home" target="_blank" style="font-size:12px">
-                <svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px"><circle cx="12" cy="12" r="10" fill="#00A1E0"/><path d="M7 12h10M12 7v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Salesforce Calendar
-              </a>
+        <div style="display:grid;grid-template-columns:1fr 260px;gap:14px;height:calc(100vh - 200px)">
+          <div style="background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;height:100%">
+            <iframe src="https://calendar.google.com/calendar/embed?src=nielsc%40digifit.eu&ctz=Europe%2FAmsterdam&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=WEEK" style="border:0;width:100%;height:100%;display:block" frameborder="0" scrolling="yes" allowfullscreen></iframe>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;overflow-y:auto">
+            <div class="card" style="padding:16px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:12px">Quick actions</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <a class="gcal-btn" onclick="openGcalNew()" href="#" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8M16 2v4M8 2v4M3 10h18"/></svg>New event in Google Calendar</a>
+                <a class="gcal-btn" href="https://calendar.google.com/calendar/r/week" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Week view</a>
+                <a class="gcal-btn" href="https://calendar.google.com/calendar/r/month" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:15px;height:15px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Month view</a>
+                <a class="gcal-btn" href="https://virtuagym.lightning.force.com/lightning/o/Event/home" target="_blank" style="font-size:12px"><svg viewBox="0 0 24 24" fill="none" style="width:15px;height:15px"><circle cx="12" cy="12" r="10" fill="#00A1E0"/><path d="M7 12h10M12 7v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Salesforce Calendar</a>
+              </div>
+            </div>
+            <div class="card" style="padding:16px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:4px">Log a meeting in CRM</div>
+              <div style="font-size:11px;color:var(--mt);margin-bottom:12px;line-height:1.5">Schedule and save meetings to both Google Calendar and your CRM activity log.</div>
+              <button class="btn btn-p" onclick="openEvent()" style="width:100%;font-size:12px">+ Schedule & log meeting</button>
+            </div>
+            <div class="upcoming-card" style="flex:1">
+              <div class="upcoming-title">CRM meetings</div>
+              <div id="upcoming-list"></div>
             </div>
           </div>
-          <!-- Add meeting to CRM -->
-          <div class="card" style="padding:16px">
-            <div style="font-size:13px;font-weight:700;margin-bottom:4px">Log a meeting in CRM</div>
-            <div style="font-size:11px;color:var(--mt);margin-bottom:12px;line-height:1.5">Schedule and save meetings to both Google Calendar and your CRM activity log.</div>
-            <button class="btn btn-p" onclick="openEvent()" style="width:100%;font-size:12px">+ Schedule & log meeting</button>
+        </div>
+      </div>
+
+      <!-- Mobile layout (hidden on desktop via CSS) -->
+      <div class="cal-mobile-only">
+
+        <!-- Big Google Calendar button -->
+        <a href="https://calendar.google.com/calendar/u/0/r" target="_blank" class="cal-mob-gcal-btn">
+          <div style="width:44px;height:44px;background:#4285F4;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" fill="white" opacity=".9"/><path d="M3 9h18" stroke="#4285F4" stroke-width="1.5"/><path d="M8 2v4M16 2v4" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
           </div>
-          <!-- Upcoming from CRM -->
-          <div class="upcoming-card" style="flex:1">
-            <div class="upcoming-title">CRM meetings</div>
-            <div id="upcoming-list"></div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:700;color:var(--tx)">Open Google Calendar</div>
+            <div style="font-size:12px;color:var(--mt);margin-top:2px">View your full schedule</div>
+          </div>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--mt)"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <!-- Schedule meeting button -->
+        <button onclick="openEvent()" class="cal-mob-schedule-btn">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>
+          + Schedule & log meeting in CRM
+        </button>
+
+        <!-- Quick links row -->
+        <div class="card" style="padding:14px">
+          <div style="font-size:11px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Quick access</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <a href="https://calendar.google.com/calendar/r/week" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:16px;height:16px"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Week view
+            </a>
+            <a href="https://calendar.google.com/calendar/r/month" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" style="width:16px;height:16px"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Month view
+            </a>
+            <a href="https://virtuagym.lightning.force.com/lightning/o/Event/home" target="_blank" class="gcal-btn" style="font-size:13px;padding:10px 12px">
+              <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><circle cx="12" cy="12" r="10" fill="#00A1E0"/><path d="M7 12h10M12 7v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Salesforce Calendar
+            </a>
           </div>
         </div>
+
+        <!-- CRM meetings -->
+        <div class="upcoming-card">
+          <div class="upcoming-title">CRM meetings</div>
+          <div id="upcoming-list-mob"></div>
+        </div>
+
       </div>
     </div>
 
@@ -1157,7 +1181,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.8';
+const VER = 'v20.9';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1422,21 +1446,24 @@ function renderUpcoming() {
     (e.notes||'').toLowerCase().includes(fq)
   );
   upcoming = upcoming.sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+  const html = upcoming.length===0
+    ? `<div style="font-size:12px;color:var(--mt);padding:8px 0">No upcoming meetings. <a href="#" onclick="openEvent();return false" style="color:var(--or)">Schedule one →</a></div>`
+    : upcoming.map((e,i)=>{
+        const col = EV_COLORS[i%EV_COLORS.length];
+        const gcal = gcalEventUrl(e);
+        return `<div class="upcoming-item">
+          <div class="upcoming-dot" style="background:${col}"></div>
+          <div class="upcoming-info">
+            <div class="upcoming-name">${e.title}</div>
+            <div class="upcoming-time">${e.date}${e.time?' · '+e.time:''} · ${e.duration||60} min${e.account?' · '+e.account:''}</div>
+          </div>
+          <a class="upcoming-gcal" href="${gcal}" target="_blank">Open →</a>
+        </div>`;
+      }).join('');
   const el = document.getElementById('upcoming-list');
-  if (!el) return;
-  if (upcoming.length===0) { el.innerHTML=`<div style="font-size:12px;color:var(--mt);padding:8px 0">No upcoming meetings. <a href="#" onclick="openEvent();return false" style="color:var(--or)">Schedule one →</a></div>`; return; }
-  el.innerHTML = upcoming.map((e,i)=>{
-    const col = EV_COLORS[i%EV_COLORS.length];
-    const gcal = gcalEventUrl(e);
-    return `<div class="upcoming-item">
-      <div class="upcoming-dot" style="background:${col}"></div>
-      <div class="upcoming-info">
-        <div class="upcoming-name">${e.title}</div>
-        <div class="upcoming-time">${e.date}${e.time?' · '+e.time:''} · ${e.duration||60} min${e.account?' · '+e.account:''}</div>
-      </div>
-      <a class="upcoming-gcal" href="${gcal}" target="_blank">Open →</a>
-    </div>`;
-  }).join('');
+  if (el) el.innerHTML = html;
+  const mob = document.getElementById('upcoming-list-mob');
+  if (mob) mob.innerHTML = html;
 }
 
 function gcalEventUrl(e) {
