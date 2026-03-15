@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v23.3</span>
+    <span class="version-badge">v23.4</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -638,7 +638,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v23.3</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v23.4</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1190,7 +1190,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v23.3';
+const VER = 'v23.4';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2717,7 +2717,9 @@ go=function(id,el){
   _go_base(id,el);
   closeMobileMenu();
   renderMobileDrawer();
+  renderMobileNav();
   if(id==='settings'){ initThemeDesigner(); populateSettingsInputs(); }
+  if(id==='calendar'){ renderCalendar(); }
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -3288,6 +3290,7 @@ function deleteQuote(id) {
 
 renderSidebarNav();
 renderMobileDrawer();
+renderMobileNav();
 render();
 // Note: renderCalendar() is called when the Calendar tab is opened
 loadSavedQuotes();
