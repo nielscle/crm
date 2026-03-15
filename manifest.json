@@ -6,8 +6,8 @@
   "scope": "/crm/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F97316",
-  "theme_color": "#F97316",
+  "background_color": "#3A6B8C",
+  "theme_color": "#3A6B8C",
   "icons": [
     {
       "src": "icon-192.png",
