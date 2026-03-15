@@ -670,7 +670,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.5</span>
+    <span class="version-badge">v29.6</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -744,7 +744,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.5</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v29.6</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1367,7 +1367,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.5';
+const VER = 'v29.6';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2436,6 +2436,18 @@ async function sbPullUISettings() {
     if (!data) return;
     const find = key => data.find(s => s.key === key)?.value;
 
+    // Quick links
+    const ql = find('crm_quick_links');
+    if (ql) {
+      const parsed = JSON.parse(ql);
+      if (Array.isArray(parsed)) {
+        quickLinks = parsed;
+        localStorage.setItem('crm_quick_links', ql);
+        renderDock();
+        renderMobileDrawer();
+      }
+    }
+
     // Nav order
     const nav = find('crm_nav_order');
     if (nav) {
@@ -2445,17 +2457,7 @@ async function sbPullUISettings() {
         localStorage.setItem('crm_nav_order', nav);
         renderSidebarNav();
         renderMobileNav();
-      }
-    }
-
-    // Quick links
-    const ql = find('crm_quick_links');
-    if (ql) {
-      const parsed = JSON.parse(ql);
-      if (Array.isArray(parsed)) {
-        quickLinks = parsed;
-        localStorage.setItem('crm_quick_links', ql);
-        renderDock();
+        renderMobileDrawer();
       }
     }
 
@@ -3550,6 +3552,16 @@ function deleteQuote(id) {
 
 // ══════════════════════════════════════════════════════════════════════════
 
+
+// Load UI settings from localStorage immediately so first render is correct
+(function(){
+  try {
+    const nav2 = localStorage.getItem('crm_nav_order');
+    const ql2  = localStorage.getItem('crm_quick_links');
+    if (nav2) { const p = JSON.parse(nav2); if (Array.isArray(p) && p.length) navOrder = p; }
+    if (ql2)  { const p = JSON.parse(ql2);  if (Array.isArray(p)) quickLinks = p; }
+  } catch(e) {}
+})();
 
 renderSidebarNav();
 renderMobileDrawer();
