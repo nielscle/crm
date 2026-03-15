@@ -475,18 +475,18 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   }
 
   /* ── Nav items ── */
-  .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:rgba(255,255,255,0.45);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:all .2s;padding:4px 2px;border-radius:14px;-webkit-tap-highlight-color:transparent}
+  .mob-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:rgba(255,255,255,0.45);border:none;background:transparent;font-family:"Plus Jakarta Sans",sans-serif;font-size:10px;font-weight:500;transition:all .2s;padding:6px 4px;margin:6px 3px;border-radius:16px;-webkit-tap-highlight-color:transparent}
   body:not(.dark-mode) .mob-nav-item{color:rgba(10,22,40,0.5)}
-  .mob-nav-item:first-child{padding-left:8px}
-  .mob-nav-item:last-child{padding-right:8px}
+  .mob-nav-item:first-child{margin-left:4px}
+  .mob-nav-item:last-child{margin-right:4px}
   .mob-nav-item svg{width:22px;height:22px;transition:all .2s}
   .mob-nav-item.active{
     color:var(--or);
-    background:rgba(255,255,255,0.1);
-    box-shadow:0 0 12px rgba(255,255,255,0.05);
+    background:rgba(255,255,255,0.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.15);
   }
-  body:not(.dark-mode) .mob-nav-item.active{background:rgba(14,165,233,0.12)}
-  .mob-nav-item.active svg{stroke-width:2.5;filter:drop-shadow(0 0 4px var(--or))}
+  body:not(.dark-mode) .mob-nav-item.active{background:rgba(14,165,233,0.1);box-shadow:inset 0 1px 0 rgba(14,165,233,0.2)}
+  .mob-nav-item.active svg{stroke-width:2.5}
   .mob-nav-item span{font-size:10px;line-height:1}
 
   /* ── Drawer — liquid glass bottom sheet ── */
@@ -670,7 +670,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.4</span>
+    <span class="version-badge">v29.5</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -744,7 +744,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.4</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v29.5</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1367,7 +1367,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.4';
+const VER = 'v29.5';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
