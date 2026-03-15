@@ -534,15 +534,15 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 <div id="splash" style="
   position:fixed;inset:0;z-index:9999;
   background:var(--or);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:16px;
   transition:opacity .5s ease, transform .5s ease;
-  pointer-events:none;
 ">
   <div style="width:88px;height:88px;background:rgba(255,255,255,0.15);border-radius:26px;border:1.5px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center">
     <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="19" stroke="white" stroke-width="3"   opacity=".3"/>
-      <circle cx="24" cy="24" r="13" stroke="white" stroke-width="3"   opacity=".55"/>
-      <circle cx="24" cy="24" r="7"  stroke="white" stroke-width="3"   opacity=".8"/>
+      <circle cx="24" cy="24" r="19" stroke="white" stroke-width="3" opacity=".3"/>
+      <circle cx="24" cy="24" r="13" stroke="white" stroke-width="3" opacity=".55"/>
+      <circle cx="24" cy="24" r="7"  stroke="white" stroke-width="3" opacity=".8"/>
       <circle cx="24" cy="24" r="2.5" fill="white"/>
     </svg>
   </div>
@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v23.2</span>
+    <span class="version-badge">v23.3</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -638,7 +638,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v23.2</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v23.3</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1190,7 +1190,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v23.2';
+const VER = 'v23.3';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3300,22 +3300,21 @@ initSupabase();
 // ── Splash screen ────────────────────────────────────────────────────────
 (function(){
   const splash = document.getElementById('splash');
-  const nameEl = document.getElementById('splash-name');
-  if (!splash) { return; }
-
-  // Get saved name
+  if (!splash) return;
+  // Only show on mobile or PWA — desktop always skips
+  const isPWA = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  if (!isPWA && !isMobile) return; // stay hidden (display:none)
+  // Show splash
+  splash.style.display = 'flex';
   try {
-    const saved = localStorage.getItem('crm_cfg');
-    if (saved) {
-      const s = JSON.parse(saved);
-      if (s.name && s.name.trim() && nameEl) nameEl.textContent = s.name.trim().split(' ')[0];
-    }
+    const s = JSON.parse(localStorage.getItem('crm_cfg')||'{}');
+    const el = document.getElementById('splash-name');
+    if (el && s.name) el.textContent = s.name.trim().split(' ')[0];
   } catch(e) {}
-
-  // Always dismiss after 1.5s — no conditions
+  // Always dismiss after 1.5s
   setTimeout(() => {
     splash.style.opacity = '0';
-    splash.style.transform = 'scale(1.04)';
     setTimeout(() => { splash.style.display = 'none'; }, 500);
   }, 1500);
 })();
