@@ -516,12 +516,27 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 </head>
 <body>
 
+<!-- ── Splash screen ─────────────────────────────── -->
+<div id="splash" style="
+  position:fixed;inset:0;z-index:9999;
+  background:var(--or);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  transition:opacity .5s ease, transform .5s ease;
+  pointer-events:none;
+">
+  <div style="width:72px;height:72px;background:rgba(255,255,255,0.2);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;color:white;font-family:'Plus Jakarta Sans',sans-serif">C</div>
+  <div style="text-align:center">
+    <div style="font-size:13px;color:rgba(255,255,255,0.75);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px">Welcome back</div>
+    <div id="splash-name" style="font-size:26px;font-weight:700;color:white;font-family:'Plus Jakarta Sans',sans-serif">—</div>
+  </div>
+</div>
+
 <!-- ── Sidebar ─────────────────────────────────── -->
 <div class="sidebar">
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.6</span>
+    <span class="version-badge">v20.7</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -585,7 +600,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.6</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v20.7</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1142,7 +1157,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.6';
+const VER = 'v20.7';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3232,7 +3247,37 @@ initDarkMode();
 initThemeDesigner();
 initSupabase();
 
-// ── PWA service worker ────────────────────────────────────────────────────
+// ── Splash screen ────────────────────────────────────────────────────────
+(function(){
+  const splash = document.getElementById('splash');
+  const nameEl = document.getElementById('splash-name');
+  if (!splash) return;
+
+  // Only show splash when launched as PWA (standalone) or on mobile
+  const isPWA = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  const isMobile = window.innerWidth <= 768;
+  if (!isPWA && !isMobile) { splash.style.display = 'none'; return; }
+
+  // Get saved name from localStorage
+  const saved = localStorage.getItem('crm_settings');
+  let name = 'Account Executive';
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      if (s.name && s.name.trim()) name = s.name.trim();
+    } catch(e) {}
+  }
+  // Use first name only for a friendly greeting
+  const firstName = name.split(' ')[0];
+  if (nameEl) nameEl.textContent = firstName;
+
+  // Fade out after 1.5s
+  setTimeout(() => {
+    splash.style.opacity = '0';
+    splash.style.transform = 'scale(1.04)';
+    setTimeout(() => { splash.style.display = 'none'; }, 500);
+  }, 1500);
+})();
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('sw.js')
