@@ -550,7 +550,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v20.9</span>
+    <span class="version-badge">v21.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -614,7 +614,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v20.9</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v21.0</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -932,9 +932,9 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
         <div class="card">
           <div class="ctitle">General</div>
           <div class="fg">
-            <div class="fgrp ff"><label>Your name</label><input id="sname" type="text" value="Account Executive"></div>
-            <div class="fgrp"><label>Monthly target (€)</label><input id="starget" type="number" value="2500"></div>
-            <div class="fgrp"><label>Currency symbol</label><input id="scurr" type="text" value="€" maxlength="3"></div>
+            <div class="fgrp ff"><label>Your name</label><input id="sname" type="text" placeholder="Your name" oninput="cfg.name=this.value.trim()||'AE';saveLocal()"></div>
+            <div class="fgrp"><label>Monthly target (€)</label><input id="starget" type="number" placeholder="2500" oninput="cfg.target=parseFloat(this.value)||2500;saveLocal()"></div>
+            <div class="fgrp"><label>Currency symbol</label><input id="scurr" type="text" maxlength="3" oninput="cfg.curr=this.value.trim()||'€';saveLocal()"></div>
           </div>
           <div style="margin-top:16px;padding:14px;background:var(--bg);border-radius:12px;border:1px solid var(--bd)">
             <div style="font-size:12px;font-weight:600;margin-bottom:12px">Appearance</div>
@@ -1181,7 +1181,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v20.9';
+const VER = 'v21.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1202,6 +1202,11 @@ const EV_COLORS = ['#4285F4','#F97316','#22C55E','#A855F7','#EF4444','#D97706'];
 
 // ── State ─────────────────────────────────────────────────────────────────
 let cfg = {name:'Account Executive', target:2500, curr:'€'};
+// Load saved cfg immediately so splash and all references use correct values
+try {
+  const _savedCfg = localStorage.getItem('crm_cfg');
+  if (_savedCfg) cfg = {...cfg, ...JSON.parse(_savedCfg)};
+} catch(e) {}
 
 let deals = [], contacts = [], acts = [], events = [];
 let editDid = null, editCid = null, editEvId = null;
