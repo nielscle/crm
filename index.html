@@ -427,10 +427,10 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .mob-nav{
     display:flex;
     position:fixed;
-    bottom:12px;
-    left:12px;right:12px;
-    height:60px;
-    border-radius:22px;
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+    left:14px;right:14px;
+    height:62px;
+    border-radius:24px;
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(24px) saturate(180%);
     -webkit-backdrop-filter:blur(24px) saturate(180%);
@@ -543,7 +543,7 @@ body.dark-mode .theme-chip.active{border-color:var(--or)}
   .mob-menu-overlay.open{display:block}
 
   /* Content padding for floating nav */
-  .content{padding-bottom:88px!important}
+  .content{padding-bottom:110px!important}
 
   .mob-sync-btn{display:none!important}
 }
@@ -628,8 +628,8 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 .ai-chip{padding:5px 10px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;white-space:nowrap}
 .ai-chip:hover{border-color:var(--or);color:var(--or);background:var(--orp)}
 @media(max-width:768px){
-  #ai-btn{bottom:80px;right:14px;width:46px;height:46px}
-  #ai-panel{bottom:138px;right:14px;width:calc(100vw - 28px)}
+  #ai-btn{bottom:calc(102px + env(safe-area-inset-bottom, 0px));right:14px;width:46px;height:46px}
+  #ai-panel{bottom:calc(160px + env(safe-area-inset-bottom, 0px));right:14px;width:calc(100vw - 28px)}
 }
 
 </style>
@@ -670,7 +670,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.3</span>
+    <span class="version-badge">v29.4</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -744,7 +744,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.3</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v29.4</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1367,7 +1367,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.3';
+const VER = 'v29.4';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
