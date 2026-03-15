@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v23.1</span>
+    <span class="version-badge">v23.2</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -638,7 +638,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v23.1</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v23.2</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1190,7 +1190,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v23.1';
+const VER = 'v23.2';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3301,27 +3301,18 @@ initSupabase();
 (function(){
   const splash = document.getElementById('splash');
   const nameEl = document.getElementById('splash-name');
-  if (!splash) return;
+  if (!splash) { return; }
 
-  // Only show splash when launched as PWA (standalone) or on mobile
-  const isPWA = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-  const isMobile = window.innerWidth <= 768;
-  if (!isPWA && !isMobile) { splash.style.display = 'none'; return; }
-
-  // Get saved name from localStorage
-  const saved = localStorage.getItem('crm_cfg');
-  let name = 'Account Executive';
-  if (saved) {
-    try {
+  // Get saved name
+  try {
+    const saved = localStorage.getItem('crm_cfg');
+    if (saved) {
       const s = JSON.parse(saved);
-      if (s.name && s.name.trim()) name = s.name.trim();
-    } catch(e) {}
-  }
-  // Use first name only for a friendly greeting
-  const firstName = name.split(' ')[0];
-  if (nameEl) nameEl.textContent = firstName;
+      if (s.name && s.name.trim() && nameEl) nameEl.textContent = s.name.trim().split(' ')[0];
+    }
+  } catch(e) {}
 
-  // Fade out after 1.5s
+  // Always dismiss after 1.5s — no conditions
   setTimeout(() => {
     splash.style.opacity = '0';
     splash.style.transform = 'scale(1.04)';
