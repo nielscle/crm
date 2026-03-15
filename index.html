@@ -9,7 +9,7 @@
 <!-- PWA -->
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#3A6B8C" id="pwa-theme-color">
+<meta name="theme-color" content="#0EA5E9" id="pwa-theme-color">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Target">
@@ -24,12 +24,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --or:#3A6B8C;--orl:#A8C8E0;--orp:#EAF2F8;
-  --bg:#FAF6F2;--sb:#FFFFFF;--card:#FFFFFF;
-  --bd:#EDE8E2;--tx:#1C1C1E;--mt:#8E8E93;
-  --gr:#22C55E;--bl:#3B82F6;--pu:#A855F7;
-  --r:16px;--sh:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
-  --glass-bg:rgba(255,255,255,0.75);--glass-border:rgba(255,255,255,0.5);--glass-shadow:0 8px 32px rgba(0,0,0,.08);
+  --or:#0EA5E9;--orl:#BAE6FD;--orp:#E0F2FE;
+  --bg:#0A1628;--sb:#0F1F38;--card:#162033;
+  --bd:#1E3050;--tx:#F0F4F8;--mt:#7A9BB5;
+  --gr:#22C55E;--bl:#38BDF8;--pu:#A855F7;
+  --r:16px;--sh:0 1px 4px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.2);
+  --glass-bg:rgba(15,31,56,0.85);--glass-border:rgba(255,255,255,0.1);--glass-shadow:0 8px 32px rgba(0,0,0,.4);
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;height:100vh;overflow:hidden;display:flex}
 
@@ -2505,9 +2505,16 @@ const DARK_BG_PRESETS = [
 ];
 
 // ── Saved state ────────────────────────────────────────────────────────────
-let savedAccent  = localStorage.getItem('crm_accent')   || '#F97316';
-let savedLightBg = localStorage.getItem('crm_light_bg') || '#FAF6F2';
-let savedDarkBg  = localStorage.getItem('crm_dark_bg')  || '#111111';
+// ── Saved theme state — Ocean preset as default ───────────────────────────
+// Clear any bad legacy values and default to Ocean blue
+const _storedAccent  = localStorage.getItem('crm_accent');
+const _storedLightBg = localStorage.getItem('crm_light_bg');
+const _storedDarkBg  = localStorage.getItem('crm_dark_bg');
+// If stored accent looks like the old broken value (#3A6B8C), reset to Ocean
+const _badAccents = ['#3A6B8C','#3a6b8c','#F97316','#f97316'];
+let savedAccent  = (_storedAccent  && !_badAccents.includes(_storedAccent))  ? _storedAccent  : '#0EA5E9';
+let savedLightBg = (_storedLightBg && _storedLightBg !== '#FAF6F2') ? _storedLightBg : '#F0F9FF';
+let savedDarkBg  = (_storedDarkBg  && _storedDarkBg  !== '#111111') ? _storedDarkBg  : '#0A1628';
 
 // ── Apply accent ───────────────────────────────────────────────────────────
 function applyAccent(hex){
@@ -2671,7 +2678,7 @@ function initThemeDesigner(){
   const dp2=document.getElementById('dark-bg-picker'); if(dp2)dp2.value=savedDarkBg;
 }
 
-function resetThemeToPreset(){ applyFullPreset(0); }
+function resetThemeToPreset(){ applyFullPreset(1); } // Ocean
 
 // Legacy stubs
 function syncThemeInputs(){ renderThemePresets(); renderBgPresets(); }
