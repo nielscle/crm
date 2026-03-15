@@ -670,7 +670,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.2</span>
+    <span class="version-badge">v29.3</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -744,7 +744,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.2</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v29.3</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1367,7 +1367,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.2';
+const VER = 'v29.3';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3708,8 +3708,9 @@ function analyzeQuestion(q) {
   const fmt = v => curr + (v||0).toLocaleString('nl-NL');
   const openDeals = deals.filter(d => d.stage !== 'Closed Won');
   const closedAll = deals.filter(d => d.stage === 'Closed Won');
-  const closedMonth = closedAll.filter(d => d.close >= monthStart);
-  const closedMRR = closedMonth.reduce((s,d)=>s+d.value,0);
+  const closedMonth = closedAll.filter(d => !d.close || d.close >= monthStart);
+  const closedMRR = closedAll.reduce((s,d)=>s+d.value,0); // All time closed for display
+  const closedMonthMRR = closedMonth.reduce((s,d)=>s+d.value,0);
   const pct = cfg.target > 0 ? Math.round(closedMRR/cfg.target*100) : 0;
   const totalPipeline = openDeals.reduce((s,d)=>s+d.value,0);
 
@@ -3740,10 +3741,10 @@ function analyzeQuestion(q) {
   }
 
   // Target / quota
-  if (ql.includes('target') || ql.includes('quota') || ql.includes('doel') || ql.includes('ver ben')) {
+  if (ql.includes('target') || ql.includes('quota') || ql.includes('doel') || ql.includes('ver ben') || ql.includes('verwijderd')) {
     const resterend = Math.max(0, cfg.target - closedMRR);
     const emoji = pct >= 100 ? '🏆' : pct >= 75 ? '🔥' : pct >= 50 ? '💪' : pct >= 25 ? '📈' : '🎯';
-    return `${emoji} Target voortgang deze maand:\n\nGesloten: ${fmt(closedMRR)}\nTarget: ${fmt(cfg.target)}\nBehaald: ${pct}%\n${pct < 100 ? `Nog nodig: ${fmt(resterend)}` : 'Je hebt je target gehaald! 🎉'}\n\n${pct < 50 ? `Je hebt ${hotDeals.length} deal${hotDeals.length!==1?'s':''} in Final Hurdles/Signing die je kunnen helpen.` : 'Goed bezig!'}`;
+    return `${emoji} Target voortgang:\n\nGesloten (Closed Won): ${fmt(closedMRR)}\nTarget: ${fmt(cfg.target)}\nBehaald: ${pct}%\n${pct < 100 ? `Nog nodig: ${fmt(resterend)}` : 'Je hebt je target gehaald! 🎉'}\n\n${hotDeals.length > 0 ? `Je hebt ${hotDeals.length} deal${hotDeals.length!==1?'s':''} in Final Hurdles/Signing die je kunnen helpen.` : 'Goed bezig!'}`;
   }
 
   // Deals needing attention / follow up
@@ -3761,10 +3762,10 @@ function analyzeQuestion(q) {
   }
 
   // This month closed
-  if (ql.includes('maand') || ql.includes('gesloten') || ql.includes('gewonnen') || ql.includes('won')) {
-    if (closedMonth.length === 0) return `📅 Nog geen deals gesloten deze maand. Je target is ${fmt(cfg.target)}.`;
-    const list = closedMonth.map(d => `• ${d.company} (${fmt(d.value)})`).join('\n');
-    return `✅ ${closedMonth.length} deal${closedMonth.length!==1?'s':''} gesloten deze maand:\n\n${list}\n\nTotaal: ${fmt(closedMRR)} van ${fmt(cfg.target)} target (${pct}%)`;
+  if (ql.includes('maand') || ql.includes('gesloten') || ql.includes('gewonnen') || ql.includes('won') || ql.includes('1363') || ql.includes('zie dat')) {
+    if (closedAll.length === 0) return `📅 Nog geen deals gesloten. Je target is ${fmt(cfg.target)}.`;
+    const list = closedAll.map(d => `• ${d.company} (${fmt(d.value)})`).join('\n');
+    return `✅ ${closedAll.length} deal${closedAll.length!==1?'s':''} gesloten (Closed Won):\n\n${list}\n\nTotaal: ${fmt(closedMRR)} van ${fmt(cfg.target)} target (${pct}%)`;
   }
 
   // Overdue deals
@@ -3782,7 +3783,7 @@ function analyzeQuestion(q) {
   // Summary
   if (ql.includes('samenvatting') || ql.includes('summary') || ql.includes('hoe gaat') || ql.includes('overal')) {
     const emoji = pct >= 75 ? '🔥' : pct >= 50 ? '💪' : '📈';
-    return `${emoji} CRM samenvatting voor ${cfg.name||'jou'}:\n\n📊 Pipeline: ${fmt(totalPipeline)} (${openDeals.length} open deals)\n✅ Gesloten dit maand: ${fmt(closedMRR)} (${pct}% van target)\n⚠️ Opvolgen: ${staleDeals.length} deals zonder recente activiteit\n🏁 Bijna klaar: ${hotDeals.length} deals in Signing/Hurdles\n👥 Contacten: ${contacts.length}`;
+    return `${emoji} CRM samenvatting voor ${cfg.name||'jou'}:\n\n📊 Open pipeline: ${fmt(totalPipeline)} (${openDeals.length} deals)\n✅ Closed Won: ${fmt(closedMRR)} (${pct}% van target)\n⚠️ Opvolgen: ${staleDeals.length} deals zonder recente activiteit\n🏁 Bijna klaar: ${hotDeals.length} deals in Signing/Hurdles\n👥 Contacten: ${contacts.length}`;
   }
 
   // What can you do
