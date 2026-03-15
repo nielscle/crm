@@ -670,7 +670,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.6</span>
+    <span class="version-badge">v29.8</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -744,7 +744,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.6</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v29.8</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1174,9 +1174,8 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   transition:transform .2s,box-shadow .2s;
   font-family:'Plus Jakarta Sans',sans-serif;
 ">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="ai-btn-icon">
-    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" opacity=".3" fill="white" stroke="none"/>
-    <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2.5"/>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
 </div>
 
@@ -1367,7 +1366,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.6';
+const VER = 'v29.8';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3111,6 +3110,13 @@ const ADDONS = [
       southeu: {monthly:[45,78,112,145,167,279,390,558,894], annual:[523,926,1329,1732,2000,3342,4684,6696,10722]},
     }
   },
+  { id:'videoworkouts', label:'Video Workouts', tierBased:true,
+    tiers:{
+      standard:{monthly:[0,11,21,21,33,33,45,55,67], annual:[0,121,255,255,389,523,658,1061,1329]},
+      northam: {monthly:[0,11,21,21,33,33,45,55,67], annual:[0,121,255,255,389,523,658,1061,1329]},
+      southeu: {monthly:[0,11,21,21,33,33,45,55,67], annual:[0,121,255,255,389,523,658,1061,1329]},
+    }
+  },
   { id:'vconnect', label:'Virtuagym Connect', tierBased:true,
     tiers:{
       standard:{monthly:[69,69,69,69,79,99,119,149,199], annual:[828,828,828,828,948,1188,1428,1788,2388]},
@@ -3605,14 +3611,11 @@ let aiOpen = false;
 function toggleAIChat() {
   aiOpen = !aiOpen;
   const panel = document.getElementById('ai-panel');
-  const btn   = document.getElementById('ai-btn');
   panel.style.display = aiOpen ? 'flex' : 'none';
   panel.style.flexDirection = 'column';
   if (aiOpen) {
     document.getElementById('ai-input').focus();
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
   } else {
-    btn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
     aiHistory = [];
   }
 }
