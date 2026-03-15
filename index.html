@@ -564,7 +564,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v23.0</span>
+    <span class="version-badge">v23.1</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -638,7 +638,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v23.0</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v23.1</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1190,7 +1190,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v23.0';
+const VER = 'v23.1';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1447,7 +1447,8 @@ function renderActivity() {
 }
 
 // ── Calendar ──────────────────────────────────────────────────────────────
-function renderCalendar() { /* live Google Calendar embed — no rendering needed */ }
+// renderCalendar() is defined below in the ICS Calendar section
+
 
 function renderUpcoming() {
   const today = new Date(); today.setHours(0,0,0,0);
@@ -3288,7 +3289,7 @@ function deleteQuote(id) {
 renderSidebarNav();
 renderMobileDrawer();
 render();
-renderCalendar();
+// Note: renderCalendar() is called when the Calendar tab is opened
 loadSavedQuotes();
 initSync();
 updateMobSyncBtn();
@@ -3327,6 +3328,133 @@ initSupabase();
     setTimeout(() => { splash.style.display = 'none'; }, 500);
   }, 1500);
 })();
+
+// ── ICS Calendar engine ───────────────────────────────────────────────────
+var calEvents = [];
+var calSelectedDate = new Date().toISOString().slice(0,10);
+var calWeekDelta = 0;
+try { var _sc = localStorage.getItem('crm_cal_events'); if(_sc) calEvents = JSON.parse(_sc); } catch(e){}
+
+var CAL_COLORS = {zoom:'#2D8CFF',meet:'#4285F4',sf:'#00A1E0',demo:'var(--or)',todo:'#F59E0B',other:'var(--or)'};
+var CAL_LABELS = {zoom:'Zoom',meet:'Meet',sf:'Salesforce',demo:'Demo',todo:'Todo',other:''};
+
+function renderCalendar(){
+  calSelectedDate = calSelectedDate || new Date().toISOString().slice(0,10);
+  renderCalWeek();
+  renderCalEventsDesktop();
+  var cnt=document.getElementById('cal-event-count');
+  if(cnt) cnt.textContent=calEvents.length+' afspraken';
+}
+function calWeekOffset(d){ calWeekDelta+=d; renderCalWeek(); }
+function calSelectDay(ds){ calSelectedDate=ds; renderCalWeek(); }
+function renderCalWeek(){
+  var strip=document.getElementById('cal-week-strip');
+  var label=document.getElementById('cal-week-label');
+  if(!strip) return;
+  var today=new Date();
+  var base=new Date(today);
+  var dow=today.getDay()||7;
+  base.setDate(today.getDate()-dow+1+calWeekDelta*7);
+  var days=['Ma','Di','Wo','Do','Vr','Za','Zo'];
+  var todayStr=today.toISOString().slice(0,10);
+  var html='';
+  for(var i=0;i<7;i++){
+    var d=new Date(base); d.setDate(base.getDate()+i);
+    var ds=d.toISOString().slice(0,10);
+    var isSel=ds===calSelectedDate, isToday=ds===todayStr;
+    var hasEv=calEvents.some(function(e){return e.date===ds;});
+    html+='<div onclick="calSelectDay(\''+ds+'\')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px;cursor:pointer;background:'+(isSel?'var(--or)':isToday?'var(--orp)':'transparent')+'">'
+      +'<span style="font-size:9px;font-weight:600;color:'+(isSel?'white':'var(--mt)')+';text-transform:uppercase">'+days[i]+'</span>'
+      +'<span style="font-size:14px;font-weight:700;color:'+(isSel?'white':isToday?'var(--or)':'var(--tx)')+'">'+d.getDate()+'</span>'
+      +'<span style="width:4px;height:4px;border-radius:50%;background:'+(hasEv?(isSel?'white':'var(--or)'):'transparent')+'"></span>'
+      +'</div>';
+  }
+  strip.innerHTML=html;
+  if(label){
+    var endD=new Date(base); endD.setDate(base.getDate()+6);
+    label.textContent=base.toLocaleDateString('nl-NL',{day:'numeric',month:'long'})+' – '+endD.toLocaleDateString('nl-NL',{day:'numeric',month:'long'});
+  }
+  renderCalDayEvents();
+}
+function calEventCard(e){
+  var color=CAL_COLORS[e.type]||'var(--or)';
+  return '<div style="background:var(--card);border-radius:12px;padding:12px 14px;border-left:3px solid '+color+';display:flex;gap:10px;margin-bottom:8px">'
+    +'<div style="flex-shrink:0;text-align:center;min-width:38px"><div style="font-size:13px;font-weight:700;color:'+color+'">'+e.time+'</div><div style="font-size:10px;color:var(--mt)">'+e.dur+'m</div></div>'
+    +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+e.title+'</div>'
+    +(e.location?'<div style="font-size:11px;color:var(--mt);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📍 '+e.location+'</div>':'<div style="font-size:11px;color:var(--mt);margin-top:2px">'+(CAL_LABELS[e.type]||'')+'</div>')
+    +'</div></div>';
+}
+function renderCalDayEvents(){
+  var el=document.getElementById('cal-day-events'); if(!el) return;
+  var dayEvs=calEvents.filter(function(e){return e.date===calSelectedDate;});
+  var d=new Date(calSelectedDate);
+  var lbl=d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'});
+  el.innerHTML=!dayEvs.length
+    ?'<div style="padding:20px;text-align:center;color:var(--mt);font-size:13px">Geen afspraken op '+lbl+'</div>'
+    :'<div style="font-size:12px;font-weight:600;color:var(--mt);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">'+lbl+' · '+dayEvs.length+' afspraak'+(dayEvs.length!==1?'en':'')+'</div>'+dayEvs.map(calEventCard).join('');
+}
+function renderCalEventsDesktop(){
+  var el=document.getElementById('cal-events-desktop'); if(!el) return;
+  var todayStr=new Date().toISOString().slice(0,10);
+  var html='', lastDate='';
+  calEvents.forEach(function(e){
+    if(e.date!==lastDate){
+      var dd=new Date(e.date), isT=e.date===todayStr;
+      html+='<div style="font-size:11px;font-weight:700;color:'+(isT?'var(--or)':'var(--mt)')+';text-transform:uppercase;letter-spacing:.05em;margin:'+(lastDate?'16px':'0')+' 0 8px">'+(isT?'Vandaag — ':'')+dd.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})+'</div>';
+      lastDate=e.date;
+    }
+    html+=calEventCard(e);
+  });
+  el.innerHTML=html||'<div style="color:var(--mt);font-size:13px;padding:20px;text-align:center">Klik op "Import .ics" om je Google Calendar afspraken te laden</div>';
+}
+function importICS(input){
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var parsed=parseICSText(ev.target.result);
+    calEvents=parsed;
+    localStorage.setItem('crm_cal_events',JSON.stringify(parsed));
+    renderCalendar();
+    alert('✅ '+parsed.length+' afspraken geïmporteerd!');
+  };
+  reader.readAsText(file);
+}
+function parseICSText(text){
+  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/\n[ \t]/g,'');
+  var blocks=[], m, re=/BEGIN:VEVENT([\s\S]*?)END:VEVENT/g;
+  while((m=re.exec(text))!==null) blocks.push(m[1]);
+  var now=new Date(), cutoff=new Date(now.getTime()+90*24*60*60*1000);
+  var results=[], seen=new Set();
+  blocks.forEach(function(ev,i){
+    function gF(f){var mx=ev.match(new RegExp('^'+f+'[;:][^\n]*','m'));return mx?mx[0].split(':').slice(1).join(':').trim():'';}
+    var dtLine=ev.match(/^DTSTART[^\n]*/m); if(!dtLine) return;
+    var dtVal=dtLine[0].split(':').slice(1).join(':').trim(), dt;
+    try{
+      if(dtVal.endsWith('Z')) dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,'$1-$2-$3T$4:$5:$6Z'));
+      else if(dtVal.includes('T')) dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/,'$1-$2-$3T$4:$5:$6+01:00'));
+      else dt=new Date(dtVal.replace(/^(\d{4})(\d{2})(\d{2})$/,'$1-$2-$3T00:00:00+01:00'));
+    }catch(e){return;}
+    if(isNaN(dt)||dt<now||dt>cutoff) return;
+    var dtEndL=ev.match(/^DTEND[^\n]*/m), end=new Date(dt.getTime()+3600000);
+    if(dtEndL){var ev2=dtEndL[0].split(':').slice(1).join(':').trim(); try{
+      if(ev2.endsWith('Z')) end=new Date(ev2.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/,'$1-$2-$3T$4:$5:$6Z'));
+      else if(ev2.includes('T')) end=new Date(ev2.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})$/,'$1-$2-$3T$4:$5:$6+01:00'));
+    }catch(e){}}
+    var summary=gF('SUMMARY'), location=gF('LOCATION');
+    var dateStr=dt.toISOString().slice(0,10);
+    var timeStr=dt.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
+    var k=dateStr+'|'+timeStr+'|'+summary.slice(0,15); if(seen.has(k)) return; seen.add(k);
+    var sl=(summary+location).toLowerCase(), type='other';
+    if(sl.includes('zoom')) type='zoom';
+    else if(sl.includes('meet')) type='meet';
+    else if(sl.includes('salesforce')) type='sf';
+    else if(sl.includes('demo')||sl.includes('demonstratie')) type='demo';
+    else if(summary.includes('!!!!')) type='todo';
+    results.push({id:i,date:dateStr,time:timeStr,dur:Math.round((end-dt)/60000),title:summary.slice(0,60),location:location.slice(0,60),type:type});
+  });
+  return results.sort(function(a,b){return a.date.localeCompare(b.date)||a.time.localeCompare(b.time);});
+}
+
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('sw.js')
