@@ -24,12 +24,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --or:#0284C7;--orl:#BAE6FD;--orp:#E0F2FE;
-  --bg:#E8F2F9;--sb:#FFFFFF;--card:#FFFFFF;
-  --bd:#B0CCE0;--tx:#0A1520;--mt:#3D6480;
-  --gr:#16A34A;--bl:#0EA5E9;--pu:#7C3AED;
-  --r:16px;--sh:0 1px 4px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
-  --glass-bg:rgba(255,255,255,0.82);--glass-border:rgba(2,132,199,0.2);--glass-shadow:0 8px 32px rgba(2,132,199,0.1);
+  --or:#F97316;--orl:#FED7AA;--orp:#FFF7ED;
+  --bg:#FAF6F2;--sb:#FFFFFF;--card:#FFFFFF;
+  --bd:#EDE8E2;--tx:#1C1C1E;--mt:#8E8E93;
+  --gr:#22C55E;--bl:#3B82F6;--pu:#A855F7;
+  --r:16px;--sh:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --glass-bg:rgba(255,255,255,0.75);--glass-border:rgba(255,255,255,0.5);--glass-shadow:0 8px 32px rgba(0,0,0,.08);
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;height:100vh;overflow:hidden;display:flex}
 
@@ -61,7 +61,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .search-wrap input::placeholder{color:var(–mt)}
 .btn{padding:8px 16px;border-radius:10px;font-family:‘Plus Jakarta Sans’,sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
 .btn-p{background:var(–or);color:white}.btn-p:hover{background:#EA6C0A}
-.btn-o{background:var(–sb);color:var(–tx);border:1.5px solid var(–bd)}.btn-o:hover{border-color:var(–or);color:var(–or)}
+.btn-o{background:white;color:var(–tx);border:1px solid var(–bd)}.btn-o:hover{border-color:var(–or);color:var(–or)}
 .btn-g{background:#1a73e8;color:white}.btn-g:hover{background:#1557b0}
 
 /* ── Content ─────────────── */
@@ -70,7 +70,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* ── Stats ───────────────── */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.scard{background:var(–card);border-radius:var(–r);padding:16px 18px;box-shadow:0 2px 8px rgba(2,132,199,.1),0 1px 3px rgba(0,0,0,.06);border:1.5px solid var(–bd);animation:fu .4s ease both;position:relative;overflow:hidden}
+.scard{background:var(–card);border-radius:var(–r);padding:16px 18px;box-shadow:var(–sh);border:1px solid var(–bd);animation:fu .4s ease both}
 .scard:nth-child(2){animation-delay:.06s}.scard:nth-child(3){animation-delay:.12s}.scard:nth-child(4){animation-delay:.18s}
 .snum{font-size:28px;font-weight:700;line-height:1;margin-bottom:5px}
 .slabel{font-size:12px;color:var(–mt);display:flex;align-items:center;gap:5px}
@@ -78,7 +78,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* ── Dashboard grid ─────── */
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-.card{background:var(–card);border-radius:var(–r);padding:18px;box-shadow:0 2px 8px rgba(2,132,199,.1),0 1px 3px rgba(0,0,0,.06);border:1.5px solid var(–bd)}
+.card{background:var(–card);border-radius:var(–r);padding:18px;box-shadow:var(–sh);border:1px solid var(–bd)}
 .ctitle{font-size:14px;font-weight:700;margin-bottom:14px}
 .gauge-wrap{display:flex;flex-direction:column;align-items:center}
 .gauge-svg{width:190px;height:105px}
@@ -276,23 +276,21 @@ body.dark-mode .addon-btn.active{background:#1e3a5f}
 
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(–bd);border-radius:3px}
 
-/* Light mode — proper contrast with ocean blue tints */
-:not(body.dark-mode) .card{background:var(–card);border-color:var(–bd)}
-:not(body.dark-mode) .scard{background:var(–card);border:1px solid var(–bd)}
-:not(body.dark-mode) .sidebar{background:var(–sb);border-color:var(–bd)}
-:not(body.dark-mode) .topbar{background:rgba(255,255,255,0.85)}
-:not(body.dark-mode) input,:not(body.dark-mode) select,:not(body.dark-mode) textarea{background:#F8FBFE;border-color:var(–bd);color:var(–tx)}
+/* Smooth theme transitions */
+body, .card, .scard, .sidebar, .topbar, .mob-nav, .mob-drawer,
+.dcard, .aitem, .modal, .twrap, .scol, .shead, .btn {
+transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+}
 
 /* ══════════════════════════════════════════════════════════════
 DARK MODE — single source of truth via CSS variables
 body.dark-mode sets all variables; components just use var()
 ══════════════════════════════════════════════════════════════ */
 body.dark-mode{
-–bg:#0A0F1A;–sb:#0D1526;–card:#0F1D30;
-–bd:#1C2E45;–tx:#E2EEFA;–mt:#5A8BAA;
-–gr:#22C55E;–bl:#38BDF8;–pu:#A78BFA;
-–sh:0 2px 8px rgba(0,0,0,.5),0 4px 20px rgba(0,0,0,.4);
-–glass-bg:rgba(10,15,26,0.90);–glass-border:rgba(14,165,233,0.18);–glass-shadow:0 8px 32px rgba(0,0,0,.6);
+–bg:#111111;–sb:#1A1A1A;–card:#222222;
+–bd:#2C2C2E;–tx:#F5F5F7;–mt:#98989D;
+–sh:0 1px 4px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+–glass-bg:rgba(28,28,30,0.88);–glass-border:rgba(255,255,255,0.07);–glass-shadow:0 8px 32px rgba(0,0,0,.5);
 }
 /* Ensure all surfaces pick up dark variables — no hardcoded colours */
 body.dark-mode .scard,body.dark-mode .card,body.dark-mode .dcard,
@@ -304,9 +302,9 @@ body.dark-mode .ir-row,body.dark-mode .drop-zone{
 background:var(–card);border-color:var(–bd);
 }
 /* Sidebar and topbar slightly lighter than cards for depth */
-body.dark-mode .sidebar{background:#0D1926}
-body.dark-mode .topbar{background:rgba(13,25,38,0.95)}
-body.dark-mode .ql-dock{background:#0D1926}
+body.dark-mode .sidebar{background:var(–sb)}
+body.dark-mode .topbar{background:var(–sb)}
+body.dark-mode .ql-dock{background:var(–sb)}
 body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:var(–card);border-color:var(–bd);color:var(–tx)}
 body.dark-mode .btn-o{background:var(–card);border-color:var(–bd);color:var(–tx)}
 body.dark-mode .btn-o:hover{border-color:var(–or);color:var(–or)}
@@ -409,18 +407,15 @@ input,select,textarea{font-size:16px!important;padding:12px!important}
 /* ── Topbar — liquid glass ── */
 .topbar{
 height:52px;padding:0 14px;gap:10px;
-background:rgba(10,15,26,0.92);
-backdrop-filter:blur(24px) saturate(180%);
--webkit-backdrop-filter:blur(24px) saturate(180%);
-border-bottom:1px solid rgba(14,165,233,0.2);
-box-shadow:0 1px 0 rgba(14,165,233,0.12);
-}
-body:not(.dark-mode) .topbar{
-background:rgba(232,242,249,0.92);
+background:rgba(255,255,255,0.07);
 backdrop-filter:blur(24px) saturate(160%);
 -webkit-backdrop-filter:blur(24px) saturate(160%);
-border-bottom:1.5px solid rgba(2,132,199,0.2);
-box-shadow:0 1px 12px rgba(2,132,199,0.08);
+border-bottom:0.5px solid rgba(255,255,255,0.12);
+box-shadow:0 1px 0 rgba(255,255,255,0.05);
+}
+body:not(.dark-mode) .topbar{
+background:rgba(255,255,255,0.82);
+border-bottom:0.5px solid rgba(0,0,0,0.08);
 }
 body:not(.dark-mode) .topbar{
 background:rgba(255,255,255,0.85);
@@ -475,10 +470,10 @@ background:var(–bg);
 z-index:-1;
 }
 body.dark-mode .mob-nav{
-background:rgba(8,15,26,0.92);
-border:1px solid rgba(14,165,233,0.2);
-border-top:1px solid rgba(14,165,233,0.3);
-box-shadow:0 8px 32px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(14,165,233,0.15);
+background:rgba(28,28,30,0.85);
+border:0.5px solid rgba(255,255,255,0.1);
+border-top:0.5px solid rgba(255,255,255,0.18);
+box-shadow:0 8px 32px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 /* ── Nav items ── */
@@ -489,8 +484,8 @@ body:not(.dark-mode) .mob-nav-item{color:rgba(10,22,40,0.5)}
 .mob-nav-item svg{width:22px;height:22px;transition:all .2s}
 .mob-nav-item.active{
 color:var(–or);
-background:rgba(14,165,233,0.15);
-box-shadow:0 0 16px rgba(14,165,233,0.2);
+background:rgba(255,255,255,0.1);
+box-shadow:0 0 12px rgba(255,255,255,0.05);
 }
 body:not(.dark-mode) .mob-nav-item.active{background:rgba(14,165,233,0.12)}
 .mob-nav-item.active svg{stroke-width:2.5;filter:drop-shadow(0 0 4px var(–or))}
@@ -663,7 +658,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v25.1</span>
+    <span class="version-badge">v27.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -739,7 +734,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v25.1</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v27.0</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1302,7 +1297,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v25.1';
+const VER = 'v27.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2479,64 +2474,49 @@ function mix(hexA,hexB,amount){return mixHex(hexA,hexB,amount);}
 function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
 function luminance(hex){const {r,g,b}=hexToRgb(hex);const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)};return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);}
 
-// ── Theme system ────────────────────────────────────────────────────────────
-// Three independent knobs: accent color, light bg, dark bg.
-// Each stored separately in localStorage + Supabase settings.
-// Dark mode class on body remains the only switch between light/dark.
+// ── Theme system ─────────────────────────────────────────────────────────
+// Three knobs: accent, light bg, dark bg. Fully independent.
 
-// ── Full theme presets (accent + both bgs bundled) ─────────────────────────
 const FULL_THEME_PRESETS = [
-  { name:'Default',    accent:'#F97316', lightBg:'#FAF6F2', darkBg:'#111111' },
-  { name:'Ocean',      accent:'#0EA5E9', lightBg:'#F0F9FF', darkBg:'#0A1628' },
-  { name:'Forest',     accent:'#22C55E', lightBg:'#F0FDF4', darkBg:'#0D1A0F' },
-  { name:'Lavender',   accent:'#8B5CF6', lightBg:'#F5F3FF', darkBg:'#120D1E' },
-  { name:'Rose',       accent:'#F43F5E', lightBg:'#FFF1F2', darkBg:'#1A0810' },
-  { name:'Midnight',   accent:'#6366F1', lightBg:'#EEF2FF', darkBg:'#08080F' },
-  { name:'Amber',      accent:'#F59E0B', lightBg:'#FFFBEB', darkBg:'#1A1200' },
-  { name:'Slate',      accent:'#64748B', lightBg:'#F8FAFC', darkBg:'#0D1117' },
-  { name:'Teal',       accent:'#14B8A6', lightBg:'#F0FDFA', darkBg:'#061412' },
-  { name:'Warm gray',  accent:'#78716C', lightBg:'#FAFAF9', darkBg:'#171717' },
+  { name:'Default',   accent:'#F97316', lightBg:'#FAF6F2', darkBg:'#111111' },
+  { name:'Ocean',     accent:'#0EA5E9', lightBg:'#F0F9FF', darkBg:'#0A1628' },
+  { name:'Forest',    accent:'#22C55E', lightBg:'#F0FDF4', darkBg:'#0D1A0F' },
+  { name:'Lavender',  accent:'#8B5CF6', lightBg:'#F5F3FF', darkBg:'#120D1E' },
+  { name:'Rose',      accent:'#F43F5E', lightBg:'#FFF1F2', darkBg:'#1A0810' },
+  { name:'Midnight',  accent:'#6366F1', lightBg:'#EEF2FF', darkBg:'#08080F' },
+  { name:'Amber',     accent:'#F59E0B', lightBg:'#FFFBEB', darkBg:'#1A1200' },
+  { name:'Slate',     accent:'#64748B', lightBg:'#F8FAFC', darkBg:'#0D1117' },
+  { name:'Teal',      accent:'#14B8A6', lightBg:'#F0FDFA', darkBg:'#061412' },
+  { name:'Warm gray', accent:'#78716C', lightBg:'#FAFAF9', darkBg:'#171717' },
 ];
 
-// ── Accent presets ─────────────────────────────────────────────────────────
 const ACCENT_PRESETS = [
-  {name:'Orange', hex:'#F97316'},{name:'Blue',   hex:'#3B82F6'},{name:'Purple', hex:'#8B5CF6'},
-  {name:'Green',  hex:'#22C55E'},{name:'Red',    hex:'#EF4444'},{name:'Pink',   hex:'#EC4899'},
-  {name:'Teal',   hex:'#14B8A6'},{name:'Indigo', hex:'#6366F1'},{name:'Amber',  hex:'#F59E0B'},
-  {name:'Slate',  hex:'#64748B'},{name:'Cyan',   hex:'#06B6D4'},{name:'Rose',   hex:'#F43F5E'},
+  {name:'Orange',hex:'#F97316'},{name:'Blue',  hex:'#3B82F6'},{name:'Purple',hex:'#8B5CF6'},
+  {name:'Green', hex:'#22C55E'},{name:'Red',   hex:'#EF4444'},{name:'Pink',  hex:'#EC4899'},
+  {name:'Teal',  hex:'#14B8A6'},{name:'Indigo',hex:'#6366F1'},{name:'Amber', hex:'#F59E0B'},
+  {name:'Slate', hex:'#64748B'},{name:'Cyan',  hex:'#06B6D4'},{name:'Rose',  hex:'#F43F5E'},
 ];
 
-// ── Light background presets ───────────────────────────────────────────────
 const LIGHT_BG_PRESETS = [
-  {name:'Warm white', hex:'#FAF6F2'},{name:'Pure white',  hex:'#FFFFFF'},
-  {name:'Cool white', hex:'#F8F9FA'},{name:'Soft cream',  hex:'#FFFBF0'},
-  {name:'Pale blue',  hex:'#F0F4FF'},{name:'Pale green',  hex:'#F0FDF4'},
-  {name:'Pale rose',  hex:'#FFF1F2'},{name:'Pale purple', hex:'#F5F3FF'},
-  {name:'Lavender',   hex:'#EEF2FF'},{name:'Sand',        hex:'#FAF7F0'},
+  {name:'Warm white',hex:'#FAF6F2'},{name:'Pure white', hex:'#FFFFFF'},
+  {name:'Cool white',hex:'#F8F9FA'},{name:'Soft cream', hex:'#FFFBF0'},
+  {name:'Pale blue', hex:'#F0F4FF'},{name:'Pale green', hex:'#F0FDF4'},
+  {name:'Pale rose', hex:'#FFF1F2'},{name:'Pale purple',hex:'#F5F3FF'},
+  {name:'Ocean',     hex:'#F0F9FF'},{name:'Sand',       hex:'#FAF7F0'},
 ];
 
-// ── Dark background presets ────────────────────────────────────────────────
 const DARK_BG_PRESETS = [
-  {name:'Rich black',  hex:'#0A0A0A'},{name:'Soft black',  hex:'#111111'},
-  {name:'Deep gray',   hex:'#1A1A1A'},{name:'Charcoal',    hex:'#18181B'},
-  {name:'Navy dark',   hex:'#0A0F1E'},{name:'Warm dark',   hex:'#1C1410'},
-  {name:'Forest dark', hex:'#0D1610'},{name:'Purple dark',  hex:'#120D1E'},
-  {name:'Cool dark',   hex:'#0D1117'},{name:'Slate dark',   hex:'#0F172A'},
+  {name:'Rich black', hex:'#0A0A0A'},{name:'Soft black',  hex:'#111111'},
+  {name:'Deep gray',  hex:'#1A1A1A'},{name:'Charcoal',    hex:'#18181B'},
+  {name:'Navy dark',  hex:'#0A0F1E'},{name:'Warm dark',   hex:'#1C1410'},
+  {name:'Forest dark',hex:'#0D1610'},{name:'Purple dark', hex:'#120D1E'},
+  {name:'Cool dark',  hex:'#0D1117'},{name:'Slate dark',  hex:'#0F172A'},
 ];
 
-// ── Saved state ────────────────────────────────────────────────────────────
-// ── Saved theme state — Ocean preset as default ───────────────────────────
-// Clear any bad legacy values and default to Ocean blue
-const _storedAccent  = localStorage.getItem('crm_accent');
-const _storedLightBg = localStorage.getItem('crm_light_bg');
-const _storedDarkBg  = localStorage.getItem('crm_dark_bg');
-// If stored accent looks like the old broken value (#3A6B8C), reset to Ocean
-const _badAccents = ['#3A6B8C','#3a6b8c','#F97316','#f97316','#0EA5E9'];
-let savedAccent  = '#0284C7'; // Ocean blue - hard reset for clean look
-let savedLightBg = '#E8F2F9';
-let savedDarkBg  = (_storedDarkBg  && _storedDarkBg  !== '#111111' && _storedDarkBg !== '#FAF6F2') ? _storedDarkBg  : '#0A1628';
+let savedAccent  = localStorage.getItem('crm_accent')   || '#F97316';
+let savedLightBg = localStorage.getItem('crm_light_bg') || '#FAF6F2';
+let savedDarkBg  = localStorage.getItem('crm_dark_bg')  || '#111111';
 
-// ── Apply accent ───────────────────────────────────────────────────────────
 function applyAccent(hex){
   const h = normalizeHex(hex); if(!h) return;
   savedAccent = h;
@@ -2548,113 +2528,96 @@ function applyAccent(hex){
   const cp=document.getElementById('theme-primary'); if(cp) cp.value=h;
   const ct=document.getElementById('theme-primary-text'); if(ct) ct.value=h.replace('#','');
   renderThemePresets();
+  const mc=document.getElementById('pwa-theme-color'); if(mc) mc.setAttribute('content',h);
+  const sp=document.getElementById('splash'); if(sp) sp.style.background=h;
   sbSaveSetting('crm_accent', h);
 }
 
-// ── Apply light bg ─────────────────────────────────────────────────────────
 function applyLightBg(hex){
   const h = normalizeHex(hex); if(!h) return;
   savedLightBg = h;
   localStorage.setItem('crm_light_bg', h);
-  const sbColor   = mixHex(h,'#FFFFFF',0.5);
-  const cardColor = mixHex(h,'#FFFFFF',0.7);
-  const bdColor   = mixHex(h,'#1C1C1E',0.08);
   if(!document.body.classList.contains('dark-mode')){
     const root=document.documentElement;
     root.style.setProperty('--bg',   h);
-    root.style.setProperty('--sb',   sbColor);
-    root.style.setProperty('--card', cardColor);
-    root.style.setProperty('--bd',   bdColor);
-    root.style.setProperty('--glass-bg','rgba(255,255,255,0.75)');
+    root.style.setProperty('--sb',   mixHex(h,'#FFFFFF',0.5));
+    root.style.setProperty('--card', mixHex(h,'#FFFFFF',0.7));
+    root.style.setProperty('--bd',   mixHex(h,'#1C1C1E',0.08));
+    root.style.setProperty('--tx',   '#1C1C1E');
+    root.style.setProperty('--mt',   '#8E8E93');
   }
   const pp=document.getElementById('light-bg-picker'); if(pp) pp.value=h;
-  const pt=document.getElementById('light-bg-text'); if(pt) pt.value=h.replace('#','');
+  const pt=document.getElementById('light-bg-text');   if(pt) pt.value=h.replace('#','');
   renderBgPresets();
   sbSaveSetting('crm_light_bg', h);
 }
 
-// ── Apply dark bg ──────────────────────────────────────────────────────────
 function applyDarkBg(hex){
   const h = normalizeHex(hex); if(!h) return;
   savedDarkBg = h;
   localStorage.setItem('crm_dark_bg', h);
-  const sbColor   = mixHex(h,'#FFFFFF',0.06);
-  const cardColor = mixHex(h,'#FFFFFF',0.10);
-  const bdColor   = mixHex(h,'#FFFFFF',0.14);
-  // Always save — only apply to DOM if dark mode is active
   if(document.body.classList.contains('dark-mode')){
     const root=document.documentElement;
     root.style.setProperty('--bg',   h);
-    root.style.setProperty('--sb',   sbColor);
-    root.style.setProperty('--card', cardColor);
-    root.style.setProperty('--bd',   bdColor);
-    root.style.setProperty('--glass-bg','rgba('+hexToRgb(h).r+','+hexToRgb(h).g+','+hexToRgb(h).b+',0.88)');
+    root.style.setProperty('--sb',   mixHex(h,'#FFFFFF',0.06));
+    root.style.setProperty('--card', mixHex(h,'#FFFFFF',0.10));
+    root.style.setProperty('--bd',   mixHex(h,'#FFFFFF',0.12));
+    root.style.setProperty('--tx',   '#F5F5F7');
+    root.style.setProperty('--mt',   '#98989D');
   }
   const pp=document.getElementById('dark-bg-picker'); if(pp) pp.value=h;
-  const pt=document.getElementById('dark-bg-text'); if(pt) pt.value=h.replace('#','');
+  const pt=document.getElementById('dark-bg-text');   if(pt) pt.value=h.replace('#','');
   renderBgPresets();
   sbSaveSetting('crm_dark_bg', h);
 }
 
-// ── Apply both bgs (called on dark mode toggle) ────────────────────────────
 function applyCurrentBg(){
   if(document.body.classList.contains('dark-mode')) applyDarkBg(savedDarkBg);
   else applyLightBg(savedLightBg);
 }
 
-// ── Apply full theme preset ────────────────────────────────────────────────
 function applyFullPreset(idx){
-  const p = FULL_THEME_PRESETS[idx]; if(!p) return;
+  const p=FULL_THEME_PRESETS[idx]; if(!p) return;
   applyAccent(p.accent);
   applyLightBg(p.lightBg);
   applyDarkBg(p.darkBg);
   renderFullThemePresets();
 }
 
-// ── Custom apply helpers ───────────────────────────────────────────────────
-function applyCustomHex(){
-  const txt=document.getElementById('theme-primary-text'); if(!txt) return;
-  const hex=normalizeHex(txt.value); if(hex) applyAccent(hex);
-}
-function applyCustomLightBg(){
-  const txt=document.getElementById('light-bg-text'); if(!txt) return;
-  const hex=normalizeHex(txt.value); if(hex) applyLightBg(hex);
-}
-function applyCustomDarkBg(){
-  const txt=document.getElementById('dark-bg-text'); if(!txt) return;
-  const hex=normalizeHex(txt.value); if(hex) applyDarkBg(hex);
-}
-
-// ── Supabase setting sync ──────────────────────────────────────────────────
-function sbSaveSetting(key, value){
+function sbSaveSetting(key,value){
   if(typeof sb!=='undefined'&&sb){
     (async()=>{try{await sb.from('settings').upsert({key,value});}catch(e){}})();
   }
 }
 
-// ── Render full theme presets ──────────────────────────────────────────────
+function applyCustomHex(){
+  const t=document.getElementById('theme-primary-text'); if(!t) return;
+  const h=normalizeHex(t.value); if(h) applyAccent(h);
+}
+function applyCustomLightBg(){
+  const t=document.getElementById('light-bg-text'); if(!t) return;
+  const h=normalizeHex(t.value); if(h) applyLightBg(h);
+}
+function applyCustomDarkBg(){
+  const t=document.getElementById('dark-bg-text'); if(!t) return;
+  const h=normalizeHex(t.value); if(h) applyDarkBg(h);
+}
+
 function renderFullThemePresets(){
   const el=document.getElementById('full-theme-presets'); if(!el) return;
   el.innerHTML=FULL_THEME_PRESETS.map((p,i)=>{
-    const isCurrent = savedAccent.toUpperCase()===p.accent.toUpperCase()
-                   && savedLightBg.toUpperCase()===p.lightBg.toUpperCase();
-    return `<button onclick="applyFullPreset(${i})" style="
-      display:flex;flex-direction:column;gap:6px;padding:10px;
-      background:${isCurrent?'var(--orp)':'var(--bg)'};
-      border:1.5px solid ${isCurrent?'var(--or)':'var(--bd)'};
-      border-radius:12px;cursor:pointer;transition:all .15s;
-      font-family:'Plus Jakarta Sans',sans-serif;text-align:left">
+    const active=savedAccent.toUpperCase()===p.accent.toUpperCase()&&savedLightBg.toUpperCase()===p.lightBg.toUpperCase();
+    return `<button onclick="applyFullPreset(${i})" style="display:flex;flex-direction:column;gap:6px;padding:10px;background:${active?'var(--orp)':'var(--bg)'};border:1.5px solid ${active?'var(--or)':'var(--bd)'};border-radius:12px;cursor:pointer;transition:all .15s;font-family:'Plus Jakarta Sans',sans-serif;text-align:left">
       <div style="display:flex;gap:4px">
         <div style="width:18px;height:18px;border-radius:50%;background:${p.accent};box-shadow:0 1px 4px ${p.accent}55"></div>
         <div style="width:18px;height:18px;border-radius:4px;background:${p.lightBg};border:1px solid rgba(0,0,0,.1)"></div>
-        <div style="width:18px;height:18px;border-radius:4px;background:${p.darkBg};border:1px solid rgba(255,255,255,.1)"></div>
+        <div style="width:18px;height:18px;border-radius:4px;background:${p.darkBg};border:1px solid rgba(255,255,255,.15)"></div>
       </div>
-      <span style="font-size:11px;font-weight:600;color:${isCurrent?'var(--or)':'var(--tx)'}">${p.name}</span>
+      <span style="font-size:11px;font-weight:600;color:${active?'var(--or)':'var(--tx)'}">${p.name}</span>
     </button>`;
   }).join('');
 }
 
-// ── Render accent presets ──────────────────────────────────────────────────
 function renderThemePresets(){
   const el=document.getElementById('theme-presets'); if(!el) return;
   el.innerHTML=ACCENT_PRESETS.map(p=>{
@@ -2663,42 +2626,35 @@ function renderThemePresets(){
   }).join('');
 }
 
-// ── Render bg presets ──────────────────────────────────────────────────────
 function renderBgPresets(){
-  // Light
-  const lel=document.getElementById('light-bg-presets'); if(lel){
-    lel.innerHTML=LIGHT_BG_PRESETS.map(p=>{
-      const active=savedLightBg.toUpperCase()===p.hex.toUpperCase();
-      return `<button onclick="applyLightBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${active?'var(--or)':'var(--bd)'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.12);flex-shrink:0"></button>`;
-    }).join('');
-  }
-  // Dark
-  const del=document.getElementById('dark-bg-presets'); if(del){
-    del.innerHTML=DARK_BG_PRESETS.map(p=>{
-      const active=savedDarkBg.toUpperCase()===p.hex.toUpperCase();
-      return `<button onclick="applyDarkBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${active?'var(--or)':'#333'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.4);flex-shrink:0"></button>`;
-    }).join('');
-  }
+  const lel=document.getElementById('light-bg-presets');
+  if(lel) lel.innerHTML=LIGHT_BG_PRESETS.map(p=>{
+    const a=savedLightBg.toUpperCase()===p.hex.toUpperCase();
+    return `<button onclick="applyLightBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${a?'var(--or)':'var(--bd)'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.12);flex-shrink:0"></button>`;
+  }).join('');
+  const del=document.getElementById('dark-bg-presets');
+  if(del) del.innerHTML=DARK_BG_PRESETS.map(p=>{
+    const a=savedDarkBg.toUpperCase()===p.hex.toUpperCase();
+    return `<button onclick="applyDarkBg('${p.hex}')" title="${p.name}" style="width:34px;height:34px;border-radius:8px;background:${p.hex};border:2.5px solid ${a?'var(--or)':'#444'};cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.5);flex-shrink:0"></button>`;
+  }).join('');
 }
 
-// ── initThemeDesigner ──────────────────────────────────────────────────────
 function initThemeDesigner(){
   applyAccent(savedAccent);
   applyCurrentBg();
   renderFullThemePresets();
   renderThemePresets();
   renderBgPresets();
-  // Sync inputs
+  const cp=document.getElementById('theme-primary');   if(cp&&!cp.dataset.bound){cp.dataset.bound='1';cp.addEventListener('input',e=>applyAccent(e.target.value));}
   const pp=document.getElementById('light-bg-picker'); if(pp&&!pp.dataset.bound){pp.dataset.bound='1';pp.addEventListener('input',e=>applyLightBg(e.target.value));}
   const dp=document.getElementById('dark-bg-picker');  if(dp&&!dp.dataset.bound){dp.dataset.bound='1';dp.addEventListener('input',e=>applyDarkBg(e.target.value));}
-  const cp=document.getElementById('theme-primary');   if(cp&&!cp.dataset.bound){cp.dataset.bound='1';cp.addEventListener('input',e=>applyAccent(e.target.value));}
   const lt=document.getElementById('light-bg-text');   if(lt) lt.value=savedLightBg.replace('#','');
   const dt=document.getElementById('dark-bg-text');    if(dt) dt.value=savedDarkBg.replace('#','');
   const pp2=document.getElementById('light-bg-picker');if(pp2)pp2.value=savedLightBg;
   const dp2=document.getElementById('dark-bg-picker'); if(dp2)dp2.value=savedDarkBg;
 }
 
-function resetThemeToPreset(){ applyFullPreset(1); } // Ocean
+function resetThemeToPreset(){ applyFullPreset(0); }
 
 // Legacy stubs
 function syncThemeInputs(){ renderThemePresets(); renderBgPresets(); }
@@ -2743,7 +2699,6 @@ function isDarkNow(){
 
 function applyDarkMode(isDark){
   document.body.classList.toggle('dark-mode',isDark);
-  // Re-apply accent and correct background for the new mode
   applyAccent(savedAccent);
   applyCurrentBg();
 }
@@ -2789,13 +2744,13 @@ function startDarkModeTimer(){
 }
 
 function initDarkMode(){
-  if(darkModePreference==='dark')       applyDarkMode(true);
-  else if(darkModePreference==='light') applyDarkMode(false);
-  else { applyDarkMode(isDarkNow()); startDarkModeTimer(); }
+  if(darkModePreference==='dark')       { document.body.classList.add('dark-mode'); }
+  else if(darkModePreference==='light') { document.body.classList.remove('dark-mode'); }
+  else { document.body.classList.toggle('dark-mode', isDarkNow()); startDarkModeTimer(); }
+  applyAccent(savedAccent);
+  applyCurrentBg();
   updateDarkModeButtons();
   updateDarkModeLabel();
-  // Always apply the saved bg for current mode on startup
-  applyCurrentBg();
 }
 
 // ── Mobile drawer ──────────────────────────────────────────────────────────
