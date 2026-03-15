@@ -25,11 +25,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --or:#0284C7;--orl:#BAE6FD;--orp:#E0F2FE;
-  --bg:#F0F7FC;--sb:#FFFFFF;--card:#FFFFFF;
-  --bd:#CBD5E1;--tx:#0F172A;--mt:#475569;
+  --bg:#E8F2F9;--sb:#FFFFFF;--card:#FFFFFF;
+  --bd:#B0CCE0;--tx:#0A1520;--mt:#3D6480;
   --gr:#16A34A;--bl:#0EA5E9;--pu:#7C3AED;
-  --r:16px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.05);
-  --glass-bg:rgba(255,255,255,0.80);--glass-border:rgba(2,132,199,0.15);--glass-shadow:0 8px 32px rgba(2,132,199,0.08);
+  --r:16px;--sh:0 1px 4px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
+  --glass-bg:rgba(255,255,255,0.82);--glass-border:rgba(2,132,199,0.2);--glass-shadow:0 8px 32px rgba(2,132,199,0.1);
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;height:100vh;overflow:hidden;display:flex}
 
@@ -70,7 +70,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* ── Stats ───────────────── */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.scard{background:var(–card);border-radius:var(–r);padding:16px 18px;box-shadow:var(–sh);border:1px solid var(–bd);animation:fu .4s ease both;position:relative;overflow:hidden}
+.scard{background:var(–card);border-radius:var(–r);padding:16px 18px;box-shadow:0 2px 8px rgba(2,132,199,.1),0 1px 3px rgba(0,0,0,.06);border:1.5px solid var(–bd);animation:fu .4s ease both;position:relative;overflow:hidden}
 .scard:nth-child(2){animation-delay:.06s}.scard:nth-child(3){animation-delay:.12s}.scard:nth-child(4){animation-delay:.18s}
 .snum{font-size:28px;font-weight:700;line-height:1;margin-bottom:5px}
 .slabel{font-size:12px;color:var(–mt);display:flex;align-items:center;gap:5px}
@@ -78,7 +78,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* ── Dashboard grid ─────── */
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-.card{background:var(–card);border-radius:var(–r);padding:18px;box-shadow:var(–sh);border:1px solid var(–bd)}
+.card{background:var(–card);border-radius:var(–r);padding:18px;box-shadow:0 2px 8px rgba(2,132,199,.1),0 1px 3px rgba(0,0,0,.06);border:1.5px solid var(–bd)}
 .ctitle{font-size:14px;font-weight:700;margin-bottom:14px}
 .gauge-wrap{display:flex;flex-direction:column;align-items:center}
 .gauge-svg{width:190px;height:105px}
@@ -288,10 +288,11 @@ DARK MODE — single source of truth via CSS variables
 body.dark-mode sets all variables; components just use var()
 ══════════════════════════════════════════════════════════════ */
 body.dark-mode{
-–bg:#080F1A;–sb:#0D1926;–card:#112236;
-–bd:#1A3050;–tx:#E8F4FD;–mt:#64A0C8;
+–bg:#0A0F1A;–sb:#0D1526;–card:#0F1D30;
+–bd:#1C2E45;–tx:#E2EEFA;–mt:#5A8BAA;
+–gr:#22C55E;–bl:#38BDF8;–pu:#A78BFA;
 –sh:0 2px 8px rgba(0,0,0,.5),0 4px 20px rgba(0,0,0,.4);
-–glass-bg:rgba(8,15,26,0.90);–glass-border:rgba(14,165,233,0.15);–glass-shadow:0 8px 32px rgba(0,0,0,.6);
+–glass-bg:rgba(10,15,26,0.90);–glass-border:rgba(14,165,233,0.18);–glass-shadow:0 8px 32px rgba(0,0,0,.6);
 }
 /* Ensure all surfaces pick up dark variables — no hardcoded colours */
 body.dark-mode .scard,body.dark-mode .card,body.dark-mode .dcard,
@@ -362,7 +363,7 @@ body{flex-direction:column;height:100dvh;overflow:hidden;background:var(–bg)}
 
 /* ── Cards ── */
 .dgrid{grid-template-columns:1fr;gap:12px;margin-bottom:14px}
-.card{padding:16px;border-radius:16px;background:var(–glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(–glass-border);box-shadow:var(–glass-shadow)}
+.card{padding:16px;border-radius:16px;background:var(–glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid var(–glass-border);box-shadow:var(–glass-shadow)}
 
 /* ── Pipeline ── */
 .pb{display:flex;flex-direction:column;gap:12px}
@@ -408,16 +409,18 @@ input,select,textarea{font-size:16px!important;padding:12px!important}
 /* ── Topbar — liquid glass ── */
 .topbar{
 height:52px;padding:0 14px;gap:10px;
-background:rgba(8,15,26,0.88);
+background:rgba(10,15,26,0.92);
 backdrop-filter:blur(24px) saturate(180%);
 -webkit-backdrop-filter:blur(24px) saturate(180%);
-border-bottom:1px solid rgba(14,165,233,0.15);
-box-shadow:0 1px 0 rgba(14,165,233,0.1);
+border-bottom:1px solid rgba(14,165,233,0.2);
+box-shadow:0 1px 0 rgba(14,165,233,0.12);
 }
 body:not(.dark-mode) .topbar{
-background:rgba(255,255,255,0.88);
-border-bottom:1px solid rgba(2,132,199,0.15);
-box-shadow:0 1px 12px rgba(2,132,199,0.06);
+background:rgba(232,242,249,0.92);
+backdrop-filter:blur(24px) saturate(160%);
+-webkit-backdrop-filter:blur(24px) saturate(160%);
+border-bottom:1.5px solid rgba(2,132,199,0.2);
+box-shadow:0 1px 12px rgba(2,132,199,0.08);
 }
 body:not(.dark-mode) .topbar{
 background:rgba(255,255,255,0.85);
@@ -660,7 +663,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v25.0</span>
+    <span class="version-badge">v25.1</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -736,7 +739,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v25.0</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v25.1</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1299,7 +1302,7 @@ body.dark-mode .theme-chip.active{background:var(–orp);border-color:var(–or)
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v25.0';
+const VER = 'v25.1';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -2530,7 +2533,7 @@ const _storedDarkBg  = localStorage.getItem('crm_dark_bg');
 // If stored accent looks like the old broken value (#3A6B8C), reset to Ocean
 const _badAccents = ['#3A6B8C','#3a6b8c','#F97316','#f97316','#0EA5E9'];
 let savedAccent  = '#0284C7'; // Ocean blue - hard reset for clean look
-let savedLightBg = '#EFF6FB';
+let savedLightBg = '#E8F2F9';
 let savedDarkBg  = (_storedDarkBg  && _storedDarkBg  !== '#111111' && _storedDarkBg !== '#FAF6F2') ? _storedDarkBg  : '#0A1628';
 
 // ── Apply accent ───────────────────────────────────────────────────────────
