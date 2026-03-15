@@ -550,7 +550,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
   <div class="logo">
     <div class="logo-icon">C</div>
     <div class="logo-name">CRM Dash</div>
-    <span class="version-badge">v21.0</span>
+    <span class="version-badge">v21.1</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -614,7 +614,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
     <div class="mob-drawer-head">
       <div>
         <div class="mob-drawer-title">CRM Dash</div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v21.0</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v21.1</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1181,7 +1181,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v21.0';
+const VER = 'v21.1';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1867,6 +1867,15 @@ function initDragSort() {
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
+function populateSettingsInputs() {
+  const sname   = document.getElementById('sname');
+  const starget = document.getElementById('starget');
+  const scurr   = document.getElementById('scurr');
+  if (sname)   sname.value   = cfg.name   || '';
+  if (starget) starget.value = cfg.target || 2500;
+  if (scurr)   scurr.value   = cfg.curr   || '€';
+}
+
 function saveSettings(){
   cfg.name=document.getElementById('sname').value.trim()||'AE';
   cfg.target=parseFloat(document.getElementById('starget').value)||2500;
@@ -1889,7 +1898,7 @@ function go(id,el){
   const b=document.getElementById('addbtn');
   b.style.display=(id==='settings'||id==='pricing')?'none':'';
   b.textContent=L[id]||'+ Add';
-  if(id==='settings'){ renderLinkManager(); renderNavManager(); initSync(); updateDarkModeButtons(); setDarkMode(darkModePreference); }
+  if(id==='settings'){ renderLinkManager(); renderNavManager(); initSync(); updateDarkModeButtons(); setDarkMode(darkModePreference); populateSettingsInputs(); }
   if(id==='pricing'){ renderPricingView(); }
   render();
 }
@@ -2130,10 +2139,7 @@ function loadLocal() {
     if (cfg2) {
       const parsed = JSON.parse(cfg2);
       cfg = {...cfg, ...parsed};
-      ['sname','starget','scurr'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = id==='sname'?cfg.name:id==='starget'?cfg.target:cfg.curr;
-      });
+      // Inputs are populated when settings view opens via populateSettingsInputs()
     }
   } catch(e) { console.warn('localStorage load failed', e); }
 }
@@ -2700,7 +2706,7 @@ go=function(id,el){
   _go_base(id,el);
   closeMobileMenu();
   renderMobileDrawer();
-  if(id==='settings') initThemeDesigner();
+  if(id==='settings'){ initThemeDesigner(); populateSettingsInputs(); }
 };
 
 // ══════════════════════════════════════════════════════════════════════════
