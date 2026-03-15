@@ -655,7 +655,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v27.8</span>
+    <span class="version-badge">v28.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -729,7 +729,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v27.8</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v28.0</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -905,7 +905,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
             <div>
               <div class="ctitle" style="margin:0">💶 Pricing Calculator</div>
-              <div style="font-size:12px;color:var(--mt);margin-top:3px">Virtuagym 2025-Q3 pricing. Select market, members and packages to build a quote.</div>
+              <div style="font-size:12px;color:var(--mt);margin-top:3px">Select market, members and packages to build a quote.</div>
             </div>
             <button class="btn btn-p" onclick="savePricingQuote()" id="save-quote-btn" style="display:none">💾 Save Quote to Deal</button>
           </div>
@@ -1284,7 +1284,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v27.8';
+const VER = 'v28.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1844,11 +1844,13 @@ function moveNav(id, dir) {
   const j = i + dir;
   if (j < 0 || j >= navOrder.length) return;
   [navOrder[i], navOrder[j]] = [navOrder[j], navOrder[i]];
+  persistUISettings();
   renderSidebarNav(); renderNavManager();
 }
 
 function resetNavOrder() {
   navOrder = ['dashboard','pipeline','contacts','activity','calendar','pricing'];
+  persistUISettings();
   renderSidebarNav(); renderNavManager();
 }
 
@@ -1869,6 +1871,7 @@ function initNavDragSort() {
         const di = allIds.indexOf(row.dataset.navid);
         const r2 = [...navOrder]; const [m] = r2.splice(si,1); r2.splice(di,0,m);
         navOrder = r2;
+        persistUISettings();
         renderSidebarNav(); renderNavManager();
       }
     });
@@ -1905,16 +1908,19 @@ function renderLinkManager() {
 
 function addLink() {
   quickLinks.push({id:Date.now(), iconId:'link', url:'https://', label:'New link'});
+  persistUISettings();
   renderDock(); renderLinkManager();
 }
 
 function updateLink(id, field, val) {
   quickLinks = quickLinks.map(l => l.id===id ? {...l, [field]:val} : l);
+  persistUISettings();
   renderDock();
 }
 
 function deleteLink(id) {
   quickLinks = quickLinks.filter(l => l.id!==id);
+  persistUISettings();
   renderDock(); renderLinkManager();
 }
 
@@ -1946,6 +1952,7 @@ function renderIconGrid(search) {
 function selectIcon(iconId) {
   if (pickerTargetId) {
     quickLinks = quickLinks.map(l => l.id===pickerTargetId ? {...l, iconId} : l);
+    persistUISettings();
     renderDock(); renderLinkManager();
   }
   cl('icon-picker-ov');
@@ -1969,6 +1976,7 @@ function initDragSort() {
         const di = ids.indexOf(+row.dataset.id);
         const r2 = [...quickLinks]; const [m] = r2.splice(si,1); r2.splice(di,0,m);
         quickLinks = r2;
+        persistUISettings();
         renderDock(); renderLinkManager();
       }
     });
@@ -2224,13 +2232,29 @@ function updateMobSyncBtn() {
 }
 
 // ── localStorage persistence ──────────────────────────────────────────────
+// ── Persist UI settings (nav order + quick links) locally + Supabase ─────
+function persistUISettings() {
+  localStorage.setItem('crm_nav_order',   JSON.stringify(navOrder));
+  localStorage.setItem('crm_quick_links', JSON.stringify(quickLinks));
+  if (typeof sb !== 'undefined' && sb) {
+    (async () => {
+      try {
+        await sb.from('settings').upsert({key:'crm_nav_order',   value: JSON.stringify(navOrder)});
+        await sb.from('settings').upsert({key:'crm_quick_links', value: JSON.stringify(quickLinks)});
+      } catch(e) { console.warn('UI settings sync failed', e); }
+    })();
+  }
+}
+
 function saveLocal() {
   try {
-    localStorage.setItem('crm_deals',    JSON.stringify(deals.map(({_sel,...d})=>d)));
-    localStorage.setItem('crm_contacts', JSON.stringify(contacts));
-    localStorage.setItem('crm_acts',     JSON.stringify(acts.slice(0,200)));
-    localStorage.setItem('crm_events',   JSON.stringify(events));
-    localStorage.setItem('crm_cfg',      JSON.stringify(cfg));
+    localStorage.setItem('crm_deals',       JSON.stringify(deals.map(({_sel,...d})=>d)));
+    localStorage.setItem('crm_contacts',    JSON.stringify(contacts));
+    localStorage.setItem('crm_acts',        JSON.stringify(acts.slice(0,200)));
+    localStorage.setItem('crm_events',      JSON.stringify(events));
+    localStorage.setItem('crm_cfg',         JSON.stringify(cfg));
+    localStorage.setItem('crm_nav_order',   JSON.stringify(navOrder));
+    localStorage.setItem('crm_quick_links', JSON.stringify(quickLinks));
   } catch(e) { console.warn('localStorage save failed', e); }
 }
 
@@ -2241,6 +2265,8 @@ function loadLocal() {
     const a = localStorage.getItem('crm_acts');
     const e = localStorage.getItem('crm_events');
     const cfg2 = localStorage.getItem('crm_cfg');
+    const nav2 = localStorage.getItem('crm_nav_order');
+    const ql2  = localStorage.getItem('crm_quick_links');
     if (d) deals    = JSON.parse(d).map(x=>({...x,_sel:false}));
     if (c) contacts = JSON.parse(c);
     if (a) acts     = JSON.parse(a);
@@ -2248,7 +2274,14 @@ function loadLocal() {
     if (cfg2) {
       const parsed = JSON.parse(cfg2);
       cfg = {...cfg, ...parsed};
-      // Inputs are populated when settings view opens via populateSettingsInputs()
+    }
+    if (nav2) {
+      const parsed = JSON.parse(nav2);
+      if (Array.isArray(parsed) && parsed.length > 0) navOrder = parsed;
+    }
+    if (ql2) {
+      const parsed = JSON.parse(ql2);
+      if (Array.isArray(parsed)) quickLinks = parsed;
     }
   } catch(e) { console.warn('localStorage load failed', e); }
 }
@@ -2295,6 +2328,8 @@ async function initSupabase() {
     setSyncPill('syncing');
     // Pull all data on load
     await sbPullAll(true);
+    // Pull UI settings (nav order, quick links, theme)
+    await sbPullUISettings();
     setSyncPill('connected');
     updateSyncBadge();
     updateMobSyncBtn();
@@ -2304,6 +2339,47 @@ async function initSupabase() {
     console.error('Supabase init failed:', e);
     setSyncPill('offline');
   }
+}
+
+async function sbPullUISettings() {
+  if (!sb) return;
+  try {
+    const { data } = await sb.from('settings').select('*');
+    if (!data) return;
+    const find = key => data.find(s => s.key === key)?.value;
+
+    // Nav order
+    const nav = find('crm_nav_order');
+    if (nav) {
+      const parsed = JSON.parse(nav);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        navOrder = parsed;
+        localStorage.setItem('crm_nav_order', nav);
+        renderSidebarNav();
+        renderMobileNav();
+      }
+    }
+
+    // Quick links
+    const ql = find('crm_quick_links');
+    if (ql) {
+      const parsed = JSON.parse(ql);
+      if (Array.isArray(parsed)) {
+        quickLinks = parsed;
+        localStorage.setItem('crm_quick_links', ql);
+        renderDock();
+      }
+    }
+
+    // Theme settings
+    const accent  = find('crm_accent');
+    const lightBg = find('crm_light_bg');
+    const darkBg  = find('crm_dark_bg');
+    if (accent)  applyAccent(accent);
+    if (lightBg) applyLightBg(lightBg);
+    if (darkBg)  applyDarkBg(darkBg);
+
+  } catch(e) { console.warn('UI settings pull failed:', e); }
 }
 
 function subscribeRealtime() {
