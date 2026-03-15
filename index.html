@@ -655,7 +655,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v28.0</span>
+    <span class="version-badge">v28.1</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -729,7 +729,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v28.0</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v28.1</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -1284,7 +1284,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v28.0';
+const VER = 'v28.1';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -1997,7 +1997,10 @@ function saveSettings(){
   cfg.name=document.getElementById('sname').value.trim()||'AE';
   cfg.target=parseFloat(document.getElementById('starget').value)||2500;
   cfg.curr=document.getElementById('scurr').value.trim()||'€';
-  saveLocal();render();alert('Settings saved!');
+  saveLocal();
+  persistUISettings();
+  render();
+  alert('Settings saved!');
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────
@@ -2236,11 +2239,13 @@ function updateMobSyncBtn() {
 function persistUISettings() {
   localStorage.setItem('crm_nav_order',   JSON.stringify(navOrder));
   localStorage.setItem('crm_quick_links', JSON.stringify(quickLinks));
+  localStorage.setItem('crm_cfg',         JSON.stringify(cfg));
   if (typeof sb !== 'undefined' && sb) {
     (async () => {
       try {
         await sb.from('settings').upsert({key:'crm_nav_order',   value: JSON.stringify(navOrder)});
         await sb.from('settings').upsert({key:'crm_quick_links', value: JSON.stringify(quickLinks)});
+        await sb.from('settings').upsert({key:'crm_cfg',         value: JSON.stringify(cfg)});
       } catch(e) { console.warn('UI settings sync failed', e); }
     })();
   }
@@ -2378,6 +2383,18 @@ async function sbPullUISettings() {
     if (accent)  applyAccent(accent);
     if (lightBg) applyLightBg(lightBg);
     if (darkBg)  applyDarkBg(darkBg);
+
+    // General settings (name, target, currency)
+    const cfgVal = find('crm_cfg');
+    if (cfgVal) {
+      try {
+        const parsed = JSON.parse(cfgVal);
+        cfg = {...cfg, ...parsed};
+        localStorage.setItem('crm_cfg', cfgVal);
+        populateSettingsInputs();
+        render();
+      } catch(e) {}
+    }
 
   } catch(e) { console.warn('UI settings pull failed:', e); }
 }
