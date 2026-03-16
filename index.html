@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
 <title>Target</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="icon" type="image/png" href="data:image/png;base64,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">
   <link rel="shortcut icon" type="image/png" href="data:image/png;base64,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">
 
@@ -672,7 +673,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
       </svg>
     </div>
     <div class="logo-name">Target</div>
-    <span class="version-badge">v29.9</span>
+    <span class="version-badge">v30.0</span>
     <span id="sync-badge" style="display:none;font-size:10px;font-weight:600;border-radius:20px;padding:2px 7px;white-space:nowrap;margin-left:2px"></span>
   </div>
   <div id="sidebar-nav"></div>
@@ -746,7 +747,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
           </div>
           <div class="mob-drawer-title">Target</div>
         </div>
-        <div class="mob-drawer-sub" id="mob-drawer-version">v29.9</div>
+        <div class="mob-drawer-sub" id="mob-drawer-version">v30.0</div>
       </div>
       <button class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
     </div>
@@ -985,6 +986,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
             <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
               <button class="btn btn-p" onclick="savePricingQuote()">💾 Save Quote to Deal</button>
               <button class="btn btn-o" onclick="copyQuote()" style="font-size:12px">📋 Copy quote</button>
+              <button class="btn btn-o" onclick="downloadQuotePDF()" style="font-size:12px">📄 Download PDF</button>
             </div>
           </div>
         </div>
@@ -1368,7 +1370,7 @@ body.dark-mode .theme-chip.active{background:var(--orp);border-color:var(--or)}
 
 <script>
 // ── Constants ─────────────────────────────────────────────────────────────
-const VER = 'v29.9';
+const VER = 'v30.0';
 const STAGES = ['Discovery','Evaluating','Final Deal Hurdles','In Signing','Closed Won'];
 const SC = {
   'Discovery':          {bg:'#FFF7ED',c:'#F97316',b:'#F97316'},
@@ -3261,6 +3263,32 @@ function calcUpdate() {
     const isAio = pcSelectedPkgs.length === 4 && ['M','C','E','G'].every(p => pcSelectedPkgs.includes(p));
     const pkgLabel = isAio ? 'All in One' : (pcSelectedPkgs.length === 1 ? pkgNames[pcSelectedPkgs[0]] : key.split('+').map(p=>pkgNames[p]).join(' + '));
     breakdownLines.push(`${pkgLabel} (${MEMBER_TIERS[tierIdx].label} members): <strong>${fmt2(basePrice)}${billing==='annual'?'/yr':'/mo'}</strong>`);
+    // Show combo discount if multiple packages
+    if (pcSelectedPkgs.length > 1 && !isAio) {
+      const pkgMkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+      const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+      const sumIndividual = pcSelectedPkgs.reduce((s,p) => {
+        if (billing === 'annual') return s + ((annMkt[p]||[])[tierIdx]||0);
+        return s + ((pkgMkt[p]||[])[tierIdx]||0);
+      }, 0);
+      if (sumIndividual > basePrice) {
+        const saving = sumIndividual - basePrice;
+        breakdownLines.push(`<span style="color:var(--gr);font-size:12px">✓ Combo korting: ${fmt2(saving)}${billing==='annual'?'/yr':'/mo'} bespaard t.o.v. los</span>`);
+      }
+    }
+    // Show individual prices + combo discount if multiple packages
+    if (pcSelectedPkgs.length > 1 && !isAio) {
+      const pkgMkt = BASE_PKG_MONTHLY[market] || BASE_PKG_MONTHLY.standard;
+      const annMkt = BASE_PKG_ANNUAL[market] || BASE_PKG_ANNUAL.standard;
+      const sumIndividual = pcSelectedPkgs.reduce((s,p) => {
+        if (billing === 'annual') return s + ((annMkt[p]||[])[tierIdx]||0);
+        return s + ((pkgMkt[p]||[])[tierIdx]||0);
+      }, 0);
+      if (sumIndividual > basePrice) {
+        const saving = sumIndividual - basePrice;
+        breakdownLines.push(`<span style="color:var(--gr);font-size:12px">✓ Combo discount: ${fmt2(saving)}${billing==='annual'?'/yr':'/mo'} saved</span>`);
+      }
+    }
   }
 
   pcSelectedAddons.forEach(addonId => {
@@ -3810,6 +3838,160 @@ function analyzeQuestion(q) {
 
   // Default — smart fallback
   return `Ik heb je vraag niet helemaal begrepen. Ik kan je helpen met:\n\n• "Wat is mijn pipeline status?"\n• "Welke deals moet ik opvolgen?"\n• "Hoe ver ben ik van mijn target?"\n• "Welke deals zijn bijna klaar?"\n• "Wat heb ik deze maand gesloten?"\n\nProbeer een van deze vragen!`;
+}
+
+
+// ── Quote PDF Generator ───────────────────────────────────────────────────
+function downloadQuotePDF() {
+  const { jsPDF } = window.jspdf;
+  if (!jsPDF) { alert('PDF library not loaded yet, try again in a moment.'); return; }
+
+  const market = document.getElementById('pc-market').value;
+  const members = parseInt(document.getElementById('pc-members').value) || 1;
+  const billing = document.getElementById('pc-billing').value;
+  const tierIdx = getTierIdx(members);
+  const curr = getCurrencySymbol(market);
+  const fmt2 = n => curr + Math.round(n).toLocaleString('nl-NL');
+  const today = new Date().toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
+
+  const basePrice = getBasePrice(market, pcSelectedPkgs, tierIdx, billing);
+  let addonTotal = 0;
+  const addonLines = [];
+  pcSelectedAddons.forEach(addonId => {
+    const addon = ADDONS.find(a => a.id === addonId);
+    if (!addon) return;
+    const price = getAddonPrice(addon, market, tierIdx, billing);
+    addonTotal += price;
+    addonLines.push({ label: addon.label, price });
+  });
+  const total = basePrice + addonTotal;
+  const monthlyEquiv = billing === 'annual' ? total / 12 : total;
+  const annualEquiv  = billing === 'monthly' ? total * 12 : total;
+
+  const marketLabels = { standard:'Global Standard (€)', northam:'North America ($)', southeu:'Southern Europe (€)' };
+  const pkgNames = { M:'Manage', C:'Coach', E:'Engage', G:'Grow' };
+  const isAio = pcSelectedPkgs.length === 4 && ['M','C','E','G'].every(p=>pcSelectedPkgs.includes(p));
+  const pkgLabel = isAio ? 'All in One' : pcSelectedPkgs.map(p=>pkgNames[p]).join(' + ');
+
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const W = 210, M = 18;
+  let y = 0;
+
+  // ── Header bar ──────────────────────────────────────────────────────────
+  doc.setFillColor(41, 115, 255);
+  doc.rect(0, 0, W, 32, 'F');
+
+  // Logo rings (simple)
+  doc.setDrawColor(255,255,255); doc.setLineWidth(0.8);
+  doc.setFillColor(255,255,255);
+  [10,7,4.5,2].forEach((r,i) => {
+    doc.setGState(new doc.GState({opacity: [0.2,0.4,0.65,0.9][i]}));
+    doc.circle(M + 6, 16, r, 'S');
+  });
+  doc.setGState(new doc.GState({opacity:1}));
+  doc.setFillColor(255,255,255); doc.circle(M+6, 16, 2, 'F');
+
+  // Title
+  doc.setTextColor(255,255,255);
+  doc.setFont('helvetica','bold'); doc.setFontSize(16);
+  doc.text('Virtuagym Pricing Quote', M+16, 13);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9);
+  doc.text(`Prepared by ${cfg.name||'Target CRM'} · ${today}`, M+16, 21);
+
+  y = 44;
+
+  // ── Client info block ───────────────────────────────────────────────────
+  doc.setFillColor(240, 246, 255);
+  doc.roundedRect(M, y, W - M*2, 22, 3, 3, 'F');
+  doc.setTextColor(41, 115, 255); doc.setFont('helvetica','bold'); doc.setFontSize(8);
+  doc.text('QUOTE DETAILS', M+5, y+7);
+  doc.setTextColor(30,30,30); doc.setFont('helvetica','normal'); doc.setFontSize(9);
+  doc.text(`Market: ${marketLabels[market]||market}`, M+5, y+14);
+  doc.text(`Members: ${members.toLocaleString('nl-NL')} (${MEMBER_TIERS[tierIdx].label})`, M+80, y+14);
+  doc.text(`Billing: ${billing === 'annual' ? 'Annual (upfront)' : 'Monthly'}`, M+5, y+20);
+  y += 30;
+
+  // ── Packages section ────────────────────────────────────────────────────
+  if (pcSelectedPkgs.length > 0) {
+    doc.setTextColor(41, 115, 255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+    doc.text('BASE PACKAGES', M, y); y += 5;
+    doc.setDrawColor(200, 220, 255); doc.setLineWidth(0.3);
+    doc.line(M, y, W-M, y); y += 4;
+
+    doc.setTextColor(30,30,30); doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    doc.text(pkgLabel, M+2, y);
+    doc.setFont('helvetica','bold');
+    doc.text(`${fmt2(basePrice)}${billing==='annual'?'/yr':'/mo'}`, W-M-2, y, {align:'right'});
+    y += 5;
+
+    // Subtext
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(100,100,100);
+    doc.text(`${MEMBER_TIERS[tierIdx].label} members · ${billing} billing`, M+2, y);
+    y += 8;
+  }
+
+  // ── Add-ons section ─────────────────────────────────────────────────────
+  if (addonLines.length > 0) {
+    doc.setTextColor(41, 115, 255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+    doc.text('ADD-ONS', M, y); y += 5;
+    doc.setDrawColor(200, 220, 255); doc.setLineWidth(0.3);
+    doc.line(M, y, W-M, y); y += 4;
+
+    addonLines.forEach(({label, price}) => {
+      doc.setTextColor(30,30,30); doc.setFont('helvetica','normal'); doc.setFontSize(10);
+      doc.text(`• ${label}`, M+2, y);
+      doc.setFont('helvetica','bold');
+      doc.text(`${fmt2(price)}${billing==='annual'?'/yr':'/mo'}`, W-M-2, y, {align:'right'});
+      y += 7;
+    });
+    y += 2;
+  }
+
+  // ── Divider ─────────────────────────────────────────────────────────────
+  doc.setDrawColor(41, 115, 255); doc.setLineWidth(0.5);
+  doc.line(M, y, W-M, y); y += 8;
+
+  // ── Total price block ───────────────────────────────────────────────────
+  doc.setFillColor(41, 115, 255);
+  doc.roundedRect(M, y, W-M*2, 28, 3, 3, 'F');
+  doc.setTextColor(255,255,255);
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(11);
+  doc.text('MONTHLY PRICE', M+6, y+8);
+  doc.setFontSize(20);
+  doc.text(`${fmt2(monthlyEquiv)}/mo`, M+6, y+20);
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(11);
+  doc.text('ANNUAL PRICE', W/2+6, y+8);
+  doc.setFontSize(20);
+  doc.text(`${fmt2(annualEquiv)}/yr`, W/2+6, y+20);
+  y += 38;
+
+  // Annual savings callout
+  if (billing === 'monthly') {
+    const annSaving = Math.round(total * 12 * 0.1);
+    doc.setFillColor(230, 255, 240);
+    doc.roundedRect(M, y, W-M*2, 12, 2, 2, 'F');
+    doc.setTextColor(22, 163, 74); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+    doc.text(`💡 Switch to annual billing and save approximately ${fmt2(annSaving)}/year`, M+5, y+7.5);
+    y += 18;
+  }
+
+  // ── Notes ───────────────────────────────────────────────────────────────
+  y += 4;
+  doc.setTextColor(120,120,120); doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text('All prices are excluding VAT. Prices are subject to change. This quote is valid for 30 days.', M, y);
+  doc.text('Generated by Target CRM · nielscle.github.io/crm', M, y+5);
+
+  // ── Footer ───────────────────────────────────────────────────────────────
+  doc.setFillColor(41, 115, 255);
+  doc.rect(0, 285, W, 12, 'F');
+  doc.setTextColor(255,255,255); doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text('Virtuagym · virtuagym.com', M, 292);
+  doc.text(`${today}`, W-M, 292, {align:'right'});
+
+  const filename = `Virtuagym_Quote_${members}members_${today.replace(/ /g,'_')}.pdf`;
+  doc.save(filename);
 }
 
 if('serviceWorker' in navigator){
